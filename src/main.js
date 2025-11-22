@@ -5,6 +5,8 @@ import './css/login.css';
 import './css/register-select.css';
 import './css/patient-register.css';
 import './css/patient-diagnosis.css';
+import './css/student-dashboard.css';
+import './css/case-requests.css';
 
 import { initRouter } from './router.js';
 import { initAppwrite } from './lib/appwrite.js';

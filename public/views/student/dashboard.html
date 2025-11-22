@@ -1,341 +1,135 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم الطالب - DentLink</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/design-system.css">
-    <link rel="stylesheet" href="../css/components.css">
-
-    <style>
-        body {
-            background: var(--gray-50);
-        }
-
-        .navbar {
-            background: var(--student-gradient);
-            color: var(--white);
-            padding: 20px 0;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .navbar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: var(--white);
-            color: var(--student-start);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 20px;
-        }
-
-        .user-details h3 {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .user-details p {
-            font-size: 14px;
-            opacity: 0.9;
-            margin: 0;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 32px auto;
-            padding: 0 20px;
-        }
-
-        /* Quick Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--student-start);
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--gray-600);
-        }
-
-        /* Module Cards */
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .module-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .module-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--student-start);
-        }
-
-        .module-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .module-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 8px;
-        }
-
-        .module-desc {
-            font-size: 14px;
-            color: var(--gray-600);
-            margin-bottom: 16px;
-        }
-
-        .module-badge {
-            display: inline-block;
-            background: var(--student-light);
-            color: var(--student-start);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Notifications */
-        .notifications-panel {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .notification-item {
-            padding: 16px;
-            border-bottom: 1px solid var(--gray-100);
-            transition: background 0.2s;
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        .notification-item:hover {
-            background: var(--gray-50);
-        }
-
-        .notification-icon {
-            font-size: 24px;
-            margin-left: 12px;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.7;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="user-info">
-                <div class="user-avatar">أ.م</div>
-                <div class="user-details">
-                    <h3>أحمد محمود</h3>
-                    <p>السنة الثالثة - Level 5 • 2,450 XP</p>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <button class="btn btn-secondary">⚙️</button>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container navbar-content">
+        <div class="user-info">
+            <div class="user-avatar">أ.م</div>
+            <div class="user-details">
+                <h3>أحمد محمود</h3>
+                <p>السنة الثالثة - Level 5 • 2,450 XP</p>
             </div>
         </div>
-    </nav>
-
-    <div class="dashboard-container">
-        <!-- Quick Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">127</div>
-                <div class="stat-label">📋 حالات مكتملة</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">4.8</div>
-                <div class="stat-label">⭐ متوسط التقييم</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">12</div>
-                <div class="stat-label">🏆 إنجازات</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">🔔 طلبات جديدة</div>
-            </div>
-        </div>
-
-        <!-- Main Modules -->
-        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">الوحدات الرئيسية</h2>
-        <div class="modules-grid">
-            <!-- Case Requests (NEW - Uber Style) -->
-            <div class="module-card" onclick="location.href='case-requests.html'"
-                style="border: 2px solid #f97316; background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(245, 158, 11, 0.05));">
-                <div class="module-icon">📬</div>
-                <div class="module-title">طلبات الحالات</div>
-                <div class="module-desc">طلبات جديدة من المرضى - اقبل أو ارفض الحالات المناسبة</div>
-                <span class="module-badge" style="background: #ef4444; color: white; animation: pulse 2s infinite;">🔔 3
-                    طلبات جديدة</span>
-            </div>
-
-            <!-- Learning Hub -->
-            <div class="module-card" onclick="location.href='learning-hub.html'">
-                <div class="module-icon">📚</div>
-                <div class="module-title">Learning Hub</div>
-                <div class="module-desc">ملخصات المحاضرات، صور إكلينيكية، فيديوهات، كويزات، AI مساعد</div>
-                <span class="module-badge">6 دروس جديدة</span>
-            </div>
-
-            <!-- Case Reports -->
-            <div class="module-card" onclick="location.href='case-manager.html'">
-                <div class="module-icon">📝</div>
-                <div class="module-title">Case Reports</div>
-                <div class="module-desc">إنشاء وعرض تقارير الحالات، إرسال للدكتور، حفظ في المكتبة</div>
-                <span class="module-badge">12 حالة نشطة</span>
-            </div>
-
-            <!-- Case Library -->
-            <div class="module-card" onclick="location.href='library.html'">
-                <div class="module-icon">🗂️</div>
-                <div class="module-title">Case Library</div>
-                <div class="module-desc">مكتبة الحالات المركزية - بحث وفلترة حسب النوع والمستوى</div>
-                <span class="module-badge">487 حالة</span>
-            </div>
-
-            <!-- Portfolio -->
-            <div class="module-card" onclick="location.href='portfolio.html'">
-                <div class="module-icon">💼</div>
-                <div class="module-title">Portfolio</div>
-                <div class="module-desc">ملفك الشخصي، الشارات، المهارات، التطور</div>
-                <span class="module-badge">Level 5</span>
-            </div>
-
-            <!-- Leaderboard -->
-            <div class="module-card" onclick="location.href='leaderboard.html'">
-                <div class="module-icon">🏆</div>
-                <div class="module-title">Leaderboard</div>
-                <div class="module-desc">ترتيب الطلاب حسب الحالات والتقييم</div>
-                <span class="module-badge">المركز #12</span>
-            </div>
-
-            <!-- Emergency Triage -->
-            <div class="module-card" onclick="location.href='emergency.html'">
-                <div class="module-icon">🚨</div>
-                <div class="module-title">Emergency Triage</div>
-                <div class="module-desc">تقييم حالات الطوارئ بواسطة AI وتوجيه سريع</div>
-                <span class="module-badge">جديد</span>
-            </div>
-
-            <!-- Faculty Access -->
-            <div class="module-card" onclick="location.href='supervisors.html'">
-                <div class="module-icon">👨‍⚕️</div>
-                <div class="module-title">Faculty Access</div>
-                <div class="module-desc">الدكاترة المشرفين، طلب المراجعة، الرسائل</div>
-                <span class="module-badge">3 مشرفين</span>
-            </div>
-
-            <!-- Case Levels -->
-            <div class="module-card" onclick="location.href='case-levels.html'">
-                <div class="module-icon">📊</div>
-                <div class="module-title">Case Levels</div>
-                <div class="module-desc">تصنيف الحالات حسب الصعوبة والسنة الدراسية</div>
-                <span class="module-badge">Level 1-3</span>
-            </div>
-        </div>
-
-        <!-- Notifications -->
-        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">الإشعارات الأخيرة</h2>
-        <div class="notifications-panel">
-            <div class="notification-item">
-                <span class="notification-icon">✅</span>
-                <strong>د. محمد علي</strong> وافق على حالة RCT #36
-                <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">منذ ساعتين</div>
-            </div>
-            <div class="notification-item">
-                <span class="notification-icon">📚</span>
-                محاضرة جديدة: <strong>Advanced Endodontics</strong>
-                <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">منذ 5 ساعات</div>
-            </div>
-            <div class="notification-item">
-                <span class="notification-icon">🏆</span>
-                لقد حصلت على شارة <strong>Master Restorer</strong>!
-                <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">أمس</div>
-            </div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary">⚙️</button>
         </div>
     </div>
-</body>
+</nav>
 
-</html>
+<div class="dashboard-container">
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">127</div>
+            <div class="stat-label">📋 حالات مكتملة</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">4.8</div>
+            <div class="stat-label">⭐ متوسط التقييم</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">12</div>
+            <div class="stat-label">🏆 إنجازات</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">🔔 طلبات جديدة</div>
+        </div>
+    </div>
+
+    <!-- Main Modules -->
+    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">الوحدات الرئيسية</h2>
+    <div class="modules-grid">
+        <!-- Case Requests (NEW - Uber Style) -->
+        <div class="module-card" onclick="router.navigate('/student/cases')"
+            style="border: 2px solid #f97316; background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(245, 158, 11, 0.05));">
+            <div class="module-icon">📬</div>
+            <div class="module-title">طلبات الحالات</div>
+            <div class="module-desc">طلبات جديدة من المرضى - اقبل أو ارفض الحالات المناسبة</div>
+            <span class="module-badge" style="background: #ef4444; color: white; animation: pulse 2s infinite;">🔔 3
+                طلبات جديدة</span>
+        </div>
+
+        <!-- Learning Hub -->
+        <div class="module-card" onclick="router.navigate('/student/learning')">
+            <div class="module-icon">📚</div>
+            <div class="module-title">Learning Hub</div>
+            <div class="module-desc">ملخصات المحاضرات، صور إكلينيكية، فيديوهات، كويزات، AI مساعد</div>
+            <span class="module-badge">6 دروس جديدة</span>
+        </div>
+
+        <!-- Case Reports -->
+        <div class="module-card" onclick="router.navigate('/student/reports')">
+            <div class="module-icon">📝</div>
+            <div class="module-title">Case Reports</div>
+            <div class="module-desc">إنشاء وعرض تقارير الحالات، إرسال للدكتور، حفظ في المكتبة</div>
+            <span class="module-badge">12 حالة نشطة</span>
+        </div>
+
+        <!-- Case Library -->
+        <div class="module-card" onclick="router.navigate('/student/library')">
+            <div class="module-icon">🗂️</div>
+            <div class="module-title">Case Library</div>
+            <div class="module-desc">مكتبة الحالات المركزية - بحث وفلترة حسب النوع والمستوى</div>
+            <span class="module-badge">487 حالة</span>
+        </div>
+
+        <!-- Portfolio -->
+        <div class="module-card" onclick="router.navigate('/student/portfolio')">
+            <div class="module-icon">💼</div>
+            <div class="module-title">Portfolio</div>
+            <div class="module-desc">ملفك الشخصي، الشارات، المهارات، التطور</div>
+            <span class="module-badge">Level 5</span>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="module-card" onclick="router.navigate('/student/leaderboard')">
+            <div class="module-icon">🏆</div>
+            <div class="module-title">Leaderboard</div>
+            <div class="module-desc">ترتيب الطلاب حسب الحالات والتقييم</div>
+            <span class="module-badge">المركز #12</span>
+        </div>
+
+        <!-- Emergency Triage -->
+        <div class="module-card" onclick="router.navigate('/student/emergency')">
+            <div class="module-icon">🚨</div>
+            <div class="module-title">Emergency Triage</div>
+            <div class="module-desc">تقييم حالات الطوارئ بواسطة AI وتوجيه سريع</div>
+            <span class="module-badge">جديد</span>
+        </div>
+
+        <!-- Faculty Access -->
+        <div class="module-card" onclick="router.navigate('/student/faculty')">
+            <div class="module-icon">👨‍⚕️</div>
+            <div class="module-title">Faculty Access</div>
+            <div class="module-desc">الدكاترة المشرفين، طلب المراجعة، الرسائل</div>
+            <span class="module-badge">3 مشرفين</span>
+        </div>
+
+        <!-- Case Levels -->
+        <div class="module-card" onclick="router.navigate('/student/levels')">
+            <div class="module-icon">📊</div>
+            <div class="module-title">Case Levels</div>
+            <div class="module-desc">تصنيف الحالات حسب الصعوبة والسنة الدراسية</div>
+            <span class="module-badge">Level 1-3</span>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">الإشعارات الأخيرة</h2>
+    <div class="notifications-panel">
+        <div class="notification-item">
+            <span class="notification-icon">✅</span>
+            <strong>د. محمد علي</strong> وافق على حالة RCT #36
+            <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">منذ ساعتين</div>
+        </div>
+        <div class="notification-item">
+            <span class="notification-icon">📚</span>
+            محاضرة جديدة: <strong>Advanced Endodontics</strong>
+            <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">منذ 5 ساعات</div>
+        </div>
+        <div class="notification-item">
+            <span class="notification-icon">🏆</span>
+            لقد حصلت على شارة <strong>Master Restorer</strong>!
+            <div style="font-size: 12px; color: var(--gray-500); margin-top: 4px;">أمس</div>
+        </div>
+    </div>
+</div>
