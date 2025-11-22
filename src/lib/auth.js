@@ -1,4 +1,4 @@
-import { account } from './appwrite.js';
+import { account, client } from './appwrite.js';
 import { ID } from 'appwrite';
 
 export class AuthService {
@@ -29,6 +29,10 @@ export class AuthService {
 
     async getCurrentUser() {
         try {
+            if (client.config.project === 'YOUR_PROJECT_ID') {
+                console.warn('Skipping auth check: Project ID not set');
+                return null;
+            }
             return await account.get();
         } catch (error) {
             return null;
