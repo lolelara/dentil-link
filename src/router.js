@@ -43,10 +43,26 @@ const setupLoginEvents = () => {
             try {
                 await authService.login(email, password);
                 console.log(`Logged in as ${currentRole}`);
-                if (currentRole === 'patient') {
-                    router.navigate('/patient/diagnosis');
-                } else {
-                    alert(`Login for ${currentRole} not implemented yet`);
+                localStorage.setItem('userType', currentRole);
+
+                switch (currentRole) {
+                    case 'patient':
+                        router.navigate('/patient/diagnosis');
+                        break;
+                    case 'student':
+                        router.navigate('/student/dashboard');
+                        break;
+                    case 'faculty':
+                        router.navigate('/faculty/dashboard');
+                        break;
+                    case 'clinic':
+                        router.navigate('/clinic/dashboard');
+                        break;
+                    case 'marketplace':
+                        router.navigate('/marketplace/index');
+                        break;
+                    default:
+                        router.navigate('/');
                 }
             } catch (error) {
                 console.error('Login failed:', error);
