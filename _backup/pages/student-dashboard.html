@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الطالب - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">DentLink</h2>
+                <p style="color: var(--neutral-400); font-size: var(--text-sm); margin: var(--space-2) 0 0 0;">لوحة
+                    الطالب</p>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="#" class="sidebar-menu-link active">
+                        <span style="font-size: 1.25rem;">📊</span>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#cases" class="sidebar-menu-link">
+                        <span style="font-size: 1.25rem;">📋</span>
+                        <span>الحالات الجديدة</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#portfolio" class="sidebar-menu-link">
+                        <span style="font-size: 1.25rem;">📁</span>
+                        <span>سجل الحالات</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#simulation" class="sidebar-menu-link">
+                        <span style="font-size: 1.25rem;">🎮</span>
+                        <span>وضع المحاكاة</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="../pages/marketplace.html" class="sidebar-menu-link">
+                        <span style="font-size: 1.25rem;">🛒</span>
+                        <span>المتجر الطبي</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="../index.html" class="sidebar-menu-link">
+                        <span style="font-size: 1.25rem;">🏠</span>
+                        <span>العودة للرئيسية</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom:
+                var(--space-6);">
+                <h2 style="margin: 0; font-size: var(--text-2xl);">الحالات الجديدة</h2>
+                <span class="badge badge-primary">3 حالات متاحة</span>
+            </div>
+
+            <div class="cases-grid">
+                <!-- Case 1 -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div>
+                            <div class="case-id">حالة #D2401</div>
+                            <h3 style="margin: var(--space-1) 0 0 0;">تسوس الأسنان</h3>
+                        </div>
+                        <span class="badge badge-error">مستوى 2</span>
+                    </div>
+
+                    <div class="case-details">
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">المريض</span>
+                            <span class="case-detail-value">محمد الأحمد، 32 سنة</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">التشخيص الأولي</span>
+                            <span class="case-detail-value">تسوس متوسط</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الموقع</span>
+                            <span class="case-detail-value">📍 2.3 كم</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الوقت</span>
+                            <span class="case-detail-value">🕐 متاح اليوم</span>
+                        </div>
+                    </div>
+
+                    <div
+                        style="padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-md); margin: var(--space-4) 0;">
+                        <p style="font-size: var(--text-sm); margin: 0; color: var(--primary-700);">
+                            <strong>نقاط الخبرة:</strong> +15 نقطة | <strong>وقت متوقع:</strong> 1-2 ساعة
+                        </p>
+                    </div>
+
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="acceptCase(1)">
+                            <span>قبول الحالة</span>
+                            <span>✓</span>
+                        </button>
+                        <button class="btn btn-ghost" onclick="declineCase(1)">
+                            <span>رفض</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div>
+                            <div class="case-id">حالة #D2402</div>
+                            <h3 style="margin: var(--space-1) 0 0 0;">التهاب اللثة</h3>
+                        </div>
+                        <span class="badge badge-warning">مستوى 1</span>
+                    </div>
+
+                    <div class="case-details">
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">المريض</span>
+                            <span class="case-detail-value">فاطمة السعيد، 28 سنة</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">التشخيص الأولي</span>
+                            <span class="case-detail-value">التهاب خفيف</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الموقع</span>
+                            <span class="case-detail-value">📍 4.1 كم</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الوقت</span>
+                            <span class="case-detail-value">🕐 متاح غداً</span>
+                        </div>
+                    </div>
+
+                    <div
+                        style="padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-md); margin: var(--space-4) 0;">
+                        <p style="font-size: var(--text-sm); margin: 0; color: var(--primary-700);">
+                            <strong>نقاط الخبرة:</strong> +10 نقاط | <strong>وقت متوقع:</strong> 45 دقيقة
+                        </p>
+                    </div>
+
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="acceptCase(2)">
+                            <span>قبول الحالة</span>
+                            <span>✓</span>
+                        </button>
+                        <button class="btn btn-ghost" onclick="declineCase(2)">
+                            <span>رفض</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div>
+                            <div class="case-id">حالة #D2403</div>
+                            <h3 style="margin: var(--space-1) 0 0 0;">تنظيف الأسنان</h3>
+                        </div>
+                        <span class="badge badge-success">مستوى 1</span>
+                    </div>
+
+                    <div class="case-details">
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">المريض</span>
+                            <span class="case-detail-value">خالد العمري، 45 سنة</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">التشخيص الأولي</span>
+                            <span class="case-detail-value">تنظيف دوري</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الموقع</span>
+                            <span class="case-detail-value">📍 1.8 كم</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">الوقت</span>
+                            <span class="case-detail-value">🕐 متاح اليوم</span>
+                        </div>
+                    </div>
+
+                    <div
+                        style="padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-md); margin: var(--space-4) 0;">
+                        <p style="font-size: var(--text-sm); margin: 0; color: var(--primary-700);">
+                            <strong>نقاط الخبرة:</strong> +8 نقاط | <strong>وقت متوقع:</strong> 30 دقيقة
+                        </p>
+                    </div>
+
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="acceptCase(3)">
+                            <span>قبول الحالة</span>
+                            <span>✓</span>
+                        </button>
+                        <button class="btn btn-ghost" onclick="declineCase(3)">
+                            <span>رفض</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+        <a href="student-case-detail.html" class="card" style="text-decoration: none; color: inherit;">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">📁</div>
+            <h3 style="margin-bottom: var(--space-2);">سجل الحالات</h3>
+            <p style="color: var(--neutral-600); margin: 0;">عرض جميع الحالات المنجزة</p>
+        </a>
+
+        <a href="simulation.html" class="card" style="text-decoration: none; color: inherit;">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">🎮</div>
+            <h3 style="margin-bottom: var(--space-2);">وضع المحاكاة</h3>
+            <p style="color: var(--neutral-600); margin: 0;">تدريب تفاعلي ثلاثي الأبعاد</p>
+        </a>
+
+        <a href="marketplace.html" class="card" style="text-decoration: none; color: inherit;">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">🛒</div>
+            <h3 style="margin-bottom: var(--space-2);">المتجر الطبي</h3>
+            <p style="color: var(--neutral-600); margin: 0;">أدوات ومواد طبية</p>
+        </a>
+    </div>
+    </main>
+    </div>
+
+    <script>
+        function acceptCase(caseId) {
+            if (confirm('هل تريد قبول هذه الحالة؟')) {
+                alert('تم قبول الحالة! سيتم إرسال تفاصيل المريض قريباً.');
+                // Redirect to case detail page
+                window.location.href = 'student-case-detail.html?case=' + caseId;
+            }
+        }
+
+        function declineCase(caseId) {
+            if (confirm('هل تريد رفض هذه الحالة؟')) {
+                alert('تم رفض الحالة.');
+                // In real app, would remove from list
+            }
+        }
+
+        // Add entrance animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.case-card, .stat-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+
+</html>

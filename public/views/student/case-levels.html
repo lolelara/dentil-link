@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Levels - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .container-main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .level-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .level-tab {
+            padding: 16px 32px;
+            border: none;
+            background: var(--white);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 16px;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .level-tab.active {
+            background: var(--student-gradient);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .level-info {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .level-header {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .level-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .level1-icon {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        }
+
+        .level2-icon {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .level3-icon {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+        }
+
+        .level-details h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .level-details p {
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .requirements {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .requirement-badge {
+            padding: 8px 16px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--student-start);
+        }
+
+        .case-difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .difficulty-easy {
+            background: #dcfce7;
+            color: #065f46;
+        }
+
+        .difficulty-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .difficulty-hard {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← الرئيسية</button>
+                <h2 style="margin: 0;">📊 Case Levels</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-main">
+        <!-- Level Tabs -->
+        <div class="level-tabs">
+            <button class="level-tab active" onclick="showLevel('level1')">🟢 Level 1</button>
+            <button class="level-tab" onclick="showLevel('level2')">🟡 Level 2</button>
+            <button class="level-tab" onclick="showLevel('level3')">🔴 Level 3</button>
+        </div>
+
+        <!-- Level 1 Content -->
+        <div id="level1" class="tab-content active">
+            <div class="level-info">
+                <div class="level-header">
+                    <div class="level-icon level1-icon">🟢</div>
+                    <div class="level-details">
+                        <h2>Level 1 - حالات بسيطة</h2>
+                        <p>حالات مناسبة للطلاب في السنة الأولى والثانية</p>
+                        <div class="requirements">
+                            <span class="requirement-badge">✅ سنة أولى وثانية</span>
+                            <span class="requirement-badge">⏱️ 30-60 دقيقة</span>
+                            <span class="requirement-badge">👨‍⚕️ إشراف عام</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: #f0f9ff; padding: 16px; border-radius: 12px;">
+                    <strong>أمثلة:</strong> Scaling & Polishing, Simple Fillings, Basic Prophylaxis
+                </div>
+            </div>
+
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">الحالات المتاحة (Level 1)</h3>
+            <div class="cases-grid">
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-easy">مستوى 1</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Scaling & Polishing</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">تنظيف شامل وتلميع للأسنان
+                    </p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 45 دقيقة</span>
+                        <span>⭐ 4.7</span>
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-easy">مستوى 1</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Simple Composite Filling</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">حشو كومبوزيت بسيط - Class I
+                    </p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 60 دقيقة</span>
+                        <span>⭐ 4.8</span>
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-easy">مستوى 1</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Amalgam Filling</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">حشو فضي للأسنان الخلفية</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 50 دقيقة</span>
+                        <span>⭐ 4.6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level 2 Content -->
+        <div id="level2" class="tab-content">
+            <div class="level-info">
+                <div class="level-header">
+                    <div class="level-icon level2-icon">🟡</div>
+                    <div class="level-details">
+                        <h2>Level 2 - حالات متوسطة</h2>
+                        <p>حالات مناسبة للطلاب في السنة الثالثة والرابعة</p>
+                        <div class="requirements">
+                            <span class="requirement-badge">✅ سنة ثالثة ورابعة</span>
+                            <span class="requirement-badge">⏱️ 60-120 دقيقة</span>
+                            <span class="requirement-badge">👨‍⚕️ إشراف متخصص</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: #fff9e6; padding: 16px; border-radius: 12px;">
+                    <strong>أمثلة:</strong> Root Canal Treatment, Crown Preparation, Complex Restorations
+                </div>
+            </div>
+
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">الحالات المتاحة (Level 2)</h3>
+            <div class="cases-grid">
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-medium">مستوى 2</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Root Canal Treatment</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">علاج جذور للسن #36</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 90 دقيقة</span>
+                        <span>⭐ 4.8</span>
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-medium">مستوى 2</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Crown Preparation</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">تحضير تاج خزفي كامل</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 120 دقيقة</span>
+                        <span>⭐ 4.9</span>
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-medium">مستوى 2</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Complex Restoration</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">حشو معقد - Class II MOD</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 80 دقيقة</span>
+                        <span>⭐ 4.7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level 3 Content -->
+        <div id="level3" class="tab-content">
+            <div class="level-info">
+                <div class="level-header">
+                    <div class="level-icon level3-icon">🔴</div>
+                    <div class="level-details">
+                        <h2>Level 3 - حالات متقدمة</h2>
+                        <p>حالات مناسبة للطلاب المتفوقين والسنة الخامسة</p>
+                        <div class="requirements">
+                            <span class="requirement-badge">✅ سنة خامسة أو متفوقين</span>
+                            <span class="requirement-badge">⏱️ 120+ دقيقة</span>
+                            <span class="requirement-badge">👨‍⚕️ إشراف دقيق</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: #fee2e2; padding: 16px; border-radius: 12px;">
+                    <strong>أمثلة:</strong> Impacted Tooth Extraction, Full Dentures, Complex Surgeries
+                </div>
+            </div>
+
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">الحالات المتاحة (Level 3)</h3>
+            <div class="cases-grid">
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-hard">مستوى 3</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Impacted Wisdom Tooth</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">خلع ضرس عقل مدفون</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 150 دقيقة</span>
+                        <span>⭐ 5.0</span>
+                    </div>
+                    <div
+                        style="margin-top: 12px; padding: 8px; background: #fff3cd; border-radius: 8px; font-size: 12px;">
+                        ⚠️ يتطلب موافقة المشرف
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-hard">مستوى 3</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Full Denture Case</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">تركيب طقم أسنان كامل</p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 180 دقيقة</span>
+                        <span>⭐ 4.9</span>
+                    </div>
+                    <div
+                        style="margin-top: 12px; padding: 8px; background: #fff3cd; border-radius: 8px; font-size: 12px;">
+                        ⚠️ يتطلب موافقة المشرف
+                    </div>
+                </div>
+
+                <div class="case-card" onclick="alert('عرض تفاصيل الحالة...')">
+                    <span class="case-difficulty difficulty-hard">مستوى 3</span>
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Complicated Endo Case</h4>
+                    <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 16px;">RCT معقد مع انحناءات شديدة
+                    </p>
+                    <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-600);">
+                        <span>⏱️ 160 دقيقة</span>
+                        <span>⭐ 4.8</span>
+                    </div>
+                    <div
+                        style="margin-top: 12px; padding: 8px; background: #fff3cd; border-radius: 8px; font-size: 12px;">
+                        ⚠️ يتطلب موافقة المشرف
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLevel(levelId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.level-tab').forEach(b => b.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(levelId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل مريض جديد - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1 class="logo">DentLink</h1>
+                <span class="logo-subtitle">تسجيل المرضى</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="../index.html" class="nav-link">العودة للرئيسية</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: var(--space-12) var(--space-6); max-width: 800px;">
+        <div class="page-header text-center">
+            <h1 class="page-title">تسجيل حالة جديدة</h1>
+            <p class="page-subtitle">املأ البيانات وارفع صورة للسن أو اللثة للحصول على تشخيص فوري</p>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-8);">
+            <div class="progress-bar" style="margin-bottom: var(--space-6);">
+                <div class="progress-bar-fill" id="progressBar" style="width: 33%;"></div>
+            </div>
+
+            <form id="patientForm">
+                <!-- Step 1: Personal Info -->
+                <div class="form-step active" id="step1">
+                    <h3 style="margin-bottom: var(--space-6);">المعلومات الشخصية</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل *</label>
+                        <input type="text" class="form-input" id="fullName" required placeholder="أدخل اسمك الكامل">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">العمر *</label>
+                        <input type="number" class="form-input" id="age" required placeholder="أدخل عمرك" min="1"
+                            max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف *</label>
+                        <input type="tel" class="form-input" id="phone" required placeholder="05XXXXXXXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-input" id="email" placeholder="example@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">الموقع / المدينة *</label>
+                        <input type="text" class="form-input" id="location" required placeholder="مثال: الرياض">
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-lg" onclick="nextStep(2)" style="width: 100%;">
+                        <span>التالي</span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Step 2: Symptoms -->
+                <div class="form-step" id="step2" style="display: none;">
+                    <h3 style="margin-bottom: var(--space-6);">الأعراض والشكوى</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">ما هي شكواك الرئيسية؟ *</label>
+                        <textarea class="form-textarea" id="symptoms" required
+                            placeholder="مثال: ألم في السن الأمامي، نزيف في اللثة، كسر في الضرس..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">متى بدأت الأعراض؟</label>
+                        <select class="form-select" id="symptomDuration">
+                            <option value="">اختر...</option>
+                            <option value="today">اليوم</option>
+                            <option value="week">خلال أسبوع</option>
+                            <option value="month">خلال شهر</option>
+                            <option value="months">منذ عدة أشهر</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">مستوى الألم (1-10)</label>
+                        <input type="range" class="form-input" id="painLevel" min="1" max="10" value="5"
+                            oninput="document.getElementById('painValue').textContent = this.value">
+                        <div
+                            style="text-align: center; margin-top: var(--space-2); font-weight: var(--font-semibold); color: var(--primary-600);">
+                            <span id="painValue">5</span> / 10
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-3);">
+                        <button type="button" class="btn btn-ghost btn-lg" onclick="nextStep(1)" style="flex: 1;">
+                            <span>السابق</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="nextStep(3)" style="flex: 2;">
+                            <span>التالي</span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Image Upload -->
+                <div class="form-step" id="step3" style="display: none;">
+                    <h3 style="margin-bottom: var(--space-6);">رفع صورة الحالة</h3>
+
+                    <div class="form-group">
+                        <div class="file-upload">
+                            <input type="file" id="caseImage" class="file-upload-input" accept="image/*"
+                                onchange="previewImage(event)">
+                            <label for="caseImage" class="file-upload-label">
+                                <div class="file-upload-icon">📸</div>
+                                <div class="file-upload-text">
+                                    <span class="file-upload-text-main">اضغط لرفع صورة للسن أو اللثة</span>
+                                    <span class="file-upload-text-sub">PNG, JPG, JPEG (حجم أقصى 5MB)</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="imagePreview" style="margin-top: var(--space-4); display: none;">
+                            <img id="previewImg"
+                                style="width: 100%; max-height: 400px; object-fit: contain; border-radius: var(--radius-lg);">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">ملاحظات إضافية</label>
+                        <textarea class="form-textarea" id="additionalNotes"
+                            placeholder="أي معلومات إضافية تريد مشاركتها..."></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-3);">
+                        <button type="button" class="btn btn-ghost btn-lg" onclick="nextStep(2)" style="flex: 1;">
+                            <span>السابق</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-lg" style="flex: 2;">
+                            <span>إرسال وتشخيص الحالة</span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/mock-data.js"></script>
+    <script>
+        function nextStep(step) {
+            // Validate current step before proceeding
+            const currentStep = document.querySelector('.form-step.active');
+            const inputs = currentStep.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            // Update progress bar
+            const progress = (step / 3) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('patientForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                age: document.getElementById('age').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                location: document.getElementById('location').value,
+                symptoms: document.getElementById('symptoms').value,
+                symptomDuration: document.getElementById('symptomDuration').value,
+                painLevel: document.getElementById('painLevel').value,
+                additionalNotes: document.getElementById('additionalNotes').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            localStorage.setItem('currentPatient', JSON.stringify(formData));
+
+            // Show loading animation
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<div class="spinner"></div> جاري التحليل...';
+            submitBtn.disabled = true;
+
+            // Simulate AI processing
+            setTimeout(() => {
+                window.location.href = 'patient-diagnosis.html';
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

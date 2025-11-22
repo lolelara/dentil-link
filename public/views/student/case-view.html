@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الحالة - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .case-container {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .case-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .media-item {
+            aspect-ratio: 1;
+            background: var(--gray-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Sidebar */
+        .sidebar-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-supervisor {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-save {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-save:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .similar-case {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+        }
+
+        .similar-case:last-child {
+            border-bottom: none;
+        }
+
+        .similar-img {
+            width: 60px;
+            height: 60px;
+            background: var(--gray-200);
+            border-radius: 8px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='library.html'">← المكتبة</button>
+                <h2 style="margin: 0;">عرض الحالة #CS-2024-89</h2>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; font-size: 14px;">
+                Level 2 • Endodontics
+            </div>
+        </div>
+    </nav>
+
+    <div class="case-container">
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <!-- Patient Info -->
+            <div class="case-card">
+                <h3 class="section-title">👤 بيانات المريض</h3>
+                <div class="info-grid">
+                    <div>
+                        <div class="info-label">الاسم</div>
+                        <div class="info-value">Sarah Ahmed</div>
+                    </div>
+                    <div>
+                        <div class="info-label">العمر / الجنس</div>
+                        <div class="info-value">28 / Female</div>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <div class="info-label">الشكوى الرئيسية (Chief Complaint)</div>
+                        <div class="info-value">"I have severe pain in my lower left tooth when drinking cold water."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnosis -->
+            <div class="case-card">
+                <h3 class="section-title">🔍 التشخيص</h3>
+                <div
+                    style="background: #f0f9ff; padding: 16px; border-radius: 12px; border-right: 4px solid var(--primary);">
+                    <strong>Symptomatic Irreversible Pulpitis</strong>
+                    <p style="margin-top: 4px; font-size: 14px; color: var(--gray-600);">Tooth #36 - Percussion (+),
+                        Cold Test (+++ lingering)</p>
+                </div>
+            </div>
+
+            <!-- Treatment Plan -->
+            <div class="case-card">
+                <h3 class="section-title">🛠️ خطة العلاج</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 16px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">1. Anesthesia & Isolation</div>
+                        <div style="color: var(--gray-600);">IAN Block (Lidocaine 2%) + Rubber Dam application.</div>
+                    </li>
+                    <li style="margin-bottom: 16px;">
+                        <div style="font-weight: 600; margin-bottom: 4px;">2. Access & Cleaning</div>
+                        <div style="color: var(--gray-600);">Full deroofing. Rotary files used up to 25/.04.</div>
+                    </li>
+                    <li>
+                        <div style="font-weight: 600; margin-bottom: 4px;">3. Obturation</div>
+                        <div style="color: var(--gray-600);">Single cone technique with AH Plus sealer.</div>
+                    </li>
+                </ul>
+
+                <h4 style="margin-top: 24px; margin-bottom: 12px;">الصور والأشعة</h4>
+                <div class="media-grid">
+                    <div class="media-item">🦷</div>
+                    <div class="media-item">📏</div>
+                    <div class="media-item">✨</div>
+                    <div class="media-item" style="border: 2px dashed var(--gray-300); color: var(--gray-400);">+</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">إجراءات</h3>
+                <button class="action-btn btn-supervisor" onclick="openModal()">
+                    📤 إرسال للمشرف
+                </button>
+                <button class="action-btn btn-save" onclick="saveCase(this)">
+                    💾 حفظ في المكتبة
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">حالات مشابهة 🔍</h3>
+
+                <div class="similar-case">
+                    <div class="similar-img"></div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">RCT #46</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">Level 2 • ⭐ 4.8</div>
+                    </div>
+                </div>
+
+                <div class="similar-case">
+                    <div class="similar-img" style="background: #e0e7ff;"></div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">Pulpotomy #85</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">Level 1 • ⭐ 4.5</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supervisor Modal -->
+    <div class="modal-overlay" id="supervisorModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 24px;">إرسال الحالة للمشرف</h2>
+            <div class="form-group">
+                <label class="form-label">اختر المشرف</label>
+                <select class="form-input">
+                    <option>د. محمد علي (علاج جذور)</option>
+                    <option>د. سارة حسن (مشرف عام)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">رسالة (اختياري)</label>
+                <textarea class="form-input" style="height: 80px;"></textarea>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+                <button class="btn btn-primary flex-1" onclick="submitToSupervisor()">إرسال</button>
+                <button class="btn btn-secondary flex-1" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function saveCase(btn) {
+            btn.innerHTML = '✅ تم الحفظ';
+            btn.style.background = '#dcfce7';
+            btn.style.borderColor = '#dcfce7';
+            btn.style.color = '#166534';
+            setTimeout(() => {
+                btn.innerHTML = '💾 حفظ في المكتبة';
+                btn.style.background = 'white';
+                btn.style.borderColor = '#e2e8f0';
+                btn.style.color = '#374151';
+            }, 2000);
+        }
+
+        function openModal() {
+            document.getElementById('supervisorModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('supervisorModal').style.display = 'none';
+        }
+
+        function submitToSupervisor() {
+            const btn = document.querySelector('.modal-content .btn-primary');
+            btn.innerText = 'جاري الإرسال...';
+            setTimeout(() => {
+                closeModal();
+                alert('تم إرسال الحالة للمشرف بنجاح! ستتلقى إشعاراً عند المراجعة.');
+                btn.innerText = 'إرسال';
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

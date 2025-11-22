@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .container-main {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .podium {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .podium-place {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .podium-place:hover {
+            transform: translateY(-8px);
+        }
+
+        .podium-rank-1 {
+            order: 2;
+        }
+
+        .podium-rank-2 {
+            order: 1;
+        }
+
+        .podium-rank-3 {
+            order: 3;
+        }
+
+        .podium-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .podium-rank-1 .podium-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .podium-rank-2 .podium-avatar {
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+        }
+
+        .podium-rank-3 .podium-avatar {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        }
+
+        .podium-medal {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .podium-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .podium-stats {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .leaderboard-table {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--gray-300);
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: var(--student-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .student-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .student-row:hover {
+            background: var(--gray-50);
+        }
+
+        .rank-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-400);
+            width: 40px;
+            text-align: center;
+        }
+
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--student-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .student-meta {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .student-stats {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--student-start);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← الرئيسية</button>
+                <h2 style="margin: 0;">🏆 Leaderboard</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-main">
+        <!-- Top 3 Podium -->
+        <div class="podium">
+            <div class="podium-place podium-rank-2" onclick="viewStudentProfile(2)">
+                <div class="podium-medal">🥈</div>
+                <div class="podium-avatar">ف.م</div>
+                <div class="podium-name">فاطمة محمد</div>
+                <div class="podium-stats">145 حالة • ⭐ 4.9</div>
+            </div>
+
+            <div class="podium-place podium-rank-1" onclick="viewStudentProfile(1)">
+                <div class="podium-medal">🥇</div>
+                <div class="podium-avatar">م.ع</div>
+                <div class="podium-name">محمد علي</div>
+                <div class="podium-stats">187 حالة • ⭐ 4.95</div>
+            </div>
+
+            <div class="podium-place podium-rank-3" onclick="viewStudentProfile(3)">
+                <div class="podium-medal">🥉</div>
+                <div class="podium-avatar">س.أ</div>
+                <div class="podium-name">سارة أحمد</div>
+                <div class="podium-stats">138 حالة • ⭐ 4.85</div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="leaderboard-table">
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">كل الطلاب</h3>
+
+            <div class="filters">
+                <button class="filter-btn active">الكل</button>
+                <button class="filter-btn">السنة الثالثة</button>
+                <button class="filter-btn">التخصصات</button>
+                <button class="filter-btn">الشهر الحالي</button>
+            </div>
+
+            <div class="student-row" onclick="viewStudentProfile(4)">
+                <div class="rank-number">4</div>
+                <div class="student-avatar">ي.ح</div>
+                <div class="student-info">
+                    <div class="student-name">يوسف حسن</div>
+                    <div class="student-meta">السنة الثالثة</div>
+                </div>
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">135</div>
+                        <div>حالة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4.8</div>
+                        <div>⭐</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">9</div>
+                        <div>🏆</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-row" onclick="viewStudentProfile(12)">
+                <div class="rank-number"
+                    style="background: #dbeafe; color: var(--primary); padding: 4px 8px; border-radius: 8px;">12</div>
+                <div class="student-avatar">أ.م</div>
+                <div class="student-info">
+                    <div class="student-name">أحمد محمود <span
+                            style="background: #dcfce7; color: #065f46; padding: 2px 8px; border-radius: 8px; font-size: 12px;">أنت</span>
+                    </div>
+                    <div class="student-meta">السنة الثالثة</div>
+                </div>
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">127</div>
+                        <div>حالة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4.8</div>
+                        <div>⭐</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div>🏆</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-row" onclick="viewStudentProfile(13)">
+                <div class="rank-number">13</div>
+                <div class="student-avatar">ن.خ</div>
+                <div class="student-info">
+                    <div class="student-name">نور خالد</div>
+                    <div class="student-meta">السنة الثالثة</div>
+                </div>
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">125</div>
+                        <div>حالة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4.7</div>
+                        <div>⭐</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">10</div>
+                        <div>🏆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Profile Modal -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="margin: 0;">ملف الطالب</h2>
+                <button class="btn btn-secondary" onclick="closeModal()">✕</button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background: var(--student-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; margin: 0 auto 16px;">
+                    م.ع</div>
+                <h3 style="font-size: 24px; margin-bottom: 8px;">محمد علي</h3>
+                <p style="color: var(--gray-600);">السنة الرابعة - Level 7</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                <div style="text-align: center; padding: 16px; background: var(--gray-50); border-radius: 12px;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--student-start);">187</div>
+                    <div style="font-size: 14px; color: var(--gray-600);">حالات</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background: var(--gray-50); border-radius: 12px;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--student-start);">4.95</div>
+                    <div style="font-size: 14px; color: var(--gray-600);">⭐ تقييم</div>
+                </div>
+                <div style="text-align: center; padding: 16px; background: var(--gray-50); border-radius: 12px;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--student-start);">15</div>
+                    <div style="font-size: 14px; color: var(--gray-600);">🏆 إنجازات</div>
+                </div>
+            </div>
+
+            <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">آخر الحالات</h4>
+            <div style="border-top: 1px solid var(--gray-200); padding-top: 16px;">
+                <div style="margin-bottom: 12px;">
+                    <strong>CS-2024-195</strong> • Root Canal Treatment
+                    <div style="font-size: 14px; color: var(--gray-600);">⭐ 5.0 • 22 يناير</div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <strong>CS-2024-188</strong> • Crown Preparation
+                    <div style="font-size: 14px; color: var(--gray-600);">⭐ 4.9 • 18 يناير</div>
+                </div>
+                <div>
+                    <strong>CS-2024-177</strong> • Composite Restoration
+                    <div style="font-size: 14px; color: var(--gray-600);">⭐ 5.0 • 12 يناير</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function viewStudentProfile(rank) {
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

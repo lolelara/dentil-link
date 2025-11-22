@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التسجيل الصوتي - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%);
+        }
+
+        .voice-container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            background: var(--patient-gradient);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        .voice-interface {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(6, 182, 212, 0.05));
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .mic-button {
+            width: 120px;
+            height: 120px;
+            background: var(--patient-gradient);
+            color: var(--white);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            box-shadow: 0 8px 24px rgba(20, 184, 166, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(20, 184, 166, 0.6);
+        }
+
+        .mic-button.listening {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 8px 24px rgba(20, 184, 166, 0.4);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 12px 40px rgba(20, 184, 166, 0.8);
+            }
+        }
+
+        .voice-status {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .voice-instruction {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .transcript-box {
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 100px;
+            margin-bottom: 24px;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .progress-steps {
+            margin-bottom: 24px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .step-item.completed {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .step-item.completed .step-icon {
+            background: var(--success);
+        }
+
+        .qr-section {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: var(--white);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            margin: 0 auto 16px;
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="voice-container">
+        <div class="header">
+            <div class="icon">🎤</div>
+            <h1 style="font-size: 28px; margin-bottom: 8px;">التسجيل الصوتي</h1>
+            <p style="color: var(--gray-600);">سجل حسابك باستخدام صوتك فقط</p>
+        </div>
+
+        <!-- Voice Interface -->
+        <div class="voice-interface">
+            <div class="mic-button" id="micButton" onclick="toggleListening()">
+                🎤
+            </div>
+            <div class="voice-status" id="voiceStatus">اضغط على المايك للبدء</div>
+            <div class="voice-instruction" id="voiceInstruction">سنطرح عليك بعض الأسئلة البسيطة</div>
+        </div>
+
+        <!-- Transcript -->
+        <div class="transcript-box" id="transcript">
+            <em style="color: var(--gray-500);">سيظهر هنا ما تقوله...</em>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-steps">
+            <div class="step-item" id="step1">
+                <div class="step-icon">1</div>
+                <div>ما هو اسمك الكامل؟</div>
+            </div>
+            <div class="step-item" id="step2">
+                <div class="step-icon">2</div>
+                <div>كم عمرك؟</div>
+            </div>
+            <div class="step-item" id="step3">
+                <div class="step-icon">3</div>
+                <div>ما هو رقم هاتفك؟</div>
+            </div>
+            <div class="step-item" id="step4">
+                <div class="step-icon">4</div>
+                <div>من أين أنت؟ (المدينة)</div>
+            </div>
+        </div>
+
+        <!-- QR Code Alternative -->
+        <div class="qr-section">
+            <h3 style="margin-bottom: 16px;">أو امسح رمز QR</h3>
+            <div class="qr-code">📱</div>
+            <p style="font-size: 14px; color: var(--gray-600);">
+                استخدم كاميرا هاتفك لمسح الكود<br>
+                وملء البيانات بسهولة
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px; color: var(--gray-600);">
+            تفضل التسجيل العادي؟ <a href="register.html" class="text-primary">اضغط هنا</a>
+        </div>
+    </div>
+
+    <script>
+        let isListening = false;
+        let currentStep = 0;
+        const questions = [
+            "ما هو اسمك الكامل؟",
+            "كم عمرك؟",
+            "ما هو رقم هاتفك؟",
+            "من أين أنت؟ (المدينة)"
+        ];
+
+        const sampleAnswers = [
+            "اسمي محمد أحمد علي",
+            "عمري 28 سنة",
+            "رقمي 01234567890",
+            "أنا من القاهرة"
+        ];
+
+        function toggleListening() {
+            const micButton = document.getElementById('micButton');
+            const voiceStatus = document.getElementById('voiceStatus');
+            const voiceInstruction = document.getElementById('voiceInstruction');
+
+            if (!isListening) {
+                // Start listening
+                isListening = true;
+                micButton.classList.add('listening');
+                voiceStatus.textContent = "أنا أستمع...";
+                voiceInstruction.textContent = questions[currentStep];
+
+                // Simulate voice recognition
+                setTimeout(() => {
+                    const answer = sampleAnswers[currentStep];
+                    document.getElementById('transcript').innerHTML += `
+                        <div style="margin-bottom: 12px;">
+                            <strong style="color: var(--patient-start);">المساعد:</strong> ${questions[currentStep]}<br>
+                            <strong style="color: var(--success);">أنت:</strong> ${answer}
+                        </div>
+                    `;
+
+                    // Mark step as completed
+                    document.getElementById(`step${currentStep + 1}`).classList.add('completed');
+
+                    currentStep++;
+
+                    if (currentStep < questions.length) {
+                        voiceInstruction.textContent = questions[currentStep];
+                    } else {
+                        voiceStatus.textContent = "✅ اكتمل التسجيل!";
+                        voiceInstruction.textContent = "جاري إنشاء حسابك...";
+                        micButton.classList.remove('listening');
+                        isListening = false;
+
+                        setTimeout(() => {
+                            alert('✅ تم إنشاء حسابك بنجاح!');
+                            window.location.href = 'dashboard-complete.html';
+                        }, 2000);
+                    }
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<div class="register-container">
+    <div class="register-card">
+        <div class="header">
+            <div class="icon">👤</div>
+            <h1 class="title">تسجيل حساب مريض</h1>
+            <p class="subtitle">انضم لآلاف المرضى الراضين عن DentLink</p>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-steps">
+                <span class="step active">المعلومات الشخصية</span>
+                <span class="step">التأكيد</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width: 50%"></div>
+            </div>
+        </div>
+
+        <form id="patientRegisterForm">
+            <div class="form-section">
+                <h3 class="section-title">المعلومات الأساسية</h3>
+
+                <div class="form-group">
+                    <label class="form-label">الاسم الكامل *</label>
+                    <input type="text" class="form-input" placeholder="أدخل اسمك الكامل" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">العمر *</label>
+                        <input type="number" class="form-input" placeholder="25" min="1" max="120" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">الجنس *</label>
+                        <select class="form-select" required>
+                            <option value="">اختر</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">معلومات الاتصال</h3>
+
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف *</label>
+                    <input type="tel" class="form-input" placeholder="+20 123 456 7890" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني *</label>
+                    <input type="email" class="form-input" placeholder="example@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">المدينة *</label>
+                    <input type="text" class="form-input" placeholder="القاهرة" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">كلمة المرور</h3>
+
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور *</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required minlength="8">
+                    <p class="form-help">يجب أن تكون 8 أحرف على الأقل</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">تأكيد كلمة المرور *</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required minlength="8">
+                </div>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    أوافق على <a href="#" class="text-primary">الشروط والأحكام</a> و <a href="#"
+                        class="text-primary">سياسة الخصوصية</a>
+                </label>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="router.navigate('/register')">رجوع</button>
+                <button type="submit" class="btn btn-patient" style="flex: 1;">التالي</button>
+            </div>
+        </form>
+
+        <div class="register-link" style="text-align: center; margin-top: 24px; color: var(--gray-600);">
+            لديك حساب بالفعل؟ <a href="/login" class="text-primary" data-navigo>سجل دخولك</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // This script block might not execute when injected via innerHTML.
+    // We should move this logic to the router's 'after' hook or a separate controller.
+    /*
+    document.getElementById('patientRegisterForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        // ... logic ...
+    });
+    */
+</script>

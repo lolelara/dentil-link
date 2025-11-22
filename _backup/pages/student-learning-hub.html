@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .content-container {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 16px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: var(--white);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--gray-700);
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--student-gradient);
+            color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Lecture Summaries */
+        .lecture-item {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .lecture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .lecture-header:hover {
+            color: var(--student-start);
+        }
+
+        .lecture-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .lecture-body {
+            display: none;
+            padding-top: 16px;
+        }
+
+        .lecture-body.open {
+            display: block;
+        }
+
+        .note-section {
+            background: #fff9e6;
+            border-right: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .note-section.visible {
+            display: block;
+        }
+
+        .note-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        /* Clinical Images */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .image-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .image-card:hover {
+            transform: scale(1.05);
+        }
+
+        .image-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .image-label {
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Videos */
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .video-thumbnail {
+            height: 180px;
+            background: linear-gradient(45deg, #1e293b 0%, #334155 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: white;
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        /* Quizzes */
+        .quiz-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+        }
+
+        .question {
+            margin-bottom: 32px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .option {
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #e0f2fe;
+        }
+
+        .option.selected {
+            background: #dbeafe;
+            border-color: var(--primary);
+        }
+
+        .option.correct {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .option.incorrect {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        /* AI Chat */
+        .chat-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+        }
+
+        .message.ai .message-bubble {
+            background: #f0f0f0;
+        }
+
+        .message.user .message-bubble {
+            background: var(--student-gradient);
+            color: white;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='student-dashboard-v2.html'">← الرئيسية</button>
+                <h2 style="margin: 0;">📚 Learning Hub</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('lectures')">📖 Lectures</button>
+            <button class="tab-btn" onclick="showTab('images')">🖼️ Clinical Images</button>
+            <button class="tab-btn" onclick="showTab('videos')">🎥 Videos</button>
+            <button class="tab-btn" onclick="showTab('quizzes')">✏️ Quizzes</button>
+            <button class="tab-btn" onclick="showTab('ai')">🤖 AI Assistant</button>
+        </div>
+
+        <!-- Lectures Tab -->
+        <div id="lectures" class="tab-content active">
+            <div class="lecture-item">
+                <div class="lecture-header" onclick="toggleLecture(this)">
+                    <div class="lecture-title">📘 Endodontics - Root Canal Treatment</div>
+                    <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); toggleNote(event)">📝 Add
+                        Note</button>
+                </div>
+                <div class="lecture-body">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li><strong>Diagnosis:</strong> Irreversible pulpitis, Necrotic pulp</li>
+                        <li><strong>Access:</strong> Straight-line access, complete deroofing</li>
+                        <li><strong>Cleaning:</strong> Rotary/Hand files, Irrigation protocols</li>
+                        <li><strong>Obturation:</strong> Gutta-percha, Lateral/Vertical condensation</li>
+                    </ul>
+                    <div class="note-section">
+                        <strong>Your Notes:</strong>
+                        <textarea class="note-input" placeholder="أضف ملاحظاتك هنا..."></textarea>
+                        <button class="btn btn-sm btn-primary" style="margin-top: 8px;"
+                            onclick="alert('تم الحفظ!')">حفظ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lecture-item">
+                <div class="lecture-header" onclick="toggleLecture(this)">
+                    <div class="lecture-title">🦷 Restorative Dentistry - Composite Fillings</div>
+                    <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); toggleNote(event)">📝 Add
+                        Note</button>
+                </div>
+                <div class="lecture-body">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li><strong>Preparation:</strong> Cavity design, Bonding surface</li>
+                        <li><strong>Isolation:</strong> Rubber dam placement</li>
+                        <li><strong>Bonding:</strong> Etch-Rinse vs. Self-Etch</li>
+                        <li><strong>Layering:</strong> Incremental technique</li>
+                    </ul>
+                    <div class="note-section">
+                        <strong>Your Notes:</strong>
+                        <textarea class="note-input" placeholder="أضف ملاحظاتك هنا..."></textarea>
+                        <button class="btn btn-sm btn-primary" style="margin-top: 8px;"
+                            onclick="alert('تم الحفظ!')">حفظ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clinical Images Tab -->
+        <div id="images" class="tab-content">
+            <div class="image-grid">
+                <div class="image-card" onclick="alert('🔍 Viewing: Pre-op X-ray - RCT #36')">
+                    <div class="image-placeholder">🦷</div>
+                    <div class="image-label">Pre-op X-ray - RCT #36</div>
+                </div>
+                <div class="image-card" onclick="alert('🔍 Viewing: Working Length - RCT')">
+                    <div class="image-placeholder">📏</div>
+                    <div class="image-label">Working Length - RCT</div>
+                </div>
+                <div class="image-card" onclick="alert('🔍 Viewing: Post-op X-ray')">
+                    <div class="image-placeholder">✨</div>
+                    <div class="image-label">Post-op X-ray</div>
+                </div>
+                <div class="image-card" onclick="alert('🔍 Viewing: Composite Restoration')">
+                    <div class="image-placeholder">🎨</div>
+                    <div class="image-label">Composite Restoration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Tab -->
+        <div id="videos" class="tab-content">
+            <div class="video-list">
+                <div class="video-card" onclick="alert('▶️ Playing: Root Canal Treatment - Step by Step')">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <h4>Root Canal Treatment - Step by Step</h4>
+                        <p style="color: var(--gray-600); font-size: 14px;">Duration: 12:34 • Views: 2.3K</p>
+                    </div>
+                </div>
+                <div class="video-card" onclick="alert('▶️ Playing: Composite Filling Technique')">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <h4>Composite Filling Technique</h4>
+                        <p style="color: var(--gray-600); font-size: 14px;">Duration: 8:15 • Views: 1.8K</p>
+                    </div>
+                </div>
+                <div class="video-card" onclick="alert('▶️ Playing: Crown Preparation Basics')">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <h4>Crown Preparation Basics</h4>
+                        <p style="color: var(--gray-600); font-size: 14px;">Duration: 15:22 • Views: 3.1K</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quizzes Tab -->
+        <div id="quizzes" class="tab-content">
+            <div class="quiz-container">
+                <h2 style="margin-bottom: 24px;">Endodontics Quiz</h2>
+                <div class="question">
+                    <div class="question-text">1. ما هو العلاج الصحيح لالتهاب اللب الغير قابل للعكس؟</div>
+                    <div class="option" onclick="selectOption(this, false)">A. تنظيف الأسنان</div>
+                    <div class="option" onclick="selectOption(this, true)">B. علاج جذور (RCT)</div>
+                    <div class="option" onclick="selectOption(this, false)">C. حشو مؤقت</div>
+                    <div class="option" onclick="selectOption(this, false)">D. خلع السن</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. ما هي الطريقة الأفضل لعزل السن أثناء RCT؟</div>
+                    <div class="option" onclick="selectOption(this, false)">A. القطن</div>
+                    <div class="option" onclick="selectOption(this, true)">B. Rubber Dam</div>
+                    <div class="option" onclick="selectOption(this, false)">C. الشاش</div>
+                    <div class="option" onclick="selectOption(this, false)">D. بدون عزل</div>
+                </div>
+
+                <button class="btn btn-primary w-full" onclick="submitQuiz()">إرسال الإجابات</button>
+            </div>
+        </div>
+
+        <!-- AI Assistant Tab -->
+        <div id="ai" class="tab-content">
+            <div class="chat-container">
+                <h3 style="margin-bottom: 16px;">🤖 AI المساعد الطبي</h3>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-bubble">مرحباً! أنا هنا لمساعدتك في أي سؤال عن طب الأسنان. اسألني أي شيء!
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="userMessage" placeholder="اكتب سؤالك هنا..."
+                        onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="btn btn-primary" onclick="sendMessage()">إرسال</button>
+                    <button class="btn btn-secondary" onclick="sendToFaculty()">📤 إرسال لدكتور</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleLecture(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('open');
+        }
+
+        function toggleNote(e) {
+            e.stopPropagation();
+            const lectureItem = e.target.closest('.lecture-item');
+            const noteSection = lectureItem.querySelector('.note-section');
+            noteSection.classList.toggle('visible');
+        }
+
+        function selectOption(element, isCorrect) {
+            // Remove previous selections in this question
+            const question = element.closest('.question');
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            element.classList.add('selected');
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+            }
+        }
+
+        function submitQuiz() {
+            const correctCount = document.querySelectorAll('.option.correct.selected').length;
+            const totalQuestions = document.querySelectorAll('.question').length;
+            alert(`النتيجة: ${correctCount} / ${totalQuestions} ✅`);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userMessage');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `
+                <div class="message user">
+                    <div class="message-bubble">${message}</div>
+                </div>
+            `;
+
+            // Simulate AI response
+            setTimeout(() => {
+                chatMessages.innerHTML += `
+                    <div class="message ai">
+                        <div class="message-bubble">شكراً على سؤالك! بناءً على المعلومات المتاحة، أنصحك بمراجعة محاضرة Endodontics والتركيز على بروتوكولات التعقيم.</div>
+                    </div>
+                `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendToFaculty() {
+            alert('تم إرسال السؤال لأقرب دكتور أونلاين! ستحصل على رد خلال 5-10 دقائق.');
+        }
+    </script>
+</body>
+
+</html>

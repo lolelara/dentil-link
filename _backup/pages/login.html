@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: var(--gray-600);
+        }
+
+        .user-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .user-type-btn {
+            padding: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .user-type-btn:hover {
+            border-color: var(--primary-start);
+        }
+
+        .user-type-btn.active {
+            border-color: var(--primary-start);
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+        }
+
+        .user-type-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .user-type-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--gray-600);
+        }
+
+        .form-footer a {
+            color: var(--primary-start);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">🦷</div>
+            <h1 class="login-title">مرحباً بعودتك</h1>
+            <p class="login-subtitle">سجل دخولك للمتابعة</p>
+        </div>
+
+        <!-- User Type Selection -->
+        <div class="user-type-selector">
+            <div class="user-type-btn active" data-type="patient">
+                <div class="user-type-icon">👤</div>
+                <div class="user-type-label">مريض</div>
+            </div>
+            <div class="user-type-btn" data-type="student">
+                <div class="user-type-icon">🎓</div>
+                <div class="user-type-label">طالب</div>
+            </div>
+            <div class="user-type-btn" data-type="faculty">
+                <div class="user-type-icon">👨‍⚕️</div>
+                <div class="user-type-label">دكتور</div>
+            </div>
+            <div class="user-type-btn" data-type="clinic">
+                <div class="user-type-icon">🏥</div>
+                <div class="user-type-label">عيادة</div>
+            </div>
+        </div>
+
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني أو رقم الهاتف</label>
+                <input type="text" class="form-input" placeholder="أدخل بريدك الإلكتروني" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" class="form-input" placeholder="أدخل كلمة المرور" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full btn-lg">
+                تسجيل الدخول →
+            </button>
+        </form>
+
+        <div class="form-footer">
+            <a href="patient/check-account.html">
+                🔍 هل لديك حساب بالفعل؟ تحقق الآن
+            </a>
+        </div>
+
+        <div class="form-footer">
+            <a href="#" onclick="alert('سيتم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني'); return false;">
+                نسيت كلمة المرور؟
+            </a>
+        </div>
+
+        <div class="form-footer">
+            ليس لديك حساب؟ <a href="register-select.html">سجل الآن</a>
+        </div>
+    </div>
+
+    <script>
+        // Simple tab switching logic
+        const tabs = document.querySelectorAll('.user-type-btn');
+        let currentRole = 'patient';
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentRole = tab.dataset.type;
+            });
+        });
+
+        // Login simulation
+        document.querySelector('.login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-primary');
+            btn.innerText = 'جاري الدخول...';
+
+            setTimeout(() => {
+                if (currentRole === 'patient') {
+                    window.location.href = 'patient/dashboard-complete.html';
+                } else if (currentRole === 'student') {
+                    window.location.href = 'student-dashboard-v2.html';
+                } else if (currentRole === 'faculty') {
+                    window.location.href = 'faculty/dashboard.html';
+                } else if (currentRole === 'clinic') {
+                    window.location.href = 'clinic/dashboard.html';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

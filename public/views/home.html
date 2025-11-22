@@ -1,0 +1,213 @@
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container navbar-container">
+        <div class="navbar-brand">🦷 DentLink</div>
+        <div style="display: flex; gap: 24px; align-items: center;">
+            <a href="#features" class="navbar-link">الميزات</a>
+            <a href="#how-it-works" class="navbar-link">كيف يعمل</a>
+            <a href="/login" class="btn btn-primary btn-sm" data-navigo>تسجيل الدخول</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">منصة طب الأسنان الذكية</h1>
+            <p class="hero-subtitle">
+                نربط المرضى بطلاب طب الأسنان والأطباء باستخدام الذكاء الاصطناعي المتقدم
+            </p>
+            <div class="hero-buttons">
+                <a href="/register" class="hero-button" data-navigo>ابدأ الآن مجاناً</a>
+                <a href="#how-it-works" class="hero-button secondary">تعرف على المزيد</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-target="10000">0</div>
+                <div class="stat-label">مريض نشط</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">طالب طب أسنان</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="150">0</div>
+                <div class="stat-label">عيادة شريكة</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">نسبة الرضا %</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">لمن هذه المنصة؟</h2>
+            <p class="section-description">
+                DentLink تخدم جميع أطراف المنظومة الطبية للأسنان
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Patient -->
+            <div class="feature-card" onclick="router.navigate('/patient/register')">
+                <div class="feature-icon patient">👤</div>
+                <h3 class="feature-title">للمرضى</h3>
+                <p class="feature-description">
+                    تشخيص ذكي للأسنان، ربط مع أفضل الطلاب والأطباء، متابعة التقدم، تكامل مع التأمين
+                </p>
+            </div>
+
+            <!-- Student -->
+            <div class="feature-card" onclick="router.navigate('/student/register')">
+                <div class="feature-icon student">🎓</div>
+                <h3 class="feature-title">لطلاب طب الأسنان</h3>
+                <p class="feature-description">
+                    احصل على حالات حقيقية، بناء portfolio، نظام تحفيزي، محاكاة 3D، تواصل مع المشرفين
+                </p>
+            </div>
+
+            <!-- Faculty -->
+            <div class="feature-card" onclick="router.navigate('/faculty/dashboard')">
+                <div class="feature-icon faculty">👨‍⚕️</div>
+                <h3 class="feature-title">لأطباء الكلية</h3>
+                <p class="feature-description">
+                    متابعة الطلاب، تحليلات متقدمة، مكتبة حالات، تقييم الأداء، استشارات عن بُعد
+                </p>
+            </div>
+
+            <!-- Clinic -->
+            <div class="feature-card" onclick="router.navigate('/clinic/dashboard')">
+                <div class="feature-icon clinic">🏥</div>
+                <h3 class="feature-title">للعيادات الخاصة</h3>
+                <p class="feature-description">
+                    استقبال المرضى، تحليلات الأداء، تعاون مع الطلاب، تتبع الإيرادات
+                </p>
+            </div>
+
+            <!-- Marketplace -->
+            <div class="feature-card" onclick="router.navigate('/marketplace')">
+                <div class="feature-icon marketplace">🛒</div>
+                <h3 class="feature-title">متجر الأدوات الطبية</h3>
+                <p class="feature-description">
+                    تسوق الأدوات والمعدات الطبية، مقارنة الأسعار، توصيل سريع، تقييمات موثوقة
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works" id="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">كيف يعمل DentLink؟</h2>
+            <p class="section-description">
+                أربع خطوات بسيطة لتجربة رعاية أسنان ذكية
+            </p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3 class="step-title">سجل حسابك</h3>
+                <p class="step-description">
+                    اختر نوع حسابك (مريض، طالب، دكتور، عيادة)
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3 class="step-title">AI التشخيص الذكي</h3>
+                <p class="step-description">
+                    ارفع صورة أسنانك واحصل على تشخيص فوري
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3 class="step-title">الربط الذكي</h3>
+                <p class="step-description">
+                    نربطك مع أفضل طالب أو دكتور حسب حالتك
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3 class="step-title">متابعة التقدم</h3>
+                <p class="step-description">
+                    تابع علاجك خطوة بخطوة مع تحديثات مستمرة
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container">
+        <h2 class="cta-title">جاهز لتجربة مختلفة في طب الأسنان؟</h2>
+        <p class="cta-description">انضم لآلاف المستخدمين الذين يثقون في DentLink</p>
+        <a href="/register" class="hero-button" data-navigo>ابدأ مجاناً الآن</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>عن DentLink</h4>
+                <ul class="footer-links">
+                    <li><a href="#">من نحن</a></li>
+                    <li><a href="#">كيف نعمل</a></li>
+                    <li><a href="#">الفريق</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>للمستخدمين</h4>
+                <ul class="footer-links">
+                    <li><a href="/patient/register" data-navigo>المرضى</a></li>
+                    <li><a href="/student/register" data-navigo>الطلاب</a></li>
+                    <li><a href="/faculty/dashboard" data-navigo>الأطباء</a></li>
+                    <li><a href="/clinic/dashboard" data-navigo>العيادات</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>الدعم</h4>
+                <ul class="footer-links">
+                    <li><a href="#">مركز المساعدة</a></li>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>قانوني</h4>
+                <ul class="footer-links">
+                    <li><a href="#">الشروط والأحكام</a></li>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">سياسة الاستخدام</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 DentLink. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</footer>

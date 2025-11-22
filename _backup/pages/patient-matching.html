@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخيارات المتاحة - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1 class="logo">DentLink</h1>
+                <span class="logo-subtitle">الربط الذكي</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="patient-diagnosis.html" class="nav-link">العودة</a>
+                <a href="../index.html" class="nav-link">الرئيسية</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: var(--space-12) var(--space-6);">
+        <!-- Header -->
+        <div class="text-center" style="margin-bottom: var(--space-12);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🎯</div>
+            <h1 class="page-title">أفضل الخيارات لحالتك</h1>
+            <p class="page-subtitle">تم اختيارهم بذكاء حسب موقعك، حالتك، والتقييمات</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="marketplace-header" style="margin-bottom: var(--space-8);">
+            <div class="filter-chips">
+                <div class="chip active" onclick="filterResults('all')">الكل</div>
+                <div class="chip" onclick="filterResults('students')">طلاب (تدريب)</div>
+                <div class="chip" onclick="filterResults('doctors')">أطباء</div>
+                <div class="chip" onclick="filterResults('clinics')">عيادات</div>
+                <div class="chip" onclick="filterResults('hospitals')">مستشفيات</div>
+            </div>
+
+            <div style="display: flex; gap: var(--space-3); margin-top: var(--space-4); flex-wrap: wrap;">
+                <select class="form-select" style="flex: 1; min-width: 200px;">
+                    <option>ترتيب حسب: الأقرب</option>
+                    <option>ترتيب حسب: الأعلى تقييماً</option>
+                    <option>ترتيب حسب: الأقل سعراً</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="resultsContainer"></div>
+    </div>
+
+    <script>
+        const mockProviders = [
+            // Students
+            {
+                id: 1,
+                type: 'student',
+                name: 'أحمد العتيبي',
+                title: 'طالب سنة رابعة - جامعة الملك سعود',
+                rating: 4.8,
+                reviewCount: 24,
+                distance: '2.3 كم',
+                price: 'مجاناً - حالة تدريبية',
+                availability: 'متاح اليوم',
+                level: 'المستوى 2',
+                casesCompleted: 18,
+                specialization: 'علاج التسوس والحشوات',
+                badge: '🏆 طالب متميز'
+            },
+            {
+                id: 2,
+                type: 'student',
+                name: 'سارة القحطاني',
+                title: 'طالبة سنة خامسة - جامعة الفيصل',
+                rating: 4.9,
+                reviewCount: 31,
+                distance: '3.1 كم',
+                price: 'مجاناً - حالة تدريبية',
+                availability: 'متاح غداً',
+                level: 'المستوى 3',
+                casesCompleted: 28,
+                specialization: 'علاج اللثة والتسوس',
+                badge: '⭐ أفضل طالب'
+            },
+            // Doctors
+            {
+                id: 3,
+                type: 'doctor',
+                name: 'د. محمد الشمري',
+                title: 'أخصائي طب الأسنان - 8 سنوات خبرة',
+                rating: 4.7,
+                reviewCount: 156,
+                distance: '1.8 كم',
+                price: '200 ريال',
+                availability: 'متاح اليوم',
+                clinic: 'عيادة الابتسامة الطبية',
+                specialization: 'تسوس الأسنان وعلاج الجذور',
+                badge: '✅ معتمد'
+            },
+            {
+                id: 4,
+                type: 'doctor',
+                name: 'د. فاطمة النمر',
+                title: 'استشارية طب الأسنان - 12 سنة خبرة',
+                rating: 4.9,
+                reviewCount: 203,
+                distance: '4.2 كم',
+                price: '350 ريال',
+                availability: 'متاح بعد يومين',
+                clinic: 'مركز النخبة لطب الأسنان',
+                specialization: 'علاج اللثة والتجميل',
+                badge: '👨‍⚕️ استشاري'
+            },
+            // Clinics
+            {
+                id: 5,
+                type: 'clinic',
+                name: 'عيادات الرعاية المتقدمة',
+                title: 'مركز طبي متكامل',
+                rating: 4.6,
+                reviewCount: 89,
+                distance: '5.0 كم',
+                price: '250-500 ريال',
+                availability: 'متاح اليوم',
+                services: 'علاج الأسنان، تقويم، تجميل',
+                doctors: '6 أطباء',
+                badge: '🏥 مركز معتمد'
+            },
+            // Hospital
+            {
+                id: 6,
+                type: 'hospital',
+                name: 'مستشفى الملك فيصل التخصصي',
+                title: 'مستشفى حكومي',
+                rating: 4.5,
+                reviewCount: 412,
+                distance: '7.8 كم',
+                price: 'حسب التأمين',
+                availability: 'استشارة خلال أسبوع',
+                services: 'جميع التخصصات السنية',
+                badge: '🏥 مستشفى حكومي'
+            }
+        ];
+
+        function renderProviders(providers) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '<div class="cases-grid">' + providers.map(provider => `
+                <div class="case-card provider-card" data-type="${provider.type}">
+                    <div class="case-header">
+                        <div>
+                            <h3 style="margin: 0 0 var(--space-1) 0; color: var(--neutral-900);">${provider.name}</h3>
+                            <p style="font-size: var(--text-sm); color: var(--neutral-600); margin: 0;">${provider.title}</p>
+                        </div>
+                        <span class="badge ${provider.type === 'student' ? 'badge-secondary' : provider.type === 'doctor' ? 'badge-primary' : 'badge-success'}">${provider.type === 'student' ? 'طالب' : provider.type === 'doctor' ? 'طبيب' : provider.type === 'clinic' ? 'عيادة' : 'مستشفى'}</span>
+                    </div>
+
+                    ${provider.badge ? `<div style="margin: var(--space-3) 0; padding: var(--space-2) var(--space-3); background: var(--accent-50); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--accent-700);">${provider.badge}</div>` : ''}
+
+                    <div class="case-details">
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">📍 المسافة</span>
+                            <span class="case-detail-value">${provider.distance}</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">💰 السعر</span>
+                            <span class="case-detail-value" style="color: ${provider.price.includes('مجاناً') ? 'var(--success)' : 'var(--neutral-900)'};">${provider.price}</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">⏰ التوفر</span>
+                            <span class="case-detail-value">${provider.availability}</span>
+                        </div>
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">⭐ التقييم</span>
+                            <span class="case-detail-value">${provider.rating} (${provider.reviewCount} تقييم)</span>
+                        </div>
+                        ${provider.level ? `
+                        <div class="case-detail-row">
+                            <span class="case-detail-label">📊 المستوى</span>
+                            <span class="case-detail-value">${provider.level} - ${provider.casesCompleted} حالة منجزة</span>
+                        </div>` : ''}
+                        ${provider.specialization ? `
+                        <div style="margin-top: var(--space-3); padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-md);">
+                            <span style="font-size: var(--text-sm); color: var(--primary-700);"><strong>التخصص:</strong> ${provider.specialization}</span>
+                        </div>` : ''}
+                    </div>
+
+                    <div class="case-actions">
+                        <button class="btn btn-primary" style="flex: 1;" onclick="selectProvider(${provider.id})">
+                            <span>اختيار</span>
+                        </button>
+                        <button class="btn btn-ghost" onclick="viewDetails(${provider.id})">
+                            <span>التفاصيل</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('') + '</div>';
+        }
+
+        function filterResults(type) {
+            // Update chip styles
+            document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter providers
+            const filtered = type === 'all' ? mockProviders : mockProviders.filter(p => {
+                if (type === 'students') return p.type === 'student';
+                if (type === 'doctors') return p.type === 'doctor';
+                if (type === 'clinics') return p.type === 'clinic';
+                if (type === 'hospitals') return p.type === 'hospital';
+            });
+
+            renderProviders(filtered);
+        }
+
+        function selectProvider(id) {
+            const provider = mockProviders.find(p => p.id === id);
+            localStorage.setItem('selectedProvider', JSON.stringify(provider));
+
+            // Show confirmation
+            if (confirm(`هل تريد حجز موعد مع ${provider.name}؟`)) {
+                alert('تم إرسال طلب الحجز! سيتم التواصل معك قريباً.');
+                // In real app, would redirect to confirmation page
+            }
+        }
+
+        function viewDetails(id) {
+            const provider = mockProviders.find(p => p.id === id);
+            alert(`تفاصيل ${provider.name}\n\n${provider.title}\n\nالتقييم: ${provider.rating} ⭐\nالمسافة: ${provider.distance}\nالسعر: ${provider.price}`);
+        }
+
+        // Initial render
+        renderProviders(mockProviders);
+
+        // Add entrance animation
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.provider-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.6s ease-out';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

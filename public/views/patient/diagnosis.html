@@ -1,0 +1,126 @@
+<div class="diagnosis-container">
+    <div class="diagnosis-header">
+        <h1 class="diagnosis-title">🤖 تشخيص ذكي بالذكاء الاصطناعي</h1>
+        <p class="diagnosis-subtitle">ارفع صورة لأسنانك واحصل على تشخيص فوري ودقيق</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">اضغط هنا أو اسحب الصورة</div>
+            <div class="upload-hint">PNG, JPG, JPEG حتى 5MB</div>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <img id="previewImage" class="preview-image" alt="Preview">
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button class="btn btn-secondary" id="resetUploadBtn">تغيير الصورة</button>
+                <button class="btn btn-patient" id="startAnalysisBtn">بدء التحليل</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analyzing Section -->
+    <div class="analyzing-section" id="analyzingSection">
+        <div class="spinner-large"></div>
+        <div class="analyzing-text">جارٍ تحليل الصورة...</div>
+        <div class="analyzing-subtext">قد يستغرق هذا بضع ثوانٍ</div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section" id="resultsSection">
+        <div class="results-header">
+            <div class="ai-badge">
+                <span>🤖</span>
+                <span>تشخيص AI متقدم</span>
+            </div>
+            <div class="diagnosis-result">تم اكتشاف 2 مشكلة محتملة</div>
+            <p style="color: var(--gray-600); margin-bottom: 16px;">
+                بناءً على تحليل الذكاء الاصطناعي لصورتك
+            </p>
+            <div class="confidence-bar">
+                <span class="confidence-label">مستوى الثقة:</span>
+                <div class="progress" style="flex: 1; height: 12px;">
+                    <div class="progress-bar" style="width: 92%; background: var(--patient-gradient);"></div>
+                </div>
+                <span class="confidence-value">92%</span>
+            </div>
+        </div>
+
+        <div class="issues-grid">
+            <div class="issue-card detected">
+                <div class="issue-icon">🦷</div>
+                <div class="issue-name">تسوس الأسنان</div>
+                <div class="issue-status detected">مكتشف</div>
+            </div>
+
+            <div class="issue-card detected">
+                <div class="issue-icon">🩸</div>
+                <div class="issue-name">التهاب اللثة</div>
+                <div class="issue-status detected">مكتشف</div>
+            </div>
+
+            <div class="issue-card">
+                <div class="issue-icon">💔</div>
+                <div class="issue-name">كسر الأسنان</div>
+                <div class="issue-status clear">غير موجود</div>
+            </div>
+
+            <div class="issue-card">
+                <div class="issue-icon">😷</div>
+                <div class="issue-name">خراج</div>
+                <div class="issue-status clear">غير موجود</div>
+            </div>
+
+            <div class="issue-card">
+                <div class="issue-icon">📊</div>
+                <div class="issue-name">الجير</div>
+                <div class="issue-status clear">غير موجود</div>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h3>🎯 التوصيات العلاجية</h3>
+
+            <div class="recommendation-item">
+                <div class="recommendation-icon">👨‍⚕️</div>
+                <div class="recommendation-text">
+                    <div class="recommendation-title">زيارة طبيب أسنان</div>
+                    <div class="recommendation-desc">نوصي بزيارة طبيب أسنان في أقرب وقت لتقييم شامل</div>
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="recommendation-icon">🪥</div>
+                <div class="recommendation-text">
+                    <div class="recommendation-title">تحسين نظافة الفم</div>
+                    <div class="recommendation-desc">تنظيف الأسنان مرتين يومياً واستخدام خيط الأسنان</div>
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="recommendation-icon">🩹</div>
+                <div class="recommendation-text">
+                    <div class="recommendation-title">علاج التسوس</div>
+                    <div class="recommendation-desc">قد تحتاج إلى حشوات أسنان</div>
+                </div>
+            </div>
+
+            <div class="recommendation-item">
+                <div class="recommendation-icon">💊</div>
+                <div class="recommendation-text">
+                    <div class="recommendation-title">علاج اللثة</div>
+                    <div class="recommendation-desc">تنظيف اللثة المهني وربما علاج اللثة</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 32px;">
+            <button class="btn btn-patient btn-lg" onclick="router.navigate('/patient/suggestions')">
+                البحث عن طالب أو دكتور ←
+            </button>
+        </div>
+    </div>
+</div>

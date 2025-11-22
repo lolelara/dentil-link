@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4CAF50">
+    <title>تسجيل مريض - DentLink Mobile</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/mobile-design-system.css">
+    <link rel="stylesheet" href="../css/mobile-animations.css">
+
+    <style>
+        body {
+            background: var(--bg-secondary);
+            padding-bottom: 80px;
+        }
+
+        .top-bar {
+            background: var(--primary);
+            color: white;
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: var(--text-2xl);
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        .form-container {
+            padding: var(--space-4);
+        }
+
+        .form-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            font-size: var(--text-sm);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 2px solid #E0E0E0;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            transition: all var(--transition-base);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-8) var(--space-4);
+            text-align: center;
+            background: var(--primary-lighter);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .upload-area:active {
+            transform: scale(0.98);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-3);
+            animation: uploadIcon 0.5s ease-out;
+        }
+
+        .upload-text {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-3);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-family: var(--font-heading);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-4);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E0E0E0;
+            transition: all var(--transition-base);
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+        }
+
+        .pain-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(to right, #4CAF50, #FFC107, #F44336);
+            outline: none;
+        }
+
+        .pain-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+        }
+
+        .pain-value {
+            text-align: center;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: var(--space-3);
+        }
+    </style>
+</head>
+
+<body class="slide-from-right">
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <button class="back-btn" onclick="window.history.back()">←</button>
+        <h2 style="margin: 0; flex: 1;">تسجيل حالة جديدة</h2>
+    </div>
+
+    <!-- Progress Dots -->
+    <div class="progress-dots">
+        <div class="dot active" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+        <div class="dot" id="dot3"></div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <form id="patientForm">
+            <!-- Step 1: Personal Info -->
+            <div class="form-step active fade-in" id="step1">
+                <div class="form-card">
+                    <h3 style="margin-bottom: var(--space-5); color: var(--text-primary);">المعلومات الشخصية</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل *</label>
+                        <input type="text" class="form-input" id="fullName" required placeholder="أدخل اسمك الكامل">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">العمر *</label>
+                        <input type="number" class="form-input" id="age" required placeholder="أدخل عمرك" min="1"
+                            max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف *</label>
+                        <input type="tel" class="form-input" id="phone" required placeholder="05XXXXXXXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">المدينة *</label>
+                        <input type="text" class="form-input" id="location" required placeholder="مثال: الرياض">
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary btn-ripple" onclick="nextStep(2)">
+                    <span>التالي →</span>
+                </button>
+            </div>
+
+            <!-- Step 2: Symptoms -->
+            <div class="form-step" id="step2" style="display: none;">
+                <div class="form-card">
+                    <h3 style="margin-bottom: var(--space-5); color: var(--text-primary);">الأعراض والشكوى</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">ما هي شكواك الرئيسية؟ *</label>
+                        <textarea class="form-input" id="symptoms" style="min-height: 100px; resize: vertical;" required
+                            placeholder="صف الألم أو المشكلة..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">مستوى الألم (1-10)</label>
+                        <input type="range" class="pain-slider" id="painLevel" min="1" max="10" value="5"
+                            oninput="updatePainValue(this.value)">
+                        <div class="pain-value" id="painValue">5</div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary btn-ripple" onclick="nextStep(3)">
+                    <span>التالي →</span>
+                </button>
+            </div>
+
+            <!-- Step 3: Photo Upload -->
+            <div class="form-step" id="step3" style="display: none;">
+                <div class="form-card">
+                    <h3 style="margin-bottom: var(--space-5); color: var(--text-primary);">رفع صورة الحالة</h3>
+
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;"
+                        onchange="handlePhotoUpload(event)">
+                    <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">اضغط لرفع صورة للسن أو اللثة</div>
+                    </div>
+                    <img id="imagePreview" class="image-preview" style="display: none;">
+                </div>
+
+                <button type="submit" class="btn-primary btn-ripple">
+                    <span>إرسال وتشخيص الحالة ✓</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            // Hide current step
+            document.getElementById('step' + currentStep).style.display = 'none';
+
+            // Show next step with animation
+            const nextStepEl = document.getElementById('step' + step);
+            nextStepEl.style.display = 'block';
+            nextStepEl.classList.add('slide-from-right');
+
+            // Update progress dots
+            document.getElementById('dot' + currentStep).classList.remove('active');
+            document.getElementById('dot' + step).classList.add('active');
+
+            currentStep = step;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updatePainValue(value) {
+            document.getElementById('painValue').textContent = value;
+            document.getElementById('painValue').classList.add('bounce');
+            setTimeout(() => {
+                document.getElementById('painValue').classList.remove('bounce');
+            }, 300);
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    preview.classList.add('fade-in');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('patientForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show loading state
+            const btn = document.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span>جاري التحليل... <div class="spinner" style="display: inline-block; width: 16px; height: 16px; border: 2px solid white; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div></span>';
+            btn.disabled = true;
+
+            // Simulate AI processing
+            setTimeout(() => {
+                window.location.href = 'patient-diagnosis.html';
+            }, 2000);
+        });
+
+        // Add ripple effect
+        document.querySelectorAll('.btn-ripple').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                ripple.style.width = ripple.style.height = '100px';
+                ripple.style.left = e.clientX - rect.left - 50 + 'px';
+                ripple.style.top = e.clientY - rect.top - 50 + 'px';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body>
+
+</html>

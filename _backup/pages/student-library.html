@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Library - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .container-main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .filters-panel {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            border-color: var(--student-start);
+            outline: none;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .library-case-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .library-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--student-start);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .case-number {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .case-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-level1 {
+            background: #dcfce7;
+            color: #065f46;
+        }
+
+        .badge-level2 {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-level3 {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .case-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .case-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .case-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-count {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="🔍 البحث عن حالات... (اسم، نوع، رقم)"
+            oninput="filterCases()">
+        <button class="btn btn-secondary">فلتر متقدم</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-panel">
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">فلترة النتائج</h3>
+        <div class="filters-grid">
+            <div class="form-group">
+                <label class="form-label">المستوى</label>
+                <select class="form-input" onchange="filterCases()">
+                    <option value="">الكل</option>
+                    <option value="level1">Level 1 - بسيط</option>
+                    <option value="level2">Level 2 - متوسط</option>
+                    <option value="level3">Level 3 - متقدم</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">السنة</label>
+                <select class="form-input" onchange="filterCases()">
+                    <option value="">الكل</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">التخصص</label>
+                <select class="form-input" onchange="filterCases()">
+                    <option value="">الكل</option>
+                    <option value="endo">Endodontics</option>
+                    <option value="resto">Restorative</option>
+                    <option value="pros">Prosthodontics</option>
+                    <option value="perio">Periodontics</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">التقييم</label>
+                <select class="form-input" onchange="filterCases()">
+                    <option value="">الكل</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Count -->
+    <div style="margin-bottom: 16px; color: var(--gray-600);">
+        <strong>487 حالة</strong> في المكتبة
+    </div>
+
+    <!-- Cases Grid -->
+    <div class="cases-grid">
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2024-195</div>
+                </div>
+                <span class="case-badge badge-level2">Level 2</span>
+            </div>
+            <div class="case-title">Root Canal Treatment #36</div>
+            <div class="case-meta">
+                <span>📅 22 يناير 2024</span>
+                <span>⭐ 5.0</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>محمد علي</strong> • السنة الرابعة
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 234 مشاهدة
+            </div>
+        </div>
+
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2024-188</div>
+                </div>
+                <span class="case-badge badge-level3">Level 3</span>
+            </div>
+            <div class="case-title">Crown Preparation #26</div>
+            <div class="case-meta">
+                <span>📅 18 يناير 2024</span>
+                <span>⭐ 4.9</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>فاطمة محمد</strong> • السنة الرابعة
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 189 مشاهدة
+            </div>
+        </div>
+
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2024-177</div>
+                </div>
+                <span class="case-badge badge-level1">Level 1</span>
+            </div>
+            <div class="case-title">Composite Restoration #14</div>
+            <div class="case-meta">
+                <span>📅 12 يناير 2024</span>
+                <span>⭐ 4.8</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>أحمد محمود</strong> • السنة الثالثة
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 312 مشاهدة
+            </div>
+        </div>
+
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2024-165</div>
+                </div>
+                <span class="case-badge badge-level2">Level 2</span>
+            </div>
+            <div class="case-title">Scaling & Polishing</div>
+            <div class="case-meta">
+                <span>📅 8 يناير 2024</span>
+                <span>⭐ 4.7</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>سارة أحمد</strong> • السنة الثالثة
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 278 مشاهدة
+            </div>
+        </div>
+
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2024-152</div>
+                </div>
+                <span class="case-badge badge-level3">Level 3</span>
+            </div>
+            <div class="case-title">Tooth Extraction - Impacted #38</div>
+            <div class="case-meta">
+                <span>📅 2 يناير 2024</span>
+                <span>⭐ 5.0</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>يوسف حسن</strong> • السنة الرابعة
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 456 مشاهدة
+            </div>
+        </div>
+
+        <div class="library-case-card" onclick="alert('فتح تفاصيل الحالة...')">
+            <div class="case-header">
+                <div>
+                    <div class="case-number">CS-2023-998</div>
+                </div>
+                <span class="case-badge badge-level1">Level 1</span>
+            </div>
+            <div class="case-title">Amalgam Filling #47</div>
+            <div class="case-meta">
+                <span>📅 28 ديسمبر 2023</span>
+                <span>⭐ 4.6</span>
+            </div>
+            <div style="margin-bottom: 16px; font-size: 14px; color: var(--gray-600);">
+                By <strong>نور خالد</strong> • السنة الثانية
+            </div>
+            <div class="case-actions">
+                <button class="btn btn-sm btn-primary flex-1" onclick="event.stopPropagation(); viewDetails()">👁️
+                    عرض</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم الحفظ!')">💾</button>
+                <button class="btn btn-sm btn-secondary"
+                    onclick="event.stopPropagation(); alert('تم النسخ!')">📋</button>
+            </div>
+            <div class="view-count" style="margin-top: 12px;">
+                👁️ 198 مشاهدة
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function filterCases() {
+            // In a real implementation, this would filter the cases based on selected criteria
+            console.log('Filtering cases...');
+        }
+
+        function viewDetails() {
+            window.location.href = 'case-view.html';
+        }
+    </script>
+</body>
+
+</html>

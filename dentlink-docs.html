@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentLink - الوثائق الشاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4CAF50;
+            --secondary: #03A9F4;
+            --accent: #FF9800;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-icon {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a2e;
+        }
+
+        .card p {
+            color: #666;
+        }
+
+        .feature-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .feature-box h3 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+        }
+
+        .feature-content ul {
+            list-style: none;
+            padding-right: 1rem;
+        }
+
+        .feature-content li {
+            padding: 0.8rem 0;
+            padding-right: 2rem;
+            position: relative;
+            color: #555;
+        }
+
+        .feature-content li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🦷</div>
+            <h1>DentLink</h1>
+            <p>مستقبل طب الأسنان بالذكاء الاصطناعي</p>
+            <div>
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> Web Demo
+                </a>
+                <a href="mobile/index.html" class="btn btn-outline">
+                    <i class="fas fa-mobile-alt"></i> Mobile Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">المشكلة والحل</h2>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>مشكلة الطلاب</h3>
+                <p>نقص الحالات العملية للتدريب وصعوبة إيجاد مرضى راغبين</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-user-injured"></i></div>
+                <h3>مشكلة المرضى</h3>
+                <p>تكاليف العلاج المرتفعة وصعوبة الوصول للخدمات</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-user-md"></i></div>
+                <h3>مشكلة الأطباء</h3>
+                <p>صعوبة تنظيم الحالات وتقييم الطلاب</p>
+            </div>
+        </div>
+
+        <div class="feature-box"
+            style="margin-top: 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h3 style="color: white; text-align: center; font-size: 2rem;">✨ الحل - DentLink</h3>
+            <p style="text-align: center; font-size: 1.2rem; margin-top: 1rem;">
+                منصة ذكية شاملة تربط المرضى بطلاب طب الأسنان والأطباء من خلال الذكاء الاصطناعي
+            </p>
+        </div>
+    </section>
+
+    <section class="section" style="background: linear-gradient(to bottom, #f8f9fa, white);">
+        <h2 class="section-title">المميزات الأساسية</h2>
+
+        <div class="feature-box">
+            <div class="feature-header">
+                <div class="feature-number">1</div>
+                <h3><i class="fas fa-user-injured"></i> للمرضى</h3>
+            </div>
+            <div class="feature-content">
+                <ul>
+                    <li><strong>تشخيص AI فوري:</strong> دقة 85%+ في التشخيص الأولي</li>
+                    <li><strong>ربط ذكي:</strong> اقتراح أقرب طالب/طبيب/عيادة</li>
+                    <li><strong>متابعة ذكية:</strong> تذكير وإرشادات</li>
+                    <li><strong>واقع معزز AR:</strong> معاينة نتائج العلاج</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-header">
+                <div class="feature-number">2</div>
+                <h3><i class="fas fa-user-graduate"></i> للطلاب</h3>
+            </div>
+            <div class="feature-content">
+                <ul>
+                    <li><strong>حالات Uber-style:</strong> Accept/Decline للحالات</li>
+                    <li><strong>Portfolio احترافي:</strong> سجل كامل مع تقييمات</li>
+                    <li><strong>Gamification:</strong> XP، Badges، Leaderboards</li>
+                    <li><strong>محاكاة 3D:</strong> تدريب تفاعلي</li>
+                    <li><strong>Mentorship:</strong> دردشة مع الدكتور</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-header">
+                <div class="feature-number">3</div>
+                <h3><i class="fas fa-user-md"></i> للأطباء</h3>
+            </div>
+            <div class="feature-content">
+                <ul>
+                    <li><strong>إدارة العيادات:</strong> تنظيم الحالات والطلاب</li>
+                    <li><strong>تقييم سريع:</strong> قوالب جاهزة للتقييم</li>
+                    <li><strong>مكتبة حالات:</strong> قاعدة بيانات ضخمة</li>
+                    <li><strong>AI Analytics:</strong> تحليلات ذكية</li>
+                    <li><strong>استشارات عن بعد:</strong> فحص عبر الفيديو</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-header">
+                <div class="feature-number">4</div>
+                <h3><i class="fas fa-shopping-cart"></i> المتجر الطبي</h3>
+            </div>
+            <div class="feature-content">
+                <ul>
+                    <li><strong>متجر متكامل:</strong> أدوات ومواد طبية</li>
+                    <li><strong>بوابة البائعين:</strong> عرض المنتجات</li>
+                    <li><strong>اقتراحات ذكية:</strong> AI يقترح الأدوات</li>
+                    <li><strong>تقييمات حقيقية:</strong> من مستخدمين فعليين</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">تقنيات الذكاء الاصطناعي</h2>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-robot"></i></div>
+                <h3>التشخيص الأولي</h3>
+                <p>تحليل الصور وتحديد المشكلة</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-link"></i></div>
+                <h3>الربط الذكي</h3>
+                <p>مطابقة مع أقرب مقدمي خدمة</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-clipboard-list"></i></div>
+                <h3>خطة العلاج</h3>
+                <p>اقتراح خطوات مثلى</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>التحليل التنبؤي</h3>
+                <p>توقع الطلب والاتجاهات</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+        <h2 class="section-title" style="color: white;">الأثر المتوقع</h2>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number">300%</div>
+                <div class="stat-label">زيادة في الحالات العملية</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">85%</div>
+                <div class="stat-label">دقة التشخيص</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">مجاني</div>
+                <div class="stat-label">تكلفة العلاج للمرضى</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">دعم ومساعدة</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">نقاط التميز الفريدة</h2>
+
+        <div class="feature-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+            <h3 style="color: white; text-align: center; font-size: 2rem; margin-bottom: 2rem;">
+                <i class="fas fa-star"></i> لا يوجد تطبيق آخر يجمع
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px;">
+                    <h4 style="color: white;">✓ AI + Smart Matching</h4>
+                    <p style="opacity: 0.9;">تشخيص وربط ذكي</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px;">
+                    <h4 style="color: white;">✓ نظام متكامل</h4>
+                    <p style="opacity: 0.9;">مريض → طالب → دكتور</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px;">
+                    <h4 style="color: white;">✓ Gamification</h4>
+                    <p style="opacity: 0.9;">تحفيز ومنافسة</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px;">
+                    <h4 style="color: white;">✓ شامل</h4>
+                    <p style="opacity: 0.9;">كل شيء في مكان واحد</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section"
+        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+        <h2 style="color: white; font-size: 3rem; margin-bottom: 2rem;">جاهز للانطلاق 🚀</h2>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">
+            DentLink - منصة تحول التعليم الطبي
+        </p>
+        <div>
+            <a href="index.html" class="btn btn-primary" style="font-size: 1.2rem;">
+                <i class="fas fa-play"></i> Web Demo
+            </a>
+            <a href="mobile/index.html" class="btn btn-outline" style="font-size: 1.2rem;">
+                <i class="fas fa-mobile-alt"></i> Mobile Demo
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <h3><i class="fas fa-tooth"></i> DentLink</h3>
+        <p>Connecting Smiles, Building Futures</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+            © 2025 DentLink. جميع الحقوق محفوظة.
+        </p>
+    </footer>
+</body>
+
+</html>

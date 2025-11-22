@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختر نوع الحساب - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+        }
+
+        .container-register {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 48px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .user-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .user-type-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .user-type-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 40px;
+        }
+
+        .card-icon.patient {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(6, 182, 212, 0.2));
+        }
+
+        .card-icon.student {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(245, 158, 11, 0.2));
+        }
+
+        .card-icon.faculty {
+            background: linear-gradient(135deg, rgba(67, 56, 202, 0.2), rgba(59, 130, 246, 0.2));
+        }
+
+        .card-icon.clinic {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+        }
+
+        .card-icon.marketplace {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(244, 63, 94, 0.2));
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+
+        .card-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: right;
+            margin-bottom: 24px;
+        }
+
+        .card-features li {
+            padding: 8px 0;
+            color: var(--gray-700);
+            font-size: 14px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .login-link {
+            text-align: center;
+            color: var(--white);
+            margin-top: 32px;
+        }
+
+        .login-link a {
+            color: var(--white);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-register">
+        <div class="header">
+            <div class="logo">🦷</div>
+            <h1 class="title">اختر نوع حسابك</h1>
+            <p class="subtitle">حدد الفئة المناسبة لك لبدء رحلتك مع DentLink</p>
+        </div>
+
+        <div class="user-types-grid">
+            <!-- Patient -->
+            <div class="user-type-card" onclick="location.href='patient/register.html'">
+                <div class="card-icon patient">👤</div>
+                <h3 class="card-title">مريض</h3>
+                <p class="card-description">
+                    احصل على تشخيص ذكي وعلاج بأسعار مناسبة
+                </p>
+                <ul class="card-features">
+                    <li>تشخيص AI فوري</li>
+                    <li>ربط ذكي مع الطلاب</li>
+                    <li>تكامل مع التأمين</li>
+                    <li>متابعة التقدم</li>
+                </ul>
+                <button class="btn btn-patient w-full">سجل كمريض</button>
+            </div>
+
+            <!-- Student -->
+            <div class="user-type-card" onclick="location.href='student-dashboard-v2.html'">
+                <div class="card-icon student">🎓</div>
+                <h3 class="card-title">طالب طب أسنان</h3>
+                <p class="card-description">
+                    احصل على حالات حقيقية وابنِ portfolio احترافي
+                </p>
+                <ul class="card-features">
+                    <li>حالات حقيقية</li>
+                    <li>نظام XP و Badges</li>
+                    <li>محاكاة 3D</li>
+                    <li>تواصل مع المشرفين</li>
+                </ul>
+                <button class="btn btn-student w-full">سجل كطالب</button>
+            </div>
+
+            <!-- Faculty -->
+            <div class="user-type-card" onclick="location.href='faculty/dashboard.html'">
+                <div class="card-icon faculty">👨‍⚕️</div>
+                <h3 class="card-title">دكتور/كلية</h3>
+                <p class="card-description">
+                    راقب الطلاب وحلل الأداء بتقنيات متقدمة
+                </p>
+                <ul class="card-features">
+                    <li>متابعة الطلاب</li>
+                    <li>تحليلات AI</li>
+                    <li>مكتبة حالات</li>
+                    <li>استشارات عن بُعد</li>
+                </ul>
+                <button class="btn btn-faculty w-full">سجل كدكتور</button>
+            </div>
+
+            <!-- Clinic -->
+            <div class="user-type-card" onclick="location.href='clinic/dashboard.html'">
+                <div class="card-icon clinic">🏥</div>
+                <h3 class="card-title">عيادة خاصة</h3>
+                <p class="card-description">
+                    استقبل المرضى وتعاون مع الطلاب
+                </p>
+                <ul class="card-features">
+                    <li>إحالة المرضى</li>
+                    <li>تحليلات الأداء</li>
+                    <li>تتبع الإيرادات</li>
+                    <li>تعليم مستمر</li>
+                </ul>
+                <button class="btn btn-clinic w-full">سجل كعيادة</button>
+            </div>
+
+            <!-- Marketplace Seller -->
+            <div class="user-type-card" onclick="location.href='marketplace/seller-portal.html'">
+                <div class="card-icon marketplace">🛒</div>
+                <h3 class="card-title">بائع معدات</h3>
+                <p class="card-description">
+                    بع المعدات والأدوات الطبية للطلاب
+                </p>
+                <ul class="card-features">
+                    <li>عرض المنتجات</li>
+                    <li>طلبات مباشرة</li>
+                    <li>تقييمات العملاء</li>
+                    <li>توصيل سريع</li>
+                </ul>
+                <button class="btn btn-marketplace w-full">سجل كبائع</button>
+            </div>
+        </div>
+
+        <div class="login-link">
+            لديك حساب بالفعل؟ <a href="login.html">سجل دخولك الآن</a>
+        </div>
+    </div>
+</body>
+
+</html>

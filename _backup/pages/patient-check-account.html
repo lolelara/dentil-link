@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق من الحساب - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%);
+        }
+
+        .check-container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            background: var(--patient-gradient);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .result-card {
+            display: none;
+            margin-top: 24px;
+            padding: 24px;
+            border-radius: 16px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .result-card.found {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border: 2px solid var(--success);
+        }
+
+        .result-card.not-found {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(249, 115, 22, 0.1));
+            border: 2px solid var(--warning);
+        }
+
+        .result-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .result-text {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+
+        .account-info {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-verified {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="check-container">
+        <div class="header">
+            <div class="icon">🔍</div>
+            <h1 class="title">تحقق من حسابك</h1>
+            <p class="subtitle">أدخل بريدك الإلكتروني أو رقم هاتفك للتحقق من وجود حساب</p>
+        </div>
+
+        <form id="checkForm">
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني أو رقم الهاتف</label>
+                <input type="text" class="form-input" id="emailOrPhone"
+                    placeholder="example@email.com أو +20 123 456 7890" required>
+            </div>
+
+            <button type="submit" class="btn btn-patient w-full btn-lg">
+                🔍 تحقق من الحساب
+            </button>
+        </form>
+
+        <!-- Account Found -->
+        <div class="result-card found" id="foundCard">
+            <div class="result-icon">✅</div>
+            <h3 class="result-title">تم العثور على حسابك!</h3>
+            <p class="result-text">مرحباً بعودتك! إليك معلومات حسابك</p>
+
+            <div class="account-info">
+                <div class="info-row">
+                    <span class="info-label">الاسم</span>
+                    <span class="info-value">محمد أحمد</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">البريد الإلكتروني</span>
+                    <span class="info-value">mohamed@email.com</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">تاريخ التسجيل</span>
+                    <span class="info-value">15 يناير 2024</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">الحالة</span>
+                    <span class="status-badge status-verified">✓ موثق</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">عدد الحالات</span>
+                    <span class="info-value">3 حالات</span>
+                </div>
+            </div>
+
+            <button class="btn btn-patient w-full" onclick="location.href='dashboard-complete.html'">
+                عرض لوحة التحكم →
+            </button>
+        </div>
+
+        <!-- Account Not Found -->
+        <div class="result-card not-found" id="notFoundCard">
+            <div class="result-icon">⚠️</div>
+            <h3 class="result-title">لم يتم العثور على حساب</h3>
+            <p class="result-text">لا يوجد حساب مسجل بهذا البريد أو الرقم</p>
+
+            <button class="btn btn-patient w-full" onclick="location.href='register.html'">
+                إنشاء حساب جديد
+            </button>
+
+            <div style="text-align: center; margin-top: 16px;">
+                <button class="btn btn-ghost" onclick="resetForm()">
+                    جرب رقم آخر
+                </button>
+            </div>
+        </div>
+
+        <div class="register-link" style="text-align: center; margin-top: 24px; color: var(--gray-600);">
+            تذكرت معلومات الدخول؟ <a href="../login.html" class="text-primary">سجل دخولك</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('checkForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const input = document.getElementById('emailOrPhone').value;
+
+            // Simulate account check
+            // In real app, this would call an API
+            setTimeout(() => {
+                // Hide form
+                document.getElementById('checkForm').style.display = 'none';
+
+                // Simulate: if contains certain keywords, show found, else not found
+                if (input.includes('mohamed') || input.includes('123')) {
+                    document.getElementById('foundCard').style.display = 'block';
+                } else {
+                    document.getElementById('notFoundCard').style.display = 'block';
+                }
+            }, 1000);
+        });
+
+        function resetForm() {
+            document.getElementById('checkForm').style.display = 'block';
+            document.getElementById('foundCard').style.display = 'none';
+            document.getElementById('notFoundCard').style.display = 'none';
+            document.getElementById('emailOrPhone').value = '';
+        }
+    </script>
+</body>
+
+</html>

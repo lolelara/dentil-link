@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل طالب - DentLink</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <style>
+        .registration-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--bg-secondary);
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+            background: white;
+            padding: 0 1rem;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-dark);
+        }
+
+        .upload-area.has-file {
+            border-color: var(--success);
+            background: var(--success-50);
+        }
+
+        .preview-img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            margin: 1rem auto;
+            display: block;
+        }
+
+        .verification-status {
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .status-processing {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .status-verified {
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            color: white;
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .verification-details {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--success);
+            font-size: 1.5rem;
+            animation: checkPop 0.5s ease-out;
+        }
+
+        @keyframes checkPop {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">🦷 DentLink</a>
+            <div class="navbar-links">
+                <a href="../index.html">الرئيسية</a>
+                <a href="student-register.html" class="active">تسجيل طالب</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="registration-container">
+        <div class="hero-mini" style="text-align: center; margin-bottom: 3rem;">
+            <h1>تسجيل طالب جديد</h1>
+            <p>نظام تحقق ذكي مع OCR + Face Matching + التحقق من الجامعة</p>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">البيانات الأساسية</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">بيانات الجامعة</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">التحقق من الهوية</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">المراجعة والتأكيد</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <div class="form-section active" data-section="1">
+            <div class="card">
+                <h2 style="margin-bottom: 2rem;">البيانات الأساسية</h2>
+
+                <div class="form-group">
+                    <label>الاسم الكامل *</label>
+                    <input type="text" id="fullName" class="form-input" placeholder="مثال: أحمد محمد العتيبي" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>تاريخ الميلاد *</label>
+                        <input type="date" id="birthDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الجنس</label>
+                        <select id="gender" class="form-input">
+                            <option value="">اختياري</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">أنثى</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>رقم الموبايل *</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="05XXXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني *</label>
+                        <input type="email" id="email" class="form-input" placeholder="example@university.edu.sa"
+                            required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>كلمة المرور *</label>
+                        <input type="password" id="password" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>تأكيد كلمة المرور *</label>
+                        <input type="password" id="confirmPassword" class="form-input" required>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextStep(1)" style="width: 100%; margin-top: 2rem;">
+                    التالي ←
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: University Info -->
+        <div class="form-section" data-section="2">
+            <div class="card">
+                <h2 style="margin-bottom: 2rem;">بيانات الجامعة</h2>
+
+                <div class="form-group">
+                    <label>الجامعة *</label>
+                    <select id="university" class="form-input" required>
+                        <option value="">اختر الجامعة</option>
+                        <option value="ksu">جامعة الملك سعود</option>
+                        <option value="kau">جامعة الملك عبدالعزيز</option>
+                        <option value="iau">جامعة الإمام عبدالرحمن</option>
+                        <option value="qu">جامعة القصيم</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الكلية *</label>
+                    <input type="text" id="college" class="form-input" value="كلية طب الأسنان" readonly>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>السنة الدراسية *</label>
+                        <select id="year" class="form-input" required>
+                            <option value="">اختر السنة</option>
+                            <option value="1">السنة الأولى</option>
+                            <option value="2">السنة الثانية</option>
+                            <option value="3">السنة الثالثة</option>
+                            <option value="4">السنة الرابعة</option>
+                            <option value="5">السنة الخامسة</option>
+                            <option value="6">الامتياز</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم هوية الكلية *</label>
+                        <input type="text" id="collegeId" class="form-input" placeholder="مثال: 441234567" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="prevStep(2)" style="flex: 1;">
+                        ← السابق
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep(2)" style="flex: 2;">
+                        التالي ←
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: ID Verification -->
+        <div class="form-section" data-section="3">
+            <div class="card">
+                <h2 style="margin-bottom: 2rem;">🔐 التحقق من الهوية</h2>
+
+                <div style="background: var(--primary-50); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ما نحتاجه للتحقق:</h3>
+                    <ul style="list-style: none; padding: 0; color: var(--primary-dark);">
+                        <li style="padding: 0.5rem 0;">✓ صورة الكارنيه (الوجه الأمامي والخلفي)</li>
+                        <li style="padding: 0.5rem 0;">✓ صورة سيلفي واضحة لمطابقة الوجه</li>
+                        <li style="padding: 0.5rem 0;">✓ التحقق من الجامعة (تلقائي)</li>
+                    </ul>
+                </div>
+
+                <!-- College ID Upload -->
+                <div class="form-group">
+                    <label>صورة الكارنيه - الوجه الأمامي *</label>
+                    <div class="upload-area" id="idFrontArea" onclick="document.getElementById('idFront').click()">
+                        <div id="idFrontPreview">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                            <p style="margin: 0; color: var(--primary);">اضغط لرفع صورة الكارنيه (الوجه الأمامي)</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">JPG, PNG -
+                                حجم أقصى 5MB</p>
+                        </div>
+                    </div>
+                    <input type="file" id="idFront" accept="image/*" style="display: none;"
+                        onchange="handleFileUpload('idFront')">
+                </div>
+
+                <div class="form-group">
+                    <label>صورة الكارنيه - الوجه الخلفي *</label>
+                    <div class="upload-area" id="idBackArea" onclick="document.getElementById('idBack').click()">
+                        <div id="idBackPreview">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                            <p style="margin: 0; color: var(--primary);">اضغط لرفع صورة الكارنيه (الوجه الخلفي)</p>
+                        </div>
+                    </div>
+                    <input type="file" id="idBack" accept="image/*" style="display: none;"
+                        onchange="handleFileUpload('idBack')">
+                </div>
+
+                <!-- Selfie Upload -->
+                <div class="form-group">
+                    <label>صورة سيلفي للتحقق *</label>
+                    <div class="upload-area" id="selfieArea" onclick="document.getElementById('selfie').click()">
+                        <div id="selfiePreview">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🤳</div>
+                            <p style="margin: 0; color: var(--primary);">اضغط لالتقاط أو رفع صورة سيلفي</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">تأكد من وضوح
+                                الوجه والإضاءة الجيدة</p>
+                        </div>
+                    </div>
+                    <input type="file" id="selfie" accept="image/*" capture="user" style="display: none;"
+                        onchange="handleFileUpload('selfie')">
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="prevStep(3)" style="flex: 1;">
+                        ← السابق
+                    </button>
+                    <button class="btn btn-primary" onclick="startVerification()" style="flex: 2;">
+                        بدء التحقق ←
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Verification & Review -->
+        <div class="form-section" data-section="4">
+            <div class="card">
+                <h2 style="margin-bottom: 2rem;">المراجعة والتحقق</h2>
+
+                <!-- Verification Processing -->
+                <div id="verificationProcessing" class="verification-status status-processing">
+                    <div class="spinner"></div>
+                    <h3 style="margin-bottom: 1rem;">🔍 جاري التحقق...</h3>
+                    <p id="verificationStep">قراءة بيانات الكارنيه باستخدام OCR...</p>
+                </div>
+
+                <!-- Verification Results (hidden initially) -->
+                <div id="verificationResults" style="display: none;">
+                    <div class="verification-status status-verified">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                        <h2>تم التحقق بنجاح!</h2>
+                        <p style="margin-top: 1rem; font-size: 1.1rem;">جميع البيانات صحيحة ومطابقة</p>
+                    </div>
+
+                    <div class="verification-details">
+                        <h3 style="margin-bottom: 1.5rem;">📋 نتائج التحقق</h3>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>1. قراءة OCR للكارنيه</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    تم استخراج البيانات بنجاح
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>2. مطابقة الوجه (Face Matching)</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    نسبة التطابق: <span style="color: var(--success); font-weight: 700;">96%</span>
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>3. التحقق من الجامعة</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    الطالب مقيد في جامعة الملك سعود - السنة الرابعة
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>4. صحة البيانات</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    جميع الحقول مطابقة للسجلات الرسمية
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--success-50); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" id="acceptTerms" style="width: 20px; height: 20px;">
+                            <span>أوافق على الشروط والأحكام وسياسة الخصوصية</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="completeRegistration()"
+                        style="width: 100%; margin-top: 2rem; font-size: 1.1rem; padding: 1.2rem;">
+                        إتمام التسجيل ✓
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 DentLink. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+        const uploadedFiles = {};
+
+        function nextStep(step) {
+            // Basic validation
+            if (step === 1) {
+                if (!document.getElementById('fullName').value ||
+                    !document.getElementById('phone').value ||
+                    !document.getElementById('email').value) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+            }
+
+            if (step === 2) {
+                if (!document.getElementById('university').value ||
+                    !document.getElementById('year').value ||
+                    !document.getElementById('collegeId').value) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+            }
+                        <h2>تم التحقق بنجاح!</h2>
+                        <p style="margin-top: 1rem; font-size: 1.1rem;">جميع البيانات صحيحة ومطابقة</p>
+                    </div >
+
+                    <div class="verification-details">
+                        <h3 style="margin-bottom: 1.5rem;">📋 نتائج التحقق</h3>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>1. قراءة OCR للكارنيه</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    تم استخراج البيانات بنجاح
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>2. مطابقة الوجه (Face Matching)</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    نسبة التطابق: <span style="color: var(--success); font-weight: 700;">96%</span>
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>3. التحقق من الجامعة</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    الطالب مقيد في جامعة الملك سعود - السنة الرابعة
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+
+                        <div class="detail-row">
+                            <div>
+                                <strong>4. صحة البيانات</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                    جميع الحقول مطابقة للسجلات الرسمية
+                                </p>
+                            </div>
+                            <div class="check-icon">✓</div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--success-50); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                        <label style="display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" id="acceptTerms" style="width: 20px; height: 20px;">
+                            <span>أوافق على الشروط والأحكام وسياسة الخصوصية</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="completeRegistration()"
+                        style="width: 100%; margin-top: 2rem; font-size: 1.1rem; padding: 1.2rem;">
+                        إتمام التسجيل ✓
+                    </button>
+                </div >
+            </div >
+        </div >
+    </div >
+
+    <footer class="footer">
+        <p>&copy; 2024 DentLink. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+        const uploadedFiles = {};
+
+        function nextStep(step) {
+            // Basic validation
+            if (step === 1) {
+                if (!document.getElementById('fullName').value ||
+                    !document.getElementById('phone').value ||
+                    !document.getElementById('email').value) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+            }
+
+            if (step === 2) {
+                if (!document.getElementById('university').value ||
+                    !document.getElementById('year').value ||
+                    !document.getElementById('collegeId').value) {
+                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                    return;
+                }
+            }
+
+            currentStep = step + 1;
+            updateSteps();
+        }
+
+        function prevStep(step) {
+            currentStep = step - 1;
+            updateSteps();
+        }
+
+        function updateSteps() {
+            // Update step indicator
+            document.querySelectorAll('.step').forEach(step => {
+                const stepNum = parseInt(step.dataset.step);
+                step.classList.remove('active', 'completed');
+
+                if (stepNum === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+
+            // Update form sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelector(`[data - section= "${currentStep}"]`).classList.add('active');
+        }
+
+        function handleFileUpload(inputId) {
+            const input = document.getElementById(inputId);
+            const file = input.files[0];
+
+            if (file) {
+                uploadedFiles[inputId] = file;
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const previewArea = document.getElementById(inputId + 'Preview');
+                    const uploadArea = document.getElementById(inputId + 'Area');
+
+                    previewArea.innerHTML = `
+                    < img src = "${e.target.result}" class="preview-img" alt = "Preview" >
+                        <p style="color: var(--success); font-weight: 600; margin-top: 1rem;">✓ تم الرفع بنجاح</p>
+                    `;
+                    uploadArea.classList.add('has-file');
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function startVerification() {
+            if (!uploadedFiles.idFront || !uploadedFiles.idBack || !uploadedFiles.selfie) {
+                alert('الرجاء رفع جميع الصور المطلوبة');
+                return;
+            }
+
+            currentStep = 4;
+            updateSteps();
+
+            // Simulate verification process
+            const steps = [
+                'قراءة بيانات الكارنيه باستخدام OCR...',
+                'استخراج: الاسم، الرقم الجامعي، السنة، الكلية...',
+                'مطابقة الوجه بين الصورة الشخصية والسيلفي...',
+                'التواصل مع قاعدة بيانات الجامعة...',
+                'التحقق من صحة البيانات...',
+                'إتمام عملية التحقق...'
+            ];
+
+            let stepIndex = 0;
+            const stepElement = document.getElementById('verificationStep');
+
+            const interval = setInterval(() => {
+                stepElement.textContent = steps[stepIndex];
+                stepIndex++;
+
+                if (stepIndex >= steps.length) {
+                    clearInterval(interval);
+                    setTimeout(showVerificationResults, 1000);
+                }
+            }, 1500);
+        }
+
+        function showVerificationResults() {
+            document.getElementById('verificationProcessing').style.display = 'none';
+            document.getElementById('verificationResults').style.display = 'block';
+        }
+
+        function completeRegistration() {
+            if (!document.getElementById('acceptTerms').checked) {
+                alert('الرجاء الموافقة على الشروط والأحكام');
+                return;
+            }
+
+            // Save registration data
+            const registrationData = {
+                name: document.getElementById('fullName')?.value || 'أحمد العتيبي',
+                email: document.getElementById('email')?.value || 'ahmed@ksu.edu.sa',
+                university: document.getElementById('university')?.value || 'ksu',
+                year: document.getElementById('year')?.value || '4'
+            };
+           localStorage.setItem('studentData', JSON.stringify(registrationData));
+
+            alert('🎉 تم التسجيل بنجاح!\n\nمرحباً بك في DentLink\nسيتم توجيهك إلى لوحة التحكم.');
+
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'student-dashboard.html?new=true';
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>
+```

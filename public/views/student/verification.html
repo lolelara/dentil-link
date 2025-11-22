@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق من الحساب - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #F97316 0%, #F59E0B 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .verification-container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .verification-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .status-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--student-gradient);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 24px;
+            animation: pulse 2s infinite;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .verification-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verification-item {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .verification-item.success {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-badge.success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .status-badge.processing {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        .data-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .data-column {
+            background: var(--white);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .column-title {
+            font-size: 12px;
+            color: var(--gray-600);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .data-row {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .match-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--success-light);
+            border-radius: 12px;
+        }
+
+        .match-indicator.matched {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .progress-container {
+            margin: 24px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .progress {
+            height: 12px;
+        }
+
+        .final-status {
+            background: var(--success);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .final-status-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .final-status-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .final-status-text {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="verification-container">
+        <div class="verification-card">
+            <div class="header">
+                <div class="status-icon" id="statusIcon">🔄</div>
+                <h1 class="title" id="mainTitle">جارٍ التحقق من بياناتك...</h1>
+                <p class="subtitle" id="mainSubtitle">قد تستغرق هذه العملية بضع ثوانٍ</p>
+            </div>
+
+            <!-- OCR Verification -->
+            <div class="verification-section" id="ocrSection" style="display: none;">
+                <h3 class="section-title">
+                    <span>🔍</span>
+                    <span>قراءة بيانات الكارنيه (OCR)</span>
+                </h3>
+
+                <div class="verification-item success">
+                    <div class="item-header">
+                        <div class="item-title">تحليل الكارنيه الجامعي</div>
+                        <div class="status-badge success">✓ تم بنجاح</div>
+                    </div>
+
+                    <div class="data-comparison">
+                        <div class="data-column">
+                            <div class="column-title">📝 البيانات المدخَلة</div>
+                            <div class="data-row">
+                                <div class="data-label">الاسم</div>
+                                <div class="data-value" id="inputName">أحمد محمد علي</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">رقم الهوية</div>
+                                <div class="data-value" id="inputId">2020301234</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">الجامعة</div>
+                                <div class="data-value">جامعة القاهرة</div>
+                            </div>
+                        </div>
+
+                        <div class="data-column">
+                            <div class="column-title">🤖 البيانات المستخرجة (OCR)</div>
+                            <div class="data-row">
+                                <div class="data-label">الاسم</div>
+                                <div class="data-value">أحمد محمد علي</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">رقم الهوية</div>
+                                <div class="data-value">2020301234</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">الجامعة</div>
+                                <div class="data-value">جامعة القاهرة</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="match-indicator matched">
+                        <span>✓</span>
+                        <span><strong>مطابقة كاملة!</strong> البيانات المدخلة تطابق البيانات الموجودة في الكارنيه</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Face Matching -->
+            <div class="verification-section" id="faceSection" style="display: none;">
+                <h3 class="section-title">
+                    <span>👤</span>
+                    <span>التحقق من مطابقة الوجه</span>
+                </h3>
+
+                <div class="verification-item success">
+                    <div class="item-header">
+                        <div class="item-title">مقارنة الوجه في الكارنيه مع السيلفي</div>
+                        <div class="status-badge success">✓ مطابق</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>نسبة التطابق</span>
+                            <span id="matchPercentage">96%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" id="matchProgress" style="width: 0%; background: var(--success);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="match-indicator matched">
+                        <span>✓</span>
+                        <span><strong>تطابق عالي!</strong> الوجه في صورة السيلفي يطابق الوجه في الكارنيه بنسبة
+                            96%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- College Verification -->
+            <div class="verification-section" id="collegeSection" style="display: none;">
+                <h3 class="section-title">
+                    <span>🎓</span>
+                    <span>التحقق من الكلية</span>
+                </h3>
+
+                <div class="verification-item success">
+                    <div class="item-header">
+                        <div class="item-title">التحقق من بيانات الطالب مع الكلية</div>
+                        <div class="status-badge success">✓ موثق</div>
+                    </div>
+
+                    <div style="padding: 16px; background: var(--white); border-radius: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <span style="font-size: 24px;">🏛️</span>
+                            <div>
+                                <div style="font-weight: 700;">كلية طب الأسنان - جامعة القاهرة</div>
+                                <div style="font-size: 14px; color: var(--gray-600);">تم التحقق بنجاح</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 14px; color: var(--gray-700); line-height: 1.6;">
+                            • الطالب مسجل بالسنة الخامسة<br>
+                            • حالة القيد: نشط<br>
+                            • لا توجد مخالفات أكاديمية
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Status -->
+            <div id="finalStatus" style="display: none;">
+                <div class="final-status">
+                    <div class="final-status-icon">✅</div>
+                    <div class="final-status-title">تم التحقق بنجاح!</div>
+                    <div class="final-status-text">
+                        حسابك الآنموثق ومفعّل. يمكنك الآن البدء في قبول الحالات
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="btn btn-student btn-lg" onclick="location.href='dashboard.html'">
+                        انتقل إلى لوحة التحكم ←
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get data from localStorage
+        const userName = localStorage.getItem('userName') || 'أحمد محمد علي';
+        const studentId = localStorage.getItem('studentId') || '2020301234';
+
+        document.getElementById('inputName').textContent = userName;
+        document.getElementById('inputId').textContent = studentId;
+
+        // Simulate verification process
+        let currentStep = 0;
+        const steps = [
+            {
+                delay: 2000,
+                action: () => {
+                    document.getElementById('ocrSection').style.display = 'block';
+                    document.getElementById('ocrSection').style.animation = 'fadeIn 0.6s ease-out';
+                }
+            },
+            {
+                delay: 3000,
+                action: () => {
+                    document.getElementById('faceSection').style.display = 'block';
+                    document.getElementById('faceSection').style.animation = 'fadeIn 0.6s ease-out';
+
+                    // Animate match percentage
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 2;
+                        if (progress >= 96) {
+                            clearInterval(interval);
+                            progress = 96;
+                        }
+                        document.getElementById('matchProgress').style.width = progress + '%';
+                        document.getElementById('matchPercentage').textContent = progress + '%';
+                    }, 30);
+                }
+            },
+            {
+                delay: 4000,
+                action: () => {
+                    document.getElementById('collegeSection').style.display = 'block';
+                    document.getElementById('collegeSection').style.animation = 'fadeIn 0.6s ease-out';
+                }
+            },
+            {
+                delay: 2000,
+                action: () => {
+                    document.getElementById('statusIcon').textContent = '✅';
+                    document.getElementById('statusIcon').style.background = var(--success);
+                    document.getElementById('mainTitle').textContent = 'تم التحقق بنجاح!';
+                    document.getElementById('mainSubtitle').textContent = 'جميع البيانات صحيحة وموثقة';
+                    document.getElementById('finalStatus').style.display = 'block';
+                    document.getElementById('finalStatus').style.animation = 'fadeIn 0.6s ease-out';
+
+                    // Save verification status
+                    localStorage.setItem('verified', 'true');
+                }
+            }
+        ];
+
+        let totalDelay = 0;
+        steps.forEach(step => {
+            totalDelay += step.delay;
+            setTimeout(step.action, totalDelay);
+        });
+    </script>
+</body>
+
+</html>

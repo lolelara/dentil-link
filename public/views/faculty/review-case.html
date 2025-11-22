@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مراجعة الحالة - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .review-container {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .review-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left: Student Submission */
+        .submission-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+
+        .student-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .student-avatar-lg {
+            width: 64px;
+            height: 64px;
+            background: var(--gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .media-preview {
+            aspect-ratio: 4/3;
+            background: var(--gray-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--gray-400);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .media-preview:hover::after {
+            content: '🔍 تكبير';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        /* Right: Grading Panel */
+        .grading-panel {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 32px;
+            height: fit-content;
+        }
+
+        .grading-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .criteria-item {
+            margin-bottom: 20px;
+        }
+
+        .criteria-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .feedback-area {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            resize: none;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-approve:hover {
+            background: #059669;
+        }
+
+        .btn-changes {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reject {
+            background: var(--white);
+            color: var(--error);
+            border: 2px solid var(--error);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .voice-note-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            color: var(--gray-700);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 24px;
+            border: 1px dashed var(--gray-400);
+        }
+
+        .voice-note-btn:hover {
+            background: var(--gray-200);
+            border-color: var(--gray-600);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← العودة للوحة
+                    التحكم</button>
+                <h2 style="margin: 0;">مراجعة الحالة</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="review-container">
+        <!-- Left: Student Content -->
+        <div class="content-column">
+            <div class="submission-card">
+                <div class="student-header">
+                    <div class="student-avatar-lg">أ.م</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">أحمد محمد</h2>
+                        <div style="color: var(--gray-600);">سنة 5 • علاج جذور • ID: 20190123</div>
+                    </div>
+                    <div
+                        style="margin-right: auto; background: var(--gray-100); padding: 8px 16px; border-radius: 20px; font-weight: 600;">
+                        📅 تم الإرسال: اليوم، 10:30 ص
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 16px;">تفاصيل الحالة</h3>
+                <div style="background: var(--gray-50); padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--gray-500);">المريض</div>
+                            <div style="font-weight: 600;">سارة أحمد (28 سنة)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--gray-500);">التشخيص</div>
+                            <div style="font-weight: 600;">التهاب لب السن غير الردود (#36)</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray-700); line-height: 1.6;">
+                        تم إجراء فتح حجرة العصب تحت العزل الكامل. تم تحديد الطول العامل باستخدام جهاز Apex Locator
+                        وتأكيده بالأشعة. تم التنظيف والتشكيل باستخدام مبارد روتاري حتى مقاس 25/.04. تم الحشو بطريقة
+                        التكثيف الجانبي.
+                    </p>
+                </div>
+
+                <h3 style="margin-bottom: 16px;">المرفقات (صور وأشعة)</h3>
+                <div class="media-grid">
+                    <div class="media-preview">🦷<span
+                            style="position:absolute; bottom:8px; right:8px; font-size:12px; background:rgba(0,0,0,0.5); color:white; padding:4px 8px; border-radius:4px;">Pre-op</span>
+                    </div>
+                    <div class="media-preview">📏<span
+                            style="position:absolute; bottom:8px; right:8px; font-size:12px; background:rgba(0,0,0,0.5); color:white; padding:4px 8px; border-radius:4px;">Working
+                            Length</span></div>
+                    <div class="media-preview">✅<span
+                            style="position:absolute; bottom:8px; right:8px; font-size:12px; background:rgba(0,0,0,0.5); color:white; padding:4px 8px; border-radius:4px;">Master
+                            Cone</span></div>
+                    <div class="media-preview">✨<span
+                            style="position:absolute; bottom:8px; right:8px; font-size:12px; background:rgba(0,0,0,0.5); color:white; padding:4px 8px; border-radius:4px;">Post-op</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 16px;">ملاحظات الطالب</h3>
+                <div
+                    style="padding: 16px; border: 1px dashed var(--gray-300); border-radius: 12px; color: var(--gray-600);">
+                    "واجهت صعوبة بسيطة في تحديد القناة الوحشية، لكن تمكنت من فتحها باستخدام مبرد 10. أرجو مراجعة جودة
+                    الحشو النهائي."
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Grading -->
+        <div class="grading-panel">
+            <div class="grading-header">📝 التقييم والملاحظات</div>
+
+            <div class="criteria-item">
+                <div class="criteria-label">
+                    <span>التشخيص وخطة العلاج</span>
+                    <span id="score1">5/5</span>
+                </div>
+                <div class="rating-stars">★★★★★</div>
+            </div>
+
+            <div class="criteria-item">
+                <div class="criteria-label">
+                    <span>جودة التحضير (Preparation)</span>
+                    <span id="score2">4/5</span>
+                </div>
+                <div class="rating-stars" style="color: #d1d5db;">★★★★<span style="color: #fbbf24;">★</span></div>
+            </div>
+
+            <div class="criteria-item">
+                <div class="criteria-label">
+                    <span>جودة الحشو (Obturation)</span>
+                    <span id="score3">4/5</span>
+                </div>
+                <div class="rating-stars" style="color: #d1d5db;">★★★★<span style="color: #fbbf24;">★</span></div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 8px;">ملاحظاتك للطالب</label>
+                <textarea class="feedback-area" placeholder="اكتب تعليقك هنا..."></textarea>
+            </div>
+
+            <div class="voice-note-btn" onclick="toggleRecord(this)">
+                🎤 تسجيل ملاحظة صوتية
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-approve" onclick="submitReview('approve')">✅ اعتماد الحالة</button>
+                <button class="btn-changes" onclick="submitReview('changes')">⚠️ طلب تعديلات</button>
+                <button class="btn-reject" onclick="submitReview('reject')">❌ رفض الحالة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleRecord(btn) {
+            if (btn.innerText.includes('تسجيل')) {
+                btn.innerHTML = '⏹️ جاري التسجيل... (انقر للإيقاف)';
+                btn.style.background = '#fee2e2';
+                btn.style.color = '#ef4444';
+                btn.style.borderColor = '#ef4444';
+            } else {
+                btn.innerHTML = '▶️ تشغيل الملاحظة (0:45)';
+                btn.style.background = '#ecfdf5';
+                btn.style.color = '#059669';
+                btn.style.borderColor = '#059669';
+            }
+        }
+
+        function submitReview(type) {
+            let msg = '';
+            if (type === 'approve') msg = 'تم اعتماد الحالة بنجاح! سيتم إشعار الطالب.';
+            if (type === 'changes') msg = 'تم إرسال طلب التعديلات للطالب.';
+            if (type === 'reject') msg = 'تم رفض الحالة.';
+
+            alert(msg);
+            location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+
+</html>

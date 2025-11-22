@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الأدوات الطبية - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .marketplace-navbar {
+            background: var(--marketplace-gradient);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 32px;
+        }
+
+        .search-input-group {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--marketplace-gradient);
+            color: var(--white);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .cart-btn {
+            background: var(--white);
+            color: var(--marketplace-start);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cart-count {
+            background: var(--marketplace-start);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .container-marketplace {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            background: var(--marketplace-gradient);
+            color: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .hero-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .category-btn {
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--marketplace-start);
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(244, 63, 94, 0.05));
+        }
+
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .filters-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+        }
+
+        .wishlist-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .product-seller {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 12px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stars {
+            color: #FFA500;
+        }
+
+        .rating-text {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--marketplace-start);
+        }
+
+        .add-to-cart-btn {
+            background: var(--marketplace-gradient);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--student-gradient);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="marketplace-navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <span>🛒</span>
+                <span>DentLink Marketplace</span>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-input-group">
+                    <input type="text" class="search-input" placeholder="ابحث عن أدوات، معدات، مواد طبية...">
+                    <button class="search-btn">🔍 بحث</button>
+                </div>
+            </div>
+
+            <button class="cart-btn">
+                <span>🛒</span>
+                <span>السلة</span>
+                <span class="cart-count">3</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-marketplace">
+        <!-- Hero -->
+        <div class="hero-section">
+            <h1 class="hero-title">🛍️ متجر الأدوات الطبية</h1>
+            <p class="hero-subtitle">كل ما تحتاجه من معدات وأدوات طب الأسنان في مكان واحد</p>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <div class="category-btn active">
+                <div class="category-icon">🦷</div>
+                <div class="category-name">أدوات التشخيص</div>
+            </div>
+            <div class="category-btn">
+                <div class="category-icon">🔧</div>
+                <div class="category-name">أدوات الجراحة</div>
+            </div>
+            <div class="category-btn">
+                <div class="category-icon">💉</div>
+                <div class="category-name">المواد الطبية</div>
+            </div>
+            <div class="category-btn">
+                <div class="category-icon">🧤</div>
+                <div class="category-name">معدات الحماية</div>
+            </div>
+            <div class="category-btn">
+                <div class="category-icon">📦</div>
+                <div class="category-name">أطقم كاملة</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label class="form-label">السعر</label>
+                <select class="form-select">
+                    <option>جميع الأسعار</option>
+                    <option>أقل من 100 ج.م</option>
+                    <option>100 - 500 ج.م</option>
+                    <option>500 - 1000 ج.م</option>
+                    <option>أكثر من 1000 ج.م</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="form-label">الترتيب</label>
+                <select class="form-select">
+                    <option>الأكثر مبيعاً</option>
+                    <option>الأعلى تقييماً</option>
+                    <option>الأحدث</option>
+                    <option>الأقل سعراً</option>
+                    <option>الأعلى سعراً</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="form-label">البائع</label>
+                <select class="form-select">
+                    <option>جميع البائعين</option>
+                    <option>موثوقين فقط</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="featured-badge">⭐ الأكثر مبيعاً</div>
+                    <button class="wishlist-btn">♡</button>
+                    <span>🦷</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">أدوات التشخيص</div>
+                    <div class="product-name">طقم الفحص الأساسي</div>
+                    <div class="product-seller">متجر الدينتال الطبي</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">4.9 (324 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">450 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <button class="wishlist-btn">♡</button>
+                    <span>🔧</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">أدوات الخلع</div>
+                    <div class="product-name">ملقاط خلع الأسنان - عالي الجودة</div>
+                    <div class="product-seller">شركة ميديكال تولز</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">4.8 (156 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">280 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <button class="wishlist-btn">♡</button>
+                    <span>💉</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">مواد التخدير</div>
+                    <div class="product-name">حقن التخدير الموضعي - عبوة 50</div>
+                    <div class="product-seller">الشركة المصرية للأدوات</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-text">4.6 (89 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">320 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <button class="wishlist-btn">♡</button>
+                    <span>🧤</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">معدات الحماية</div>
+                    <div class="product-name">قفازات طبية - عبوة 100 قطعة</div>
+                    <div class="product-seller">متجر السلامة الطبية</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">5.0 (412 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">85 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="featured-badge">🔥 عرض خاص</div>
+                    <button class="wishlist-btn">♡</button>
+                    <span>📦</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">أطقم كاملة</div>
+                    <div class="product-name">طقم الطالب الشامل - 25 قطعة</div>
+                    <div class="product-seller">مركز الأدوات الطبية</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">4.9 (267 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">1,250 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <button class="wishlist-btn">♡</button>
+                    <span>🪥</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">مواد التنظيف</div>
+                    <div class="product-name">أدوات تنظيف الأسنان - طقم 6 قطع</div>
+                    <div class="product-seller">الدينتال برو</div>
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐</span>
+                        <span class="rating-text">4.7 (198 تقييم)</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">195 ج.م</div>
+                        <button class="add-to-cart-btn">+ إضافة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add to cart animation
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.textContent = '✓ تمت الإضافة';
+                btn.style.background = 'var(--success)';
+
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                cartCount.textContent = parseInt(cartCount.textContent) + 1;
+
+                setTimeout(() => {
+                    btn.textContent = '+ إضافة';
+                    btn.style.background = '';
+                }, 2000);
+            });
+        });
+
+        // Wishlist toggle
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+                btn.style.color = btn.textContent === '♥' ? 'var(--marketplace-start)' : '';
+            });
+        });
+    </script>
+</body>
+
+</html>

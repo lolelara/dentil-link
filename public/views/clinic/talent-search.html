@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البحث عن مواهب - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: var(--white);
+            color: var(--gray-900);
+            padding: 20px 0;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .search-container {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .search-header {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 32px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .search-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .search-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .talent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .talent-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .talent-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .talent-cover {
+            height: 100px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .talent-info {
+            padding: 0 24px 24px;
+            margin-top: -40px;
+            position: relative;
+        }
+
+        .talent-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-700);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 12px;
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid var(--white);
+        }
+
+        .talent-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .talent-year {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .talent-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-val {
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .stat-lbl {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .skill-tag {
+            background: var(--gray-100);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+
+        .btn-hire {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-hire:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← العودة للوحة
+                    التحكم</button>
+                <h2 style="margin: 0;">توظيف طلاب</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <div class="search-header">
+            <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">ابحث عن مساعدين أو متدربين 🔍</h1>
+            <p style="color: var(--gray-600);">تصفح قاعدة بيانات الطلاب المتميزين وقم بتصفيتهم حسب المهارات والتقييم.
+            </p>
+
+            <div class="search-inputs">
+                <input type="text" class="form-input" placeholder="ابحث بالاسم أو المهارة (مثال: علاج جذور)">
+                <select class="form-input">
+                    <option>جميع السنوات</option>
+                    <option>سنة 4</option>
+                    <option>سنة 5</option>
+                    <option>امتياز</option>
+                </select>
+                <select class="form-input">
+                    <option>التقييم: الكل</option>
+                    <option>4+ نجوم</option>
+                    <option>5 نجوم</option>
+                </select>
+                <button class="btn btn-primary">بحث</button>
+            </div>
+        </div>
+
+        <div class="talent-grid">
+            <!-- Student 1 -->
+            <div class="talent-card">
+                <div class="talent-cover"></div>
+                <div class="talent-info">
+                    <div class="talent-avatar">أ.م</div>
+                    <div class="verified-badge">✓</div>
+                    <h3 class="talent-name">أحمد محمد</h3>
+                    <div class="talent-year">سنة 5 • جامعة القاهرة</div>
+
+                    <div class="talent-stats">
+                        <div class="stat-item">
+                            <div class="stat-val">4.9</div>
+                            <div class="stat-lbl">تقييم</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">89</div>
+                            <div class="stat-lbl">حالة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">12</div>
+                            <div class="stat-lbl">مستوى</div>
+                        </div>
+                    </div>
+
+                    <div class="tags-container">
+                        <span class="skill-tag">علاج جذور</span>
+                        <span class="skill-tag">حشوات تجميلية</span>
+                        <span class="skill-tag">مساعد جراح</span>
+                    </div>
+
+                    <button class="btn-hire" onclick="sendOffer(this)">إرسال عرض عمل</button>
+                </div>
+            </div>
+
+            <!-- Student 2 -->
+            <div class="talent-card">
+                <div class="talent-cover" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);"></div>
+                <div class="talent-info">
+                    <div class="talent-avatar">ن.ع</div>
+                    <div class="verified-badge">✓</div>
+                    <h3 class="talent-name">نور علي</h3>
+                    <div class="talent-year">سنة 4 • جامعة عين شمس</div>
+
+                    <div class="talent-stats">
+                        <div class="stat-item">
+                            <div class="stat-val">4.7</div>
+                            <div class="stat-lbl">تقييم</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">45</div>
+                            <div class="stat-lbl">حالة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">8</div>
+                            <div class="stat-lbl">مستوى</div>
+                        </div>
+                    </div>
+
+                    <div class="tags-container">
+                        <span class="skill-tag">تنظيف وتلميع</span>
+                        <span class="skill-tag">أطفال</span>
+                        <span class="skill-tag">تصوير طبي</span>
+                    </div>
+
+                    <button class="btn-hire" onclick="sendOffer(this)">إرسال عرض عمل</button>
+                </div>
+            </div>
+
+            <!-- Student 3 -->
+            <div class="talent-card">
+                <div class="talent-cover" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);"></div>
+                <div class="talent-info">
+                    <div class="talent-avatar">ك.س</div>
+                    <h3 class="talent-name">كريم سامي</h3>
+                    <div class="talent-year">امتياز • جامعة المستقبل</div>
+
+                    <div class="talent-stats">
+                        <div class="stat-item">
+                            <div class="stat-val">4.8</div>
+                            <div class="stat-lbl">تقييم</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">120</div>
+                            <div class="stat-lbl">حالة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">15</div>
+                            <div class="stat-lbl">مستوى</div>
+                        </div>
+                    </div>
+
+                    <div class="tags-container">
+                        <span class="skill-tag">جراحة صغرى</span>
+                        <span class="skill-tag">تركيبات ثابتة</span>
+                        <span class="skill-tag">Endo Rotary</span>
+                    </div>
+
+                    <button class="btn-hire" onclick="sendOffer(this)">إرسال عرض عمل</button>
+                </div>
+            </div>
+
+            <!-- Student 4 -->
+            <div class="talent-card">
+                <div class="talent-cover" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);"></div>
+                <div class="talent-info">
+                    <div class="talent-avatar">م.ج</div>
+                    <h3 class="talent-name">مها جمال</h3>
+                    <div class="talent-year">سنة 5 • جامعة القاهرة</div>
+
+                    <div class="talent-stats">
+                        <div class="stat-item">
+                            <div class="stat-val">5.0</div>
+                            <div class="stat-lbl">تقييم</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">60</div>
+                            <div class="stat-lbl">حالة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val">10</div>
+                            <div class="stat-lbl">مستوى</div>
+                        </div>
+                    </div>
+
+                    <div class="tags-container">
+                        <span class="skill-tag">تجميل</span>
+                        <span class="skill-tag">DSD</span>
+                        <span class="skill-tag">تبييض</span>
+                    </div>
+
+                    <button class="btn-hire" onclick="sendOffer(this)">إرسال عرض عمل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendOffer(btn) {
+            btn.innerText = '✓ تم الإرسال';
+            btn.style.background = 'var(--success)';
+            btn.disabled = true;
+            // alert('تم إرسال عرض العمل للطالب بنجاح!');
+        }
+    </script>
+</body>
+
+</html>

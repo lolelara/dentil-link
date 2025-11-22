@@ -1,0 +1,93 @@
+<div class="container-register">
+    <div class="header">
+        <div class="logo">🦷</div>
+        <h1 class="title">اختر نوع حسابك</h1>
+        <p class="subtitle">حدد الفئة المناسبة لك لبدء رحلتك مع DentLink</p>
+    </div>
+
+    <div class="user-types-grid">
+        <!-- Patient -->
+        <div class="user-type-card" onclick="router.navigate('/patient/register')">
+            <div class="card-icon patient">👤</div>
+            <h3 class="card-title">مريض</h3>
+            <p class="card-description">
+                احصل على تشخيص ذكي وعلاج بأسعار مناسبة
+            </p>
+            <ul class="card-features">
+                <li>تشخيص AI فوري</li>
+                <li>ربط ذكي مع الطلاب</li>
+                <li>تكامل مع التأمين</li>
+                <li>متابعة التقدم</li>
+            </ul>
+            <button class="btn btn-patient w-full">سجل كمريض</button>
+        </div>
+
+        <!-- Student -->
+        <div class="user-type-card" onclick="router.navigate('/student/register')">
+            <div class="card-icon student">🎓</div>
+            <h3 class="card-title">طالب طب أسنان</h3>
+            <p class="card-description">
+                احصل على حالات حقيقية وابنِ portfolio احترافي
+            </p>
+            <ul class="card-features">
+                <li>حالات حقيقية</li>
+                <li>نظام XP و Badges</li>
+                <li>محاكاة 3D</li>
+                <li>تواصل مع المشرفين</li>
+            </ul>
+            <button class="btn btn-student w-full">سجل كطالب</button>
+        </div>
+
+        <!-- Faculty -->
+        <div class="user-type-card" onclick="router.navigate('/faculty/dashboard')">
+            <div class="card-icon faculty">👨‍⚕️</div>
+            <h3 class="card-title">دكتور/كلية</h3>
+            <p class="card-description">
+                راقب الطلاب وحلل الأداء بتقنيات متقدمة
+            </p>
+            <ul class="card-features">
+                <li>متابعة الطلاب</li>
+                <li>تحليلات AI</li>
+                <li>مكتبة حالات</li>
+                <li>استشارات عن بُعد</li>
+            </ul>
+            <button class="btn btn-faculty w-full">سجل كدكتور</button>
+        </div>
+
+        <!-- Clinic -->
+        <div class="user-type-card" onclick="router.navigate('/clinic/dashboard')">
+            <div class="card-icon clinic">🏥</div>
+            <h3 class="card-title">عيادة خاصة</h3>
+            <p class="card-description">
+                استقبل المرضى وتعاون مع الطلاب
+            </p>
+            <ul class="card-features">
+                <li>إحالة المرضى</li>
+                <li>تحليلات الأداء</li>
+                <li>تتبع الإيرادات</li>
+                <li>تعليم مستمر</li>
+            </ul>
+            <button class="btn btn-clinic w-full">سجل كعيادة</button>
+        </div>
+
+        <!-- Marketplace Seller -->
+        <div class="user-type-card" onclick="router.navigate('/marketplace/seller-portal')">
+            <div class="card-icon marketplace">🛒</div>
+            <h3 class="card-title">بائع معدات</h3>
+            <p class="card-description">
+                بع المعدات والأدوات الطبية للطلاب
+            </p>
+            <ul class="card-features">
+                <li>عرض المنتجات</li>
+                <li>طلبات مباشرة</li>
+                <li>تقييمات العملاء</li>
+                <li>توصيل سريع</li>
+            </ul>
+            <button class="btn btn-marketplace w-full">سجل كبائع</button>
+        </div>
+    </div>
+
+    <div class="login-link">
+        لديك حساب بالفعل؟ <a href="/login" data-navigo>سجل دخولك الآن</a>
+    </div>
+</div>

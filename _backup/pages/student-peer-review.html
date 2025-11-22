@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Review - DentLink</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <style>
+        .review-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .case-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .case-image {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .case-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .rating-section {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .rating-category {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        .rating-category:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .star {
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #ddd;
+        }
+
+        .star.filled {
+            color: #FFD700;
+        }
+
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        .comment-box {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid var(--bg-secondary);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .comment-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .peer-comments {
+            margin-top: 2rem;
+        }
+
+        .peer-comment {
+            background: var(--primary-50);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        .helpful-btn {
+            margin-top: 0.5rem;
+            padding: 0.3rem 1rem;
+            background: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .helpful-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .helpful-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .review-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">🦷 DentLink</a>
+            <div class="navbar-links">
+                <a href="student-dashboard.html">لوحة الطالب</a>
+                <a href="student-peer-review.html" class="active">Peer Review</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="review-container">
+        <div class="hero-mini" style="text-align: center; margin-bottom: 3rem;">
+            <h1>🤝 نظام Peer Review</h1>
+            <p>راجع حالات زملائك واستفد من تقييماتهم لحالاتك</p>
+        </div>
+
+        <!-- Review Stats -->
+        <div class="review-stats">
+            <div class="stat-box">
+                <div class="stat-value">12</div>
+                <div class="stat-label">تقييمات قدمتها</div>
+            </div>
+            <div class="stat-box" style="background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);">
+                <div class="stat-value">8</div>
+                <div class="stat-label">تقييمات استلمتها</div>
+            </div>
+            <div class="stat-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="stat-value">4.6</div>
+                <div class="stat-label">متوسط تقييمك</div>
+            </div>
+            <div class="stat-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="stat-value">+25 XP</div>
+                <div class="stat-label">نقاط من Reviews</div>
+            </div>
+        </div>
+
+        <!-- Case for Review -->
+        <div class="review-card">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                <div>
+                    <span class="badge badge-warning">للمراجعة</span>
+                    <h2 style="margin: 0.5rem 0;">حالة #D3012 - حشوة كومبوزت</h2>
+                    <p style="color: var(--text-secondary); margin: 0.5rem 0 0 0;">
+                        الطالب: <strong>عبدالله الشمري</strong> • سنة 4
+                    </p>
+                </div>
+                <div style="text-align: left;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">تاريخ الإنجاز</div>
+                    <div style="font-weight: 600;">18 نوفمبر 2024</div>
+                </div>
+            </div>
+
+            <div style="background: var(--primary-50); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                <h4 style="margin: 0 0 0.5rem 0;">تفاصيل الحالة:</h4>
+                <p style="margin: 0; line-height: 1.6;">
+                    <strong>المريض:</strong> خالد العمري، 35 سنة<br>
+                    <strong>الشكوى:</strong> تسوس في الضرس العلوي الأيمن<br>
+                    <strong>العلاج:</strong> حشوة كومبوزت Class II<br>
+                    <strong>المدة:</strong> 1.5 ساعة
+                </p>
+            </div>
+
+            <!-- Case Images -->
+            <h4>صور الحالة:</h4>
+            <div class="case-images">
+                <div class="case-image">
+                    <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Before" alt="قبل">
+                    <div class="image-label">📸 قبل العلاج</div>
+                </div>
+                <div class="case-image">
+                    <img src="https://via.placeholder.com/300x200/4CAF50/ffffff?text=During" alt="أثناء">
+                    <div class="image-label">🔧 أثناء العلاج</div>
+                </div>
+                <div class="case-image">
+                    <img src="https://via.placeholder.com/300x200/81C784/ffffff?text=After" alt="بعد">
+                    <div class="image-label">✅ بعد العلاج</div>
+                </div>
+            </div>
+
+            <!-- Rating Section -->
+            <div class="rating-section">
+                <h3 style="margin-bottom: 1.5rem;">📊 تقييم الحالة</h3>
+
+                <div class="rating-category">
+                    <div>
+                        <strong>جودة الحشوة</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">التشريح والملمس</div>
+                    </div>
+                    <div class="stars" data-category="quality">
+                        <span class="star" onclick="rate('quality', 1)">★</span>
+                        <span class="star" onclick="rate('quality', 2)">★</span>
+                        <span class="star" onclick="rate('quality', 3)">★</span>
+                        <span class="star" onclick="rate('quality', 4)">★</span>
+                        <span class="star" onclick="rate('quality', 5)">★</span>
+                    </div>
+                </div>
+
+                <div class="rating-category">
+                    <div>
+                        <strong>تطابق اللون</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">مع الأسنان الطبيعية</div>
+                    </div>
+                    <div class="stars" data-category="color">
+                        <span class="star" onclick="rate('color', 1)">★</span>
+                        <span class="star" onclick="rate('color', 2)">★</span>
+                        <span class="star" onclick="rate('color', 3)">★</span>
+                        <span class="star" onclick="rate('color', 4)">★</span>
+                        <span class="star" onclick="rate('color', 5)">★</span>
+                    </div>
+                </div>
+
+                <div class="rating-category">
+                    <div>
+                        <strong>التوثيق</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">جودة الصور والملاحظات</div>
+                    </div>
+                    <div class="stars" data-category="documentation">
+                        <span class="star" onclick="rate('documentation', 1)">★</span>
+                        <span class="star" onclick="rate('documentation', 2)">★</span>
+                        <span class="star" onclick="rate('documentation', 3)">★</span>
+                        <span class="star" onclick="rate('documentation', 4)">★</span>
+                        <span class="star" onclick="rate('documentation', 5)">★</span>
+                    </div>
+                </div>
+
+                <div class="rating-category">
+                    <div>
+                        <strong>الالتزام بالمعايير</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">البروتوكولات السريرية</div>
+                    </div>
+                    <div class="stars" data-category="standards">
+                        <span class="star" onclick="rate('standards', 1)">★</span>
+                        <span class="star" onclick="rate('standards', 2)">★</span>
+                        <span class="star" onclick="rate('standards', 3)">★</span>
+                        <span class="star" onclick="rate('standards', 4)">★</span>
+                        <span class="star" onclick="rate('standards', 5)">★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <div style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 1rem;">💬 ملاحظاتك وتعليقاتك:</h4>
+                <textarea class="comment-box" placeholder="شارك ملاحظاتك البناءة... 
+• ما الذي أعجبك في هذه الحالة؟
+• ما التحسينات المقترحة؟
+• نصائح من خبرتك الشخصية؟"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="btn btn-primary" style="flex: 2;" onclick="submitReview()">
+                    ✓ إرسال التقييم (+5 XP)
+                </button>
+                <button class="btn btn-secondary" style="flex: 1;" onclick="skipReview()">
+                    تخطي
+                </button>
+            </div>
+        </div>
+
+        <!-- Previous Peer Comments -->
+        <div class="review-card">
+            <h3 style="margin-bottom: 1.5rem;">💬 تعليقات الزملاء على حالاتك</h3>
+
+            <div class="peer-comments">
+                <div class="peer-comment">
+                    <div class="comment-author">
+                        سارة المطيري
+                        <span class="verified-badge">✓ طالب معتمد</span>
+                        <span
+                            style="margin-right: auto; font-size: 0.85rem; font-weight: normal; color: var(--text-secondary);">
+                            ⭐⭐⭐⭐⭐ (5/5)
+                        </span>
+                    </div>
+                    <p style="margin: 0.5rem 0; line-height: 1.6;">
+                        عمل ممتاز يا أحمد! الحشوة نظيفة وتشريح الأسنان واضح. فقط انتبه لتطابق اللون في المرات القادمة،
+                        كان ممكن يكون أفضل شوي. استمر!
+                    </p>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                        <button class="helpful-btn" onclick="markHelpful(this)">
+                            👍 مفيد (3)
+                        </button>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">منذ يومين</span>
+                    </div>
+                </div>
+
+                <div class="peer-comment">
+                    <div class="comment-author">
+                        خالد الغامدي
+                        <span class="verified-badge">✓ طالب معتمد</span>
+                        <span
+                            style="margin-right: auto; font-size: 0.85rem; font-weight: normal; color: var(--text-secondary);">
+                            ⭐⭐⭐⭐ (4/5)
+                        </span>
+                    </div>
+                    <p style="margin: 0.5rem 0; line-height: 1.6;">
+                        جيد جداً! عندي ملاحظة: حاول تحسن الـ isolation أكثر، لاحظت شوية moisture في الصور. بشكل عام
+                        الحالة ممتازة 👏
+                    </p>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                        <button class="helpful-btn active" onclick="markHelpful(this)">
+                            👍 مفيد (5)
+                        </button>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">منذ 3 أيام</span>
+                    </div>
+                </div>
+
+                <div class="peer-comment"
+                    style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%); border-left-color: #f5576c;">
+                    <div class="comment-author" style="color: #f5576c;">
+                        🤖 AI Review Assistant
+                        <span class="verified-badge" style="background: #f5576c;">AI</span>
+                    </div>
+                    <p style="margin: 0.5rem 0; line-height: 1.6;">
+                        <strong>تحليل AI:</strong> حالتك تتطابق مع 92% من المعايير المثالية. النقاط القوية: isolation
+                        جيد، وقت العمل ممتاز. اقتراح للتحسين: يمكن استخدام shade guide بشكل أفضل للحصول على لون أدق.
+                    </p>
+                    <div style="margin-top: 0.5rem;">
+                        <a href="#" style="color: #f5576c; text-decoration: none; font-weight: 600;">
+                            📚 عرض حالات مشابهة →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 DentLink. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        const ratings = {};
+
+        function rate(category, stars) {
+            ratings[category] = stars;
+
+            // Update UI
+            const starsContainer = document.querySelector(`[data-category="${category}"]`);
+            const starElements = starsContainer.querySelectorAll('.star');
+
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('filled');
+                } else {
+                    star.classList.remove('filled');
+                }
+            });
+        }
+
+        function submitReview() {
+            const totalCategories = 4;
+            const ratedCategories = Object.keys(ratings).length;
+
+            if (ratedCategories < totalCategories) {
+                alert('الرجاء تقييم جميع الفئات قبل الإرسال');
+                return;
+            }
+
+            const avgRating = Object.values(ratings).reduce((a, b) => a + b, 0) / totalCategories;
+
+            alert(`✅ تم إرسال تقييمك بنجاح!\n\nالتقييم الإجمالي: ${avgRating.toFixed(1)}/5\nحصلت على +5 XP\n\nشكراً لمساهمتك في مجتمع DentLink!`);
+
+            // In real app, would save review and move to next case
+            window.location.reload();
+        }
+
+        function skipReview() {
+            if (confirm('هل أنت متأكد من تخطي هذه الحالة؟')) {
+                alert('تم التخطي. سيتم عرض حالة أخرى.');
+                window.location.reload();
+            }
+        }
+
+        function markHelpful(btn) {
+            btn.classList.toggle('active');
+            const currentCount = parseInt(btn.textContent.match(/\d+/)[0]);
+            const newCount = btn.classList.contains('active') ? currentCount + 1 : currentCount - 1;
+            btn.innerHTML = `👍 مفيد (${newCount})`;
+        }
+    </script>
+</body>
+
+</html>

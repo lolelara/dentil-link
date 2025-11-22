@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السجل الطبي - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: var(--patient-gradient);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 2px solid var(--patient-start);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 24px 0 24px 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gray-300);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -11px;
+            top: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--patient-start);
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 2px var(--patient-start);
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .case-date {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .case-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .case-provider {
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .case-status {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .status-active {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        .case-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-box {
+            background: var(--gray-50);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .case-description {
+            background: var(--gray-50);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .case-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--patient-gradient);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--patient-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard-complete.html'">← الرجوع</button>
+                <h2 style="margin: 0;">السجل الطبي</h2>
+            </div>
+            <button class="btn btn-secondary">📥 تصدير PDF</button>
+        </div>
+    </nav>
+
+    <div class="history-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 style="font-size: 28px; margin-bottom: 8px;">📋 سجلك الطبي الكامل</h1>
+            <p style="color: var(--gray-600);">جميع حالاتك السابقة والملفات الطبية</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">حالات مكتملة</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-value">1</div>
+                <div class="stat-label">حالة نشطة</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">1,250</div>
+                <div class="stat-label">إجمالي التكلفة (ج.م)</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value">4.8</div>
+                <div class="stat-label">تقييمك المتوسط</div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div style="background: var(--white); border-radius: 20px; padding: 32px; box-shadow: var(--shadow-md);">
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 32px;">📅 الخط الزمني</h3>
+
+            <div class="timeline">
+                <!-- Active Case -->
+                <div class="timeline-item">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div>
+                                <div class="case-date">⏰ جاري العلاج - بدأ في 6 نوفمبر 2025</div>
+                                <div class="case-title">متابعة بعد الحشو + تنظيف اللثة</div>
+                                <div class="case-provider">👩‍⚕️ الطالبة سارة علي - كلية القاهرة</div>
+                            </div>
+                            <div class="case-status status-active">🔄 نشط</div>
+                        </div>
+
+                        <div class="case-details">
+                            <div class="detail-box">
+                                <div class="detail-label">التكلفة</div>
+                                <div class="detail-value">مجاني</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">عدد الجلسات</div>
+                                <div class="detail-value">2 من 3</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">التقدم</div>
+                                <div class="detail-value">67%</div>
+                            </div>
+                        </div>
+
+                        <div class="case-description">
+                            <strong>الوصف:</strong> متابعة دورية بعد حشو الضرس العلوي الأيسر + تنظيف عميق للثة. الحالة
+                            تتحسن بشكل ملحوظ.
+                        </div>
+
+                        <div class="case-actions">
+                            <button class="btn btn-patient">عرض التفاصيل</button>
+                            <button class="btn btn-ghost">الجلسة القادمة: 25 نوفمبر</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Case 1 -->
+                <div class="timeline-item">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div>
+                                <div class="case-date">✅ اكتمل في 30 أكتوبر 2025</div>
+                                <div class="case-title">حشو عادي للضرس</div>
+                                <div class="case-provider">👨‍⚕️ د. أحمد محمود - عيادة المدينة</div>
+                            </div>
+                            <div class="case-status status-completed">✓ مكتمل</div>
+                        </div>
+
+                        <div class="case-details">
+                            <div class="detail-box">
+                                <div class="detail-label">التكلفة</div>
+                                <div class="detail-value">500 ج.م</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">عدد الجلسات</div>
+                                <div class="detail-value">1</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">تقييمك</div>
+                                <div class="detail-value">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+
+                        <div class="case-description">
+                            <strong>الوصف:</strong> إزالة التسوس وحشو عادي للضرس العلوي الأيسر. الإجراء تم بنجاح دون
+                            مضاعفات.
+                        </div>
+
+                        <div class="case-actions">
+                            <button class="btn btn-ghost">عرض التقرير</button>
+                            <button class="btn btn-ghost">📥 تنزيل الفاتورة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Case 2 -->
+                <div class="timeline-item">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div>
+                                <div class="case-date">✅ اكتمل في 5 سبتمبر 2025</div>
+                                <div class="case-title">تنظيف الأسنان الدوري</div>
+                                <div class="case-provider">👩‍⚕️ د. منى حسن - مركز الأسنان المتقدم</div>
+                            </div>
+                            <div class="case-status status-completed">✓ مكتمل</div>
+                        </div>
+
+                        <div class="case-details">
+                            <div class="detail-box">
+                                <div class="detail-label">التكلفة</div>
+                                <div class="detail-value">300 ج.م</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">عدد الجلسات</div>
+                                <div class="detail-value">1</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">تقييمك</div>
+                                <div class="detail-value">⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+
+                        <div class="case-description">
+                            <strong>الوصف:</strong> تنظيف شامل للأسنان وإزالة الجير. تحسن ملحوظ في صحة اللثة.
+                        </div>
+
+                        <div class="case-actions">
+                            <button class="btn btn-ghost">عرض التقرير</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Case 3 -->
+                <div class="timeline-item">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div>
+                                <div class="case-date">✅ اكتمل في 15 يناير 2025</div>
+                                <div class="case-title">فحص دوري + استشارة</div>
+                                <div class="case-provider">👨‍⚕️ د. خالد سعيد - عيادة النور</div>
+                            </div>
+                            <div class="case-status status-completed">✓ مك تمل</div>
+                        </div>
+
+                        <div class="case-details">
+                            <div class="detail-box">
+                                <div class="detail-label">التكلفة</div>
+                                <div class="detail-value">150 ج.م</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">عدد الجلسات</div>
+                                <div class="detail-value">1</div>
+                            </div>
+                            <div class="detail-box">
+                                <div class="detail-label">تقييمك</div>
+                                <div class="detail-value">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+
+                        <div class="case-description">
+                            <strong>الوصف:</strong> فحص شامل للأسنان واللثة. تم اكتشاف تسوس بسيط في ضرسين وتم التوصية
+                            بالعلاج.
+                        </div>
+
+                        <div class="case-actions">
+                            <button class="btn btn-ghost">عرض التقرير</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

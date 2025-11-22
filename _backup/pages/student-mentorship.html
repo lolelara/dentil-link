@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship Chat - DentLink</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <style>
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            height: calc(100vh - 150px);
+        }
+
+        .contacts-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .contact-item.active {
+            background: var(--primary-50);
+            border-left: 4px solid var(--primary);
+        }
+
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-status {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .online-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .chat-panel {
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: linear-gradient(to bottom, #f8f9fa, white);
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .message.sent .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .message-content {
+            max-width: 60%;
+        }
+
+        .message-bubble {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0.5rem;
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding: 0 1rem;
+        }
+
+        .message.sent .message-time {
+            text-align: left;
+        }
+
+        .ai-assistant-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem;
+            border-top: 2px solid var(--bg-secondary);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--bg-secondary);
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .quick-action-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-50);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">🦷 DentLink</a>
+            <div class="navbar-links">
+                <a href="student-dashboard.html">لوحة الطالب</a>
+                <a href="student-mentorship.html" class="active">Mentorship</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <!-- Contacts Panel -->
+        <div class="contacts-panel">
+            <h3 style="margin-bottom: 1.5rem;">💬 المحادثات</h3>
+
+            <div class="contact-item active" onclick="selectContact('doctor')">
+                <div class="contact-avatar">د.م</div>
+                <div class="contact-info">
+                    <div class="contact-name">د. محمد الشمري</div>
+                    <div class="contact-status">
+                        <span class="online-indicator"></span>
+                        متاح الآن
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-item" onclick="selectContact('ai')">
+                <div class="contact-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    🤖
+                </div>
+                <div class="contact-info">
+                    <div class="contact-name">
+                        AI Assistant
+                        <span class="ai-assistant-badge">24/7</span>
+                    </div>
+                    <div class="contact-status">دائماً متاح</div>
+                </div>
+            </div>
+
+            <div class="contact-item" onclick="selectContact('peer')">
+                <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    س.م
+                </div>
+                <div class="contact-info">
+                    <div class="contact-name">سارة المطيري</div>
+                    <div class="contact-status">سنة 4 - زميلة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Panel -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="contact-avatar">د.م</div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 1.1rem;">د. محمد الشمري</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                            <span class="online-indicator"></span>
+                            متاح الآن - مشرف العيادة
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                        📞 مكالمة صوتية
+                    </button>
+                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                        🎥 فيديو
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="sendQuickMessage('تفضل، ما هو سؤالك؟')">
+                        ❓ سؤال سريع
+                    </button>
+                    <button class="quick-action-btn" onclick="sendQuickMessage('هل يمكنك مراجعة الحالة؟')">
+                        📋 مراجعة حالة
+                    </button>
+                    <button class="quick-action-btn" onclick="sendQuickMessage('متى الموعد القادم؟')">
+                        📅 الموعد
+                    </button>
+                </div>
+
+                <!-- Messages -->
+                <div class="message">
+                    <div class="message-avatar">د.م</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            مرحباً أحمد! كيف حالك اليوم؟ شفت إنك قبلت حالة جديدة، محتاج أي مساعدة؟
+                        </div>
+                        <div class="message-time">اليوم 10:30 ص</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-avatar">أ</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            مرحباً دكتور! عندي سؤال عن حالة RCT، المريض يشتكي من ألم مستمر بعد العلاج
+                        </div>
+                        <div class="message-time">اليوم 10:32 ص</div>
+                    </div>
+                </div>
+
+                <div class="message">
+                    <div class="message-avatar">د.م</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            ممتاز إنك سألت! الألم بعد RCT طبيعي لمدة 2-3 أيام. هل:<br>
+                            ✓ نظفت القنوات جيداً؟<br>
+                            ✓ استخدمت irrigation مناسب؟<br>
+                            ✓ الألم شديد أو خفيف؟
+                        </div>
+                        <div class="message-time">اليوم 10:33 ص</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-avatar">أ</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            نعم دكتور، نظفت القنوات واستخدمت sodium hypochlorite. الألم خفيف ومحتمل
+                        </div>
+                        <div class="message-time">اليوم 10:35 ص</div>
+                    </div>
+                </div>
+
+                <div class="message">
+                    <div class="message-avatar">د.م</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            ممتاز! خطواتك صحيحة 👍<br><br>
+                            نصيحتي:<br>
+                            • اطلب من المريض مسكن خفيف (Paracetamol)<br>
+                            • تجنب المضغ على السن لمدة 48 ساعة<br>
+                            • متابعة بعد أسبوع<br><br>
+                            لو الألم زاد، اتصل بي مباشرة
+                        </div>
+                        <div class="message-time">اليوم 10:36 ص</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-avatar">أ</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            شكراً جزيلاً دكتور! استفدت كثير 🙏
+                        </div>
+                        <div class="message-time">اليوم 10:37 ص</div>
+                    </div>
+                </div>
+
+                <!-- AI Suggestion Message -->
+                <div class="message"
+                    style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%); padding: 1rem; border-radius: 15px; margin-top: 2rem;">
+                    <div class="contact-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        🤖
+                    </div>
+                    <div class="message-content">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">
+                            💡 اقتراح AI
+                        </div>
+                        <p style="margin: 0; color: var(--text-secondary);">
+                            يمكنك أيضاً مراجعة <a href="#" style="color: var(--primary);">مكتبة الحالات المشابهة</a>
+                            للاطلاع على RCT cases أخرى وكيفية التعامل معها.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="messageInput" placeholder="اكتب رسالتك هنا..."
+                    onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 DentLink. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        function selectContact(type) {
+            // Update active contact
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // In real app, would load chat history for selected contact
+            if (type === 'ai') {
+                alert('فتح محادثة AI Assistant - متاح 24/7 للإجابة على أسئلتك');
+            } else if (type === 'peer') {
+                alert('فتح محادثة مع زميل - نظام Peer Review');
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+
+                // Simulate reply after 2 seconds
+                setTimeout(() => {
+                    addMessage('شكراً على رسالتك! سأرد عليك قريباً.', false);
+                }, 2000);
+            }
+        }
+
+        function sendQuickMessage(message) {
+            addMessage(message, true);
+
+            setTimeout(() => {
+                addMessage('تم استلام رسالتك. كيف يمكنني مساعدتك؟', false);
+            }, 1500);
+        }
+
+        function addMessage(text, isSent) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message' + (isSent ? ' sent' : '');
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${isSent ? 'أ' : 'د.م'}</div>
+                <div class="message-content">
+                    <div class="message-bubble">${text}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+
+</html>

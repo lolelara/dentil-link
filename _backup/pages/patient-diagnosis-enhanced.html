@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج التشخيص - تتبع التقدم</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <style>
+        .progress-tracker {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-secondary);
+        }
+
+        .photo-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .photo-info {
+            padding: 1rem;
+        }
+
+        .photo-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-analysis {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .improvement-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .score-positive {
+            color: var(--success);
+        }
+
+        .score-negative {
+            color: var(--error);
+        }
+
+        .reminders-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .reminder-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reminder-icon {
+            font-size: 2rem;
+        }
+
+        .reminder-content h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .insurance-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .price-card {
+            border: 2px solid var(--bg-secondary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .price-card.recommended {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.1) 100%);
+        }
+
+        .price-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .coverage-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .upload-progress {
+            margin-top: 1rem;
+        }
+
+        .upload-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">🦷 DentLink</a>
+            <div class="navbar-links">
+                <a href="../index.html">الرئيسية</a>
+                <a href="patient-register.html">التسجيل</a>
+                <a href="patient-diagnosis.html" class="active">التشخيص</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 2rem;">
+        <!-- Header -->
+        <div class="hero-mini" style="text-align: center; padding: 3rem 0;">
+            <h1>نتائج التشخيص والمتابعة</h1>
+            <p>تتبع تقدمك مع AI ونصائح ما بعد العلاج</p>
+        </div>
+
+        <!-- AI Diagnosis Results (Original) -->
+        <div class="results-container"
+            style="background: white; padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+            <div class="result-header">
+                <span class="badge badge-success">✓ تم التشخيص بنجاح</span>
+                <h2>التشخيص الأولي بالذكاء الاصطناعي</h2>
+            </div>
+
+            <div class="diagnosis-card">
+                <div class="diagnosis-header">
+                    <span class="diagnosis-icon">🦷</span>
+                    <div>
+                        <h3>التشخيص الأساسي</h3>
+                        <p class="confidence">دقة التشخيص: <strong>85%</strong></p>
+                    </div>
+                </div>
+                <div class="diagnosis-details">
+                    <p><strong>Dental Caries (تسوس الأسنان)</strong></p>
+                    <p>تم اكتشاف تسوس في الضرس الأول العلوي الأيمن</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Symptom Tracker & Progress Photos -->
+        <div class="progress-tracker">
+            <div class="tracker-header">
+                <div>
+                    <h2>📊 متابعة التقدم والصور</h2>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                        رفع الصور بشكل دوري لتتبع التحسن
+                    </p>
+                </div>
+                <button class="upload-btn" onclick="document.getElementById('photoUpload').click()">
+                    <span>📸</span>
+                    <span>رفع صورة جديدة</span>
+                </button>
+                <input type="file" id="photoUpload" accept="image/*" style="display: none;"
+                    onchange="handlePhotoUpload(event)">
+            </div>
+
+            <div class="photo-timeline" id="photoTimeline">
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/200x200/667eea/ffffff?text=Day+1" alt="يوم 1">
+                    <div class="photo-info">
+                        <div class="photo-date">📅 15 نوفمبر 2024</div>
+                        <div class="ai-analysis">
+                            🤖 AI: تسوس متوسط - مرحلة مبكرة
+                        </div>
+                        <div class="improvement-score">
+                            <span>التقييم:</span>
+                            <span style="color: #FFC107;">⚠️ يحتاج علاج</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/200x200/4CAF50/ffffff?text=Day+7" alt="يوم 7">
+                    <div class="photo-info">
+                        <div class="photo-date">📅 22 نوفمبر 2024</div>
+                        <div class="ai-analysis">
+                            🤖 AI: تحسن ملحوظ بعد الحشو
+                        </div>
+                        <div class="improvement-score score-positive">
+                            <span>التحسن:</span>
+                            <span>+65% ✓</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/200x200/81C784/ffffff?text=Day+14" alt="يوم 14">
+                    <div class="photo-info">
+                        <div class="photo-date">📅 29 نوفمبر 2024</div>
+                        <div class="ai-analysis">
+                            🤖 AI: شفاء ممتاز - لا توجد مضاعفات
+                        </div>
+                        <div class="improvement-score score-positive">
+                            <span>التحسن:</span>
+                            <span>+90% ✓✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Follow-up & Reminders -->
+        <div class="reminders-section">
+            <h2 style="margin-bottom: 1.5rem;">🔔 التذكيرات والمتابعة</h2>
+
+            <div class="reminder-item">
+                <div class="reminder-icon">💊</div>
+                <div class="reminder-content">
+                    <h4>موعد المتابعة القادم</h4>
+                    <p>25 ديسمبر 2024 - الساعة 10:00 صباحاً</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.3rem;">
+                        فحص دوري مع د. أحمد محمد
+                    </p>
+                </div>
+            </div>
+
+            <div class="reminder-item">
+                <div class="reminder-icon">🪥</div>
+                <div class="reminder-content">
+                    <h4>نصائح ما بعد العلاج</h4>
+                    <p>• تجنب الأطعمة الصلبة لمدة 24 ساعة</p>
+                    <p>• استخدم غسول الفم 3 مرات يومياً</p>
+                    <p>• تنظيف الأسنان بعد كل وجبة</p>
+                </div>
+            </div>
+
+            <div class="reminder-item">
+                <div class="reminder-icon">⏰</div>
+                <div class="reminder-content">
+                    <h4>تذكير يومي</h4>
+                    <p>رفع صورة التقدم اليومية - الساعة 8:00 مساءً</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Insurance Integration -->
+        <div class="insurance-panel">
+            <h2 style="margin-bottom: 0.5rem;">💳 مقارنة التكاليف والتأمين</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                اختر الخيار الأنسب لك مع معرفة التغطية التأمينية
+            </p>
+
+            <div class="price-comparison">
+                <div class="price-card recommended">
+                    <div class="coverage-badge">✓ مشمول بالتأمين</div>
+                    <div class="price-header">🎓 علاج مع طالب</div>
+                    <div class="price-amount">مجاني</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                        تحت إشراف طبي كامل
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.3rem 0;">✓ إشراف أكاديمي</li>
+                        <li style="padding: 0.3rem 0;">✓ معدات حديثة</li>
+                        <li style="padding: 0.3rem 0;">✓ بيئة آمنة</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">اختيار</button>
+                </div>
+
+                <div class="price-card">
+                    <div class="coverage-badge" style="background: #FF9800;">جزئي 60%</div>
+                    <div class="price-header">⚕️ عيادة خاصة</div>
+                    <div class="price-amount">800 ج.م</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                        بعد خصم التأمين: <strong>320 ج.م</strong>
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.3rem 0;">✓ موعد فوري</li>
+                        <li style="padding: 0.3rem 0;">✓ خبرة عالية</li>
+                        <li style="padding: 0.3rem 0;">✓ خدمة سريعة</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">اختيار</button>
+                </div>
+
+                <div class="price-card">
+                    <div style="height: 28px;"></div>
+                    <div class="price-header">🏥 مستشفى متخصص</div>
+                    <div class="price-amount">1500 ج.م</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                        غير مشمول بالتأمين
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.3rem 0;">✓ تجهيزات متطورة</li>
+                        <li style="padding: 0.3rem 0;">✓ استشاريين</li>
+                        <li style="padding: 0.3rem 0;">✓ رعاية شاملة</li>
+                    </ul>
+                    <button class="btn"
+                        style="width: 100%; margin-top: 1rem; background: var(--bg-secondary);">اختيار</button>
+                </div>
+            </div>
+
+            <div style="background: #E8F5E9; padding: 1rem; border-radius: 10px; margin-top: 2rem;">
+                <p style="color: #2E7D32; font-size: 0.95rem;">
+                    💡 <strong>نصيحة:</strong> التأمين الخاص بك (شركة التأمين الوطنية) يغطي 100% من العلاج مع الطلاب و
+                    60% من العيادات الخاصة المعتمدة.
+                </p>
+            </div>
+        </div>
+
+        <!-- Smart Matching Results -->
+        <div style="background: white; padding: 2rem; border-radius: 20px; margin-top: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">🎯 الاقتراحات الذكية</h2>
+            <div style="text-align: center; padding: 2rem;">
+                <a href="patient-matching.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 3rem;">
+                    عرض كل الخيارات المتاحة ←
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 DentLink. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // إضافة الصورة الجديدة
+                    const timeline = document.getElementById('photoTimeline');
+                    const newCard = document.createElement('div');
+                    newCard.className = 'photo-card';
+                    newCard.style.animation = 'fadeIn 0.5s ease-out';
+
+                    const today = new Date().toLocaleDateString('ar-EG', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    newCard.innerHTML = `
+                        <img src="${e.target.result}" alt="صورة جديدة">
+                        <div class="photo-info">
+                            <div class="photo-date">📅 ${today}</div>
+                            <div class="ai-analysis">
+                                🤖 AI: جاري التحليل...
+                            </div>
+                            <div class="improvement-score">
+                                <span>قيد المعالجة</span>
+                            </div>
+                        </div>
+                    `;
+
+                    timeline.appendChild(newCard);
+
+                    // محاكاة تحليل AI
+                    setTimeout(() => {
+                        const analysis = newCard.querySelector('.ai-analysis');
+                        const score = newCard.querySelector('.improvement-score');
+                        analysis.textContent = '🤖 AI: الحالة مستقرة - استمر في العناية';
+                        score.innerHTML = '<span>التحسن:</span><span class="score-positive">+75% ✓</span>';
+                        score.classList.add('score-positive');
+                    }, 2000);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add fade-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

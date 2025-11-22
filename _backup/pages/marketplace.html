@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتجر الطبي - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1 class="logo">DentLink</h1>
+                <span class="logo-subtitle">المتجر الطبي</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="../index.html" class="nav-link">الرئيسية</a>
+                <a href="#" class="nav-link">
+                    <span>🛒 السلة (3)</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: var(--space-12) var(--space-6);">
+        <!-- Hero Banner -->
+        <div
+            style="background: var(--gradient-vibrant); border-radius: var(--radius-2xl); padding: var(--space-12); text-align: center; color: white; margin-bottom: var(--space-8);">
+            <h1 style="color: white; font-size: var(--text-5xl); margin-bottom: var(--space-4);">المتجر الطبي</h1>
+            <p style="font-size: var(--text-xl); opacity: 0.95; margin-bottom: var(--space-6);">أدوات ومواد طبية عالية
+                الجودة لطلاب وأطباء الأسنان</p>
+            <div class="search-bar" style="max-width: 600px; margin: 0 auto;">
+                <input type="text" class="form-input search-input" placeholder="ابحث عن المنتجات..."
+                    style="background: white;">
+                <button class="btn btn-lg" style="background: white; color: var(--primary-600);">
+                    <span>🔍 بحث</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="marketplace-header" style="margin-bottom: var(--space-8);">
+            <h3 style="margin-bottom: var(--space-4);">التصنيفات</h3>
+            <div class="filter-chips">
+                <div class="chip active" onclick="filterCategory('all')">الكل</div>
+                <div class="chip" onclick="filterCategory('tools')">أدوات</div>
+                <div class="chip" onclick="filterCategory('materials')">مواد</div>
+                <div class="chip" onclick="filterCategory('equipment')">أجهزة</div>
+                <div class="chip" onclick="filterCategory('protection')">حماية</div>
+                <div class="chip" onclick="filterCategory('kits')">مجموعات</div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal-overlay" style="display: none;" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">تفاصيل المنتج</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be added dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal()">إغلاق</button>
+                <button class="btn btn-primary" onclick="addToCart()">إضافة للسلة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: 'مجموعة أدوات الفحص',
+                category: 'tools',
+                price: 150,
+                rating: 4.8,
+                reviews: 45,
+                image: '🔧',
+                description: 'مجموعة كاملة من أدوات الفحص الأساسية للطلاب'
+            },
+            {
+                id: 2,
+                name: 'حشوة كومبوزت A2',
+                category: 'materials',
+                price: 280,
+                rating: 4.9,
+                reviews: 67,
+                image: '💊',
+                description: 'حشوة كومبوزت عالية الجودة - اللون A2'
+            },
+            {
+                id: 3,
+                name: 'قفازات طبية (100 قطعة)',
+                category: 'protection',
+                price: 45,
+                rating: 4.7,
+                reviews: 120,
+                image: '🧤',
+                description: 'قفازات latex عالية الجودة - حماية قصوى'
+            },
+            {
+                id: 4,
+                name: 'مرآة سنية',
+                category: 'tools',
+                price: 35,
+                rating: 4.6,
+                reviews: 89,
+                image: '🪞',
+                description: 'مرآة سنية من الفولاذ المقاوم للصدأ'
+            },
+            {
+                id: 5,
+                name: 'حفار كهربائي',
+                category: 'equipment',
+                price: 2500,
+                rating: 4.9,
+                reviews: 23,
+                image: '⚙️',
+                description: 'حفار كهربائي احترافي بسرعات متعددة'
+            },
+            {
+                id: 6,
+                name: 'مجموعة التبييض',
+                category: 'kits',
+                price: 450,
+                rating: 4.8,
+                reviews: 56,
+                image: '✨',
+                description: 'مجموعة كاملة لتبييض الأسنان'
+            },
+            {
+                id: 7,
+                name: 'ماسك طبي (50 قطعة)',
+                category: 'protection',
+                price: 30,
+                rating: 4.5,
+                reviews: 234,
+                image: '😷',
+                description: 'كمامات طبية ثلاثية الطبقات'
+            },
+            {
+                id: 8,
+                name: 'مادة طبع الأسنان',
+                category: 'materials',
+                price: 320,
+                rating: 4.7,
+                reviews: 41,
+                image: '🦷',
+                description: 'مادة سيليكون لطبع الأسنان - دقة عالية'
+            },
+            {
+                id: 9,
+                name: 'مجموعة خلع الأسنان',
+                category: 'tools',
+                price: 850,
+                rating: 4.9,
+                reviews: 34,
+                image: '🔨',
+                description: 'مجموعة كاملة لخلع الأسنان - 12 قطعة'
+            }
+        ];
+
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = productsToRender.map(product => `
+                <div class="product-card" onclick="showProductDetails(${product.id})">
+                    <div class="product-image" style="display: flex; align-items: center; justify-content: center; font-size: 5rem;">
+                        ${product.image}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price} ريال</div>
+                        <div class="product-rating">
+                            <div class="rating">
+                                ${'⭐'.repeat(Math.floor(product.rating))}
+                            </div>
+                            <span style="font-size: var(--text-sm); color: var(--neutral-600);">${product.rating} (${product.reviews})</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="event.stopPropagation(); quickAddToCart(${product.id})">
+                            <span>إضافة للسلة</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            // Update chip styles
+            document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter products
+            const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+            renderProducts(filtered);
+        }
+
+        function showProductDetails(id) {
+            const product = products.find(p => p.id === id);
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalBody').innerHTML = `
+                <div style="text-align: center; font-size: 6rem; margin-bottom: var(--space-4);">${product.image}</div>
+                <div style="font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--primary-600); margin-bottom: var(--space-4); text-align: center;">
+                    ${product.price} ريال
+                </div>
+                <div style="text-align: center; margin-bottom: var(--space-6);">
+                    <div class="rating" style="justify-content: center; font-size: var(--text-xl);">
+                        ${'⭐'.repeat(Math.floor(product.rating))}
+                    </div>
+                    <span style="color: var(--neutral-600);">${product.rating} من ${product.reviews} تقييم</span>
+                </div>
+                <p style="color: var(--neutral-700); line-height: 1.6; margin-bottom: var(--space-6);">
+                    ${product.description}
+                </p>
+                <div style="padding: var(--space-4); background: var(--success) color: white; border-radius: var(--radius-md); text-align: center;">
+                    <strong>✓ متوفر في المخزون</strong>
+                </div>
+            `;
+            document.getElementById('productModal').style.display = 'flex';
+            document.getElementById('productModal').dataset.productId = id;
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.classList.contains('modal-overlay')) {
+                document.getElementById('productModal').style.display = 'none';
+            }
+        }
+
+        function quickAddToCart(id) {
+            const product = products.find(p => p.id === id);
+            alert(`✅ تمت إضافة "${product.name}" إلى السلة!`);
+        }
+
+        function addToCart() {
+            const id = parseInt(document.getElementById('productModal').dataset.productId);
+            quickAddToCart(id);
+            closeModal();
+        }
+
+        // Initial render
+        renderProducts(products);
+
+        // Add entrance animation
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.product-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.6s ease-out';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 80);
+                });
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .container-main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .profile-header {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-top {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--student-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-info h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 16px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--student-start);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+
+        .badges-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 24px;
+        }
+
+        .badge-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 16px;
+            transition: transform 0.2s;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .badge-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .badge-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--student-start);
+        }
+
+        .case-number {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+
+        .case-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .case-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← الرئيسية</button>
+                <h2 style="margin: 0;">💼 Portfolio</h2>
+            </div>
+            <button class="btn btn-primary" onclick="location.href='learning-hub.html'">📚 Learning Hub</button>
+        </div>
+    </nav>
+
+    <div class="container-main">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-top">
+                <div class="profile-avatar">أ.م</div>
+                <div class="profile-info">
+                    <h1>أحمد محمود</h1>
+                    <p style="font-size: 18px; color: var(--gray-600);">السنة الثالثة - كلية طب الأسنان</p>
+                    <div style="margin-top: 12px; display: flex; gap: 12px;">
+                        <span
+                            style="background: var(--student-light); color: var(--student-start); padding: 6px 16px; border-radius: 20px; font-weight: 600;">Level
+                            5</span>
+                        <span
+                            style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-weight: 600;">2,450
+                            XP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-box">
+                    <div class="stat-value">127</div>
+                    <div class="stat-label">📋 حالات مكتملة</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">⭐ متوسط التقييم</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">🏆 الإنجازات</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">📊 التخصصات</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">#12</div>
+                    <div class="stat-label">🏅 الترتيب</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="badges-section">
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">🏆 الإنجازات</h2>
+            <div class="badges-grid">
+                <div class="badge-card">
+                    <div class="badge-icon">🥇</div>
+                    <div class="badge-name">100 حالة</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">⭐</div>
+                    <div class="badge-name">تقييم 5 نجوم</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">🦷</div>
+                    <div class="badge-name">متخصص RCT</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">📚</div>
+                    <div class="badge-name">متعلم سريع</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">💬</div>
+                    <div class="badge-name">تواصل ممتاز</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">🎯</div>
+                    <div class="badge-name">دقة عالية</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases -->
+        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">📂 الحالات المكتملة</h2>
+        <div class="cases-grid">
+            <div class="case-card" onclick="viewCaseDetails(1)">
+                <div class="case-number">CS-2024-127</div>
+                <div class="case-title">Root Canal Treatment #36</div>
+                <div class="case-meta">
+                    <span>📅 15 يناير</span>
+                    <span class="rating">⭐ 4.8</span>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="viewCaseDetails(2)">
+                <div class="case-number">CS-2024-115</div>
+                <div class="case-title">Composite Restoration #14</div>
+                <div class="case-meta">
+                    <span>📅 10 يناير</span>
+                    <span class="rating">⭐ 4.5</span>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="viewCaseDetails(3)">
+                <div class="case-number">CS-2024-102</div>
+                <div class="case-title">Crown Preparation #26</div>
+                <div class="case-meta">
+                    <span>📅 5 يناير</span>
+                    <span class="rating">⭐ 5.0</span>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="viewCaseDetails(4)">
+                <div class="case-number">CS-2024-089</div>
+                <div class="case-title">Scaling & Polishing</div>
+                <div class="case-meta">
+                    <span>📅 28 ديسمبر</span>
+                    <span class="rating">⭐ 4.7</span>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="viewCaseDetails(5)">
+                <div class="case-number">CS-2024-076</div>
+                <div class="case-title">Tooth Extraction #38</div>
+                <div class="case-meta">
+                    <span>📅 20 ديسمبر</span>
+                    <span class="rating">⭐ 4.9</span>
+                </div>
+            </div>
+
+            <div class="case-card" onclick="viewCaseDetails(6)">
+                <div class="case-number">CS-2024-063</div>
+                <div class="case-title">Amalgam Filling #47</div>
+                <div class="case-meta">
+                    <span>📅 15 ديسمبر</span>
+                    <span class="rating">⭐ 4.6</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function viewCaseDetails(caseId) {
+            alert(`📋 Opening case details...`);
+            // In real implementation, this would open the case view or navigate to case-manager.html
+            window.location.href = 'case-view.html';
+        }
+    </script>
+</body>
+
+</html>

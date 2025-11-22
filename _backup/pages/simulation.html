@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وضع المحاكاة - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1 class="logo">DentLink</h1>
+                <span class="logo-subtitle">وضع المحاكاة</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="student-dashboard.html" class="nav-link">لوحة الطالب</a>
+                <a href="../index.html" class="nav-link">الرئيسية</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: var(--space-12) var(--space-6);">
+        <!-- Header -->
+        <div class="text-center" style="margin-bottom: var(--space-8);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🎮</div>
+            <h1 class="page-title">وضع المحاكاة الثلاثية الأبعاد</h1>
+            <p class="page-subtitle">تدريب تفاعلي على العمليات الأكثر شيوعاً</p>
+        </div>
+
+        <!-- Simulation Scenarios -->
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12);">
+            <div class="card" style="cursor: pointer; transition: all var(--transition-base);"
+                onclick="startSimulation('filling')">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: var(--space-4);">🦷</div>
+                <h3 style="text-align: center; margin-bottom: var(--space-2);">حشوة الأسنان</h3>
+                <p style="text-align: center; color: var(--neutral-600); margin-bottom: var(--space-4);">تعلم خطوات حشو
+                    الأسنان بطريقة تفاعلية</p>
+                <div style="text-align: center;">
+                    <span class="badge badge-primary">المستوى 1-2</span>
+                    <span class="badge badge-secondary" style="margin-right: var(--space-2);">45 دقيقة</span>
+                </div>
+            </div>
+
+            <div class="card" style="cursor: pointer; transition: all var(--transition-base);"
+                onclick="startSimulation('root-canal')">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: var(--space-4);">🔬</div>
+                <h3 style="text-align: center; margin-bottom: var(--space-2);">علاج الجذور</h3>
+                <p style="text-align: center; color: var(--neutral-600); margin-bottom: var(--space-4);">خطوات علاج جذور
+                    الأسنان</p>
+                <div style="text-align: center;">
+                    <span class="badge badge-error">المستوى 3</span>
+                    <span class="badge badge-secondary" style="margin-right: var(--space-2);">90 دقيقة</span>
+                </div>
+            </div>
+
+            <div class="card" style="cursor: pointer; transition: all var(--transition-base);"
+                onclick="startSimulation('extraction')">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: var(--space-4);">🔧</div>
+                <h3 style="text-align: center; margin-bottom: var(--space-2);">خلع الأسنان</h3>
+                <p style="text-align: center; color: var(--neutral-600); margin-bottom: var(--space-4);">تقنيات خلع
+                    الأسنان الآمنة</p>
+                <div style="text-align: center;">
+                    <span class="badge badge-warning">المستوى 2-3</span>
+                    <span class="badge badge-secondary" style="margin-right: var(--space-2);">60 دقيقة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Simulation (Hidden by default) -->
+        <div id="simulationContainer" style="display: none;">
+            <div class="card" style="background: var(--neutral-900); color: white; padding: 0; overflow: hidden;">
+                <!-- 3D Viewer Area -->
+                <div
+                    style="position: relative; height: 500px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div
+                            style="font-size: 8rem; margin-bottom: var(--space-4); animation: pulse 2s ease-in-out infinite;">
+                            🦷</div>
+                        <p style="color: rgba(255,255,255,0.8); font-size: var(--text-lg);">عرض ثلاثي الأبعاد للسن</p>
+                        <p style="color: rgba(255,255,255,0.6); font-size: var(--text-sm); margin-top: var(--space-2);">
+                            في التطبيق الفعلي: عارض 3D تفاعلي مع أدوات AR
+                        </p>
+                    </div>
+
+                    <!-- Control Overlay -->
+                    <div
+                        style="position: absolute; top: var(--space-4); right: var(--space-4); left: var(--space-4); display: flex; justify-content: space-between;">
+                        <div class="badge"
+                            style="background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px);">
+                            خطوة 1 من 6
+                        </div>
+                        <button class="btn btn-sm" style="background: rgba(255,255,255,0.2); color: white;"
+                            onclick="exitSimulation()">
+                            <span>✕ خروج</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Steps Checklist -->
+                <div style="padding: var(--space-6); background: white; color: var(--neutral-900);">
+                    <h3 style="margin-bottom: var(--space-4); color: var(--neutral-900);">خطوات العمل</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);" id="stepsList">
+                        <div class="step-item"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--success); color: white; border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem;">✓</span>
+                            <span>1. التخدير الموضعي</span>
+                        </div>
+                        <div class="step-item current"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--primary-100); border: 2px solid var(--primary-500); border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem;">➤</span>
+                            <span style="font-weight: var(--font-semibold);">2. عزل السن باستخدام Rubber Dam</span>
+                        </div>
+                        <div class="step-item"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--neutral-100); border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem; opacity: 0.5;">○</span>
+                            <span style="color: var(--neutral-600);">3. إزالة التسوس بالحفار</span>
+                        </div>
+                        <div class="step-item"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--neutral-100); border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem; opacity: 0.5;">○</span>
+                            <span style="color: var(--neutral-600);">4. تجهيز التجويف</span>
+                        </div>
+                        <div class="step-item"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--neutral-100); border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem; opacity: 0.5;">○</span>
+                            <span style="color: var(--neutral-600);">5. وضع الحشوة الكومبوزت</span>
+                        </div>
+                        <div class="step-item"
+                            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); background: var(--neutral-100); border-radius: var(--radius-md);">
+                            <span style="font-size: 1.5rem; opacity: 0.5;">○</span>
+                            <span style="color: var(--neutral-600);">6. التلميع والفحص النهائي</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-4); margin-top: var(--space-6);">
+                        <button class="btn btn-ghost btn-lg" style="flex: 1;" onclick="previousStep()">
+                            <span>← السابق</span>
+                        </button>
+                        <button class="btn btn-primary btn-lg" style="flex: 2;" onclick="nextStep()">
+                            <span>التالي →</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Panel -->
+            <div class="card"
+                style="margin-top: var(--space-6); background: linear-gradient(135deg, var(--accent-50) 0%, var(--primary-50) 100%);">
+                <h3 style="margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-3);">
+                    <span>💡</span>
+                    <span>نصيحة</span>
+                </h3>
+                <p style="margin: 0; line-height: 1.6;">
+                    تأكد من عزل السن بشكل جيد باستخدام Rubber Dam لمنع دخول اللعاب والرطوبة، مما يضمن ثبات الحشوة بشكل
+                    أفضل.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startSimulation(type) {
+            document.getElementById('simulationContainer').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('simulationContainer').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function exitSimulation() {
+            if (confirm('هل تريد الخروج من وضع المحاكاة؟')) {
+                document.getElementById('simulationContainer').style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function nextStep() {
+            alert('الانتقال للخطوة التالية...\n\nفي التطبيق الفعلي: سيتم عرض خطوات تفاعلية مع رسومات 3D');
+        }
+
+        function previousStep() {
+            alert('العودة للخطوة السابقة...');
+        }
+
+        // Add hover effect to scenario cards
+        document.querySelectorAll('.card[onclick^="startSimulation"]').forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-8px)';
+                this.style.boxShadow = 'var(--shadow-2xl)';
+            });
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'var(--shadow-md)';
+            });
+        });
+    </script>
+</body>
+
+</html>

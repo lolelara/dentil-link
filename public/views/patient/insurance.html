@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التأمين الصحي - DentLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        .navbar {
+            background: var(--clinic-gradient);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .insurance-container {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 2px solid var(--clinic-start);
+        }
+
+        .coverage-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .coverage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .provider-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .provider-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--clinic-gradient);
+            color: var(--white);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .coverage-percentage {
+            font-size: 48px;
+            font-weight: 700;
+            background: var(--clinic-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .coverage-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-box {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .calculator-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .treatment-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .treatment-btn {
+            padding: 16px;
+            background: var(--gray-50);
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .treatment-btn:hover {
+            border-color: var(--clinic-start);
+        }
+
+        .treatment-btn.active {
+            border-color: var(--clinic-start);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+        }
+
+        .cost-breakdown {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(124, 58, 237, 0.05));
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .cost-row:last-child {
+            border-bottom: none;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .claims-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .claim-card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-right: 4px solid var(--info);
+        }
+
+        .claim-card.approved {
+            border-right-color: var(--success);
+        }
+
+        .claim-card.pending {
+            border-right-color: var(--warning);
+        }
+
+        .claim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .claim-status {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-approved {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .claim-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--clinic-start);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="btn btn-secondary" onclick="location.href='dashboard-complete.html'">← الرجوع</button>
+                <h2 style="margin: 0;">التأمين الصحي</h2>
+            </div>
+            <button class="btn btn-secondary">⚙️</button>
+        </div>
+    </nav>
+
+    <div class="insurance-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 style="font-size: 28px; margin-bottom: 8px;">🛡️ بوليصة التأمين الخاصة بك</h1>
+            <p style="color: var(--gray-600);">مقارنة الأسعار ومعرفة تغطية التأمين</p>
+        </div>
+
+        <!-- Coverage Card -->
+        <div class="coverage-card">
+            <div class="coverage-header">
+                <div class="provider-info">
+                    <div class="provider-logo">🏥</div>
+                    <div>
+                        <h3 style="font-size: 24px; margin-bottom: 4px;">التأمين الطبي الشامل</h3>
+                        <p style="color: var(--gray-600);">رقم البوليصة: MED-2024-12345</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="coverage-percentage">75%</div>
+                    <div style="text-align: center; color: var(--gray-600);">نسبة التغطية</div>
+                </div>
+            </div>
+
+            <div class="coverage-details">
+                <div class="detail-box">
+                    <div class="detail-label">الحد السنوي</div>
+                    <div class="detail-value">50,000 ج.م</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">المستخدم حتى الآن</div>
+                    <div class="detail-value">12,450 ج.م</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">المتبقي</div>
+                    <div class="detail-value">37,550 ج.م</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-label">تاريخ التجديد</div>
+                    <div class="detail-value">01/01/2026</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator -->
+        <div class="calculator-section">
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 24px;">
+                🧮 حاسبة التكلفة
+            </h3>
+
+            <p style="color: var(--gray-600); margin-bottom: 20px;">اختر نوع العلاج لمعرفة التكلفة المتوقعة:</p>
+
+            <div class="treatment-selector">
+                <div class="treatment-btn active" onclick="calculateCost('filling')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🦷</div>
+                    <div style="font-weight: 600;">حشو عادي</div>
+                </div>
+                <div class="treatment-btn" onclick="calculateCost('cleaning')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🪥</div>
+                    <div style="font-weight: 600;">تنظيف</div>
+                </div>
+                <div class="treatment-btn" onclick="calculateCost('root')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">💉</div>
+                    <div style="font-weight: 600;">حشو جذور</div>
+                </div>
+                <div class="treatment-btn" onclick="calculateCost('crown')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">👑</div>
+                    <div style="font-weight: 600;">تاج</div>
+                </div>
+                <div class="treatment-btn" onclick="calculateCost('extraction')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🔧</div>
+                    <div style="font-weight: 600;">خلع</div>
+                </div>
+                <div class="treatment-btn" onclick="calculateCost('braces')">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🦷</div>
+                    <div style="font-weight: 600;">تقويم</div>
+                </div>
+            </div>
+
+            <div class="cost-breakdown" id="costBreakdown">
+                <div class="cost-row">
+                    <span>تكلفة العلاج الكاملة</span>
+                    <span id="totalCost">500 ج.م</span>
+                </div>
+                <div class="cost-row">
+                    <span>تغطية التأمين (75%)</span>
+                    <span id="insuranceCoverage" style="color: var(--success);">375 ج.م</span>
+                </div>
+                <div class="cost-row">
+                    <span>المبلغ المطلوب منك</span>
+                    <span id="yourCost" style="color: var(--clinic-start);">125 ج.م</span>
+                </div>
+            </div>
+
+            <button class="btn btn-clinic w-full">
+                📋 تقديم مطالبة جديدة
+            </button>
+        </div>
+
+        <!-- Claims History -->
+        <div class="claims-section">
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 24px;">
+                📄 سجل المطالبات
+            </h3>
+
+            <div class="claim-card approved">
+                <div class="claim-header">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">حشو ضرس - د. أحمد محمود</div>
+                        <div style="font-size: 14px; color: var(--gray-600);">15 نوفمبر 2025</div>
+                    </div>
+                    <div class="claim-status status-approved">✓ تمت الموافقة</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 12px; color: var(--gray-600);">المبلغ المغطى</div>
+                        <div class="claim-amount">375 ج.م</div>
+                    </div>
+                    <button class="btn btn-ghost">عرض التفاصيل</button>
+                </div>
+            </div>
+
+            <div class="claim-card pending">
+                <div class="claim-header">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">تنظيف الأسنان - عيادة المدينة</div>
+                        <div style="font-size: 14px; color: var(--gray-600);">18 نوفمبر 2025</div>
+                    </div>
+                    <div class="claim-status status-pending">⏱️ قيد المراجعة</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 12px; color: var(--gray-600);">المبلغ المطلوب</div>
+                        <div class="claim-amount">225 ج.م</div>
+                    </div>
+                    <button class="btn btn-ghost">متابعة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const treatments = {
+            filling: { total: 500, name: 'حشو عادي' },
+            cleaning: { total: 300, name: 'تنظيف' },
+            root: { total: 1200, name: 'حشو جذور' },
+            crown: { total: 2500, name: 'تاج' },
+            extraction: { total: 400, name: 'خلع' },
+            braces: { total: 15000, name: 'تقويم' }
+        };
+
+        function calculateCost(type) {
+            // Update active button
+            document.querySelectorAll('.treatment-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.treatment-btn').classList.add('active');
+
+            const treatment = treatments[type];
+            const coverage = treatment.total * 0.75;
+            const yourCost = treatment.total - coverage;
+
+            document.getElementById('totalCost').textContent = treatment.total.toFixed(0) + ' ج.م';
+            document.getElementById('insuranceCoverage').textContent = coverage.toFixed(0) + ' ج.م';
+            document.getElementById('yourCost').textContent = yourCost.toFixed(0) + ' ج.م';
+        }
+    </script>
+</body>
+
+</html>
