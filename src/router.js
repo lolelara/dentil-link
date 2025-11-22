@@ -198,6 +198,14 @@ export const initRouter = () => {
             '/student/portfolio': () => render('/views/student/portfolio.html'),
             '/faculty/dashboard': () => render('/views/faculty/dashboard.html'),
             '/faculty/review-case': () => render('/views/faculty/review-case.html'),
+            '/faculty/register': () => render('/views/faculty/register.html'),
+            '/clinic/dashboard': () => render('/views/clinic/dashboard.html'),
+            '/clinic/register': () => render('/views/clinic/register.html'),
+            '/clinic/referral': () => render('/views/clinic/referral.html'),
+            '/clinic/talent-search': () => render('/views/clinic/talent-search.html'),
+            '/marketplace/register': () => render('/views/marketplace/register.html'),
+            '/marketplace/index': () => render('/views/marketplace/index.html'),
+            '/marketplace/seller-portal': () => render('/views/marketplace/index.html'), // Mapping to index for now
         })
         .resolve();
 };

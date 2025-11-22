@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل بائع - DentLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <style>
+        body {
+            background: var(--gray-50);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .register-header {
+            background: var(--marketplace-gradient);
+            padding: 32px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .register-logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .register-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .register-subtitle {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .register-form {
+            padding: 32px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--marketplace-start);
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--marketplace-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 24px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--gray-600);
+        }
+
+        .login-link a {
+            color: var(--marketplace-start);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <div class="register-logo">🛒</div>
+            <h1 class="register-title">سجل كبائع</h1>
+            <p class="register-subtitle">اعرض منتجاتك لآلاف الأطباء والطلاب</p>
+        </div>
+
+        <form class="register-form" id="sellerRegisterForm">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label class="form-label">اسم الشركة / المتجر</label>
+                    <input type="text" class="form-input" placeholder="شركة المستلزمات الطبية" value="ميديكال تولز"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">نوع المنتجات</label>
+                    <select class="form-select">
+                        <option value="instruments" selected>أدوات جراحية</option>
+                        <option value="materials">مواد طبية</option>
+                        <option value="equipment">معدات ثقيلة</option>
+                        <option value="uniforms">زي طبي</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">السجل التجاري</label>
+                    <input type="text" class="form-input" placeholder="123456" value="987654321" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" placeholder="info@company.com" value="sales@medtools.com"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-input" placeholder="••••••••" value="password123" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-input" placeholder="••••••••" value="password123" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">إنشاء حساب بائع</button>
+
+            <div class="login-link">
+                لديك حساب بالفعل؟ <a href="/login" data-navigo>سجل دخولك</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('sellerRegisterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-submit');
+            btn.innerText = 'جاري التسجيل...';
+            setTimeout(() => {
+                // Mock registration success
+                localStorage.setItem('userType', 'seller');
+                // Navigate to marketplace index as dashboard for now
+                window.router.navigate('/marketplace/index');
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
