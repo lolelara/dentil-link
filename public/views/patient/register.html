@@ -22,20 +22,20 @@
 
                 <div class="form-group">
                     <label class="form-label">الاسم الكامل *</label>
-                    <input type="text" class="form-input" placeholder="أدخل اسمك الكامل" required>
+                    <input type="text" class="form-input" placeholder="أدخل اسمك الكامل" value="أحمد محمد" required>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div class="form-group">
                         <label class="form-label">العمر *</label>
-                        <input type="number" class="form-input" placeholder="25" min="1" max="120" required>
+                        <input type="number" class="form-input" placeholder="25" min="1" max="120" value="25" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">الجنس *</label>
                         <select class="form-select" required>
                             <option value="">اختر</option>
-                            <option value="male">ذكر</option>
+                            <option value="male" selected>ذكر</option>
                             <option value="female">أنثى</option>
                         </select>
                     </div>
@@ -47,17 +47,18 @@
 
                 <div class="form-group">
                     <label class="form-label">رقم الهاتف *</label>
-                    <input type="tel" class="form-input" placeholder="+20 123 456 7890" required>
+                    <input type="tel" class="form-input" placeholder="+20 123 456 7890" value="01012345678" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">البريد الإلكتروني *</label>
-                    <input type="email" class="form-input" placeholder="example@email.com" required>
+                    <input type="email" class="form-input" placeholder="example@email.com" value="ahmed@example.com"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">المدينة *</label>
-                    <input type="text" class="form-input" placeholder="القاهرة" required>
+                    <input type="text" class="form-input" placeholder="القاهرة" value="القاهرة" required>
                 </div>
             </div>
 
@@ -66,18 +67,20 @@
 
                 <div class="form-group">
                     <label class="form-label">كلمة المرور *</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required minlength="8">
+                    <input type="password" class="form-input" placeholder="••••••••" value="password123" required
+                        minlength="8">
                     <p class="form-help">يجب أن تكون 8 أحرف على الأقل</p>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">تأكيد كلمة المرور *</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required minlength="8">
+                    <input type="password" class="form-input" placeholder="••••••••" value="password123" required
+                        minlength="8">
                 </div>
             </div>
 
             <div class="terms">
-                <input type="checkbox" id="terms" required>
+                <input type="checkbox" id="terms" checked required>
                 <label for="terms">
                     أوافق على <a href="#" class="text-primary">الشروط والأحكام</a> و <a href="#"
                         class="text-primary">سياسة الخصوصية</a>
