@@ -1,397 +1,101 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case Manager - DentLink</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/design-system.css">
-    <link rel="stylesheet" href="../css/components.css">
-
-    <style>
-        body {
-            background: var(--gray-50);
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: var(--white);
-            padding: 20px 0;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .container-main {
-            max-width: 1200px;
-            margin: 32px auto;
-            padding: 0 20px;
-        }
-
-        .action-bar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .cases-list {
-            display: grid;
-            gap: 20px;
-        }
-
-        .case-item {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .case-item:hover {
-            border-color: var(--student-start);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .case-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .case-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .case-status {
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-approved {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-draft {
-            background: #e0e7ff;
-            color: #3730a3;
-        }
-
-        .case-meta {
-            display: flex;
-            gap: 24px;
-            color: var(--gray-600);
-            font-size: 14px;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 32px;
-            border-radius: 24px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .form-section {
-            margin-bottom: 32px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--gray-200);
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <button class="btn btn-secondary" onclick="location.href='dashboard.html'">← الرئيسية</button>
-                <h2 style="margin: 0;">📝 Case Manager</h2>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container-main">
-        <div class="action-bar">
-            <button class="btn btn-primary" onclick="openCreateCaseModal()">➕ إنشاء حالة جديدة</button>
-            <button class="btn btn-secondary" onclick="location.href='library.html'">🗂️ المكتبة المركزية</button>
-        </div>
-
-        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">حالاتي</h3>
-
-        <div class="cases-list">
-            <div class="case-item" onclick="viewCase(1)">
-                <div class="case-header">
-                    <div class="case-title">CS-2024-127 • RCT Tooth #36</div>
-                    <span class="case-status status-approved">✅ Approved</span>
-                </div>
-                <div class="case-meta">
-                    <span>📅 15 يناير 2024</span>
-                    <span>👨‍⚕️ د. محمد علي</span>
-                    <span>⭐ 4.8</span>
-                </div>
-            </div>
-
-            <div class="case-item" onclick="viewCase(2)">
-                <div class="case-header">
-                    <div class="case-title">CS-2024-128 • Composite Filling #14</div>
-                    <span class="case-status status-pending">⏳ Pending Review</span>
-                </div>
-                <div class="case-meta">
-                    <span>📅 18 يناير 2024</span>
-                    <span>👨‍⚕️ د. سارة حسن</span>
-                </div>
-            </div>
-
-            <div class="case-item" onclick="viewCase(3)">
-                <div class="case-header">
-                    <div class="case-title">CS-2024-129 • Crown Preparation #26</div>
-                    <span class="case-status status-draft">📝 Draft</span>
-                </div>
-                <div class="case-meta">
-                    <span>📅 20 يناير 2024</span>
-                    <span>📝 غير مكتمل</span>
-                </div>
-            </div>
+<nav class="navbar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button class="btn btn-secondary" onclick="router.navigate('/student/dashboard')">← الرئيسية</button>
+            <h2 style="margin: 0;">📝 Case Manager</h2>
         </div>
     </div>
+</nav>
 
-    <!-- Create Case Modal -->
-    <div class="modal" id="createCaseModal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 24px;">إنشاء حالة جديدة</h2>
-
-            <form id="caseForm">
-                <div class="form-section">
-                    <div class="section-title">👤 Patient Information</div>
-                    <div class="form-group">
-                        <label class="form-label">اسم المريض</label>
-                        <input type="text" class="form-input" placeholder="أدخل اسم المريض" required>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label">العمر</label>
-                            <input type="number" class="form-input" placeholder="28">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">الجنس</label>
-                            <select class="form-input">
-                                <option>ذكر</option>
-                                <option>أنثى</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Chief Complaint</label>
-                        <textarea class="form-input" style="height: 80px;"
-                            placeholder="وصف الشكوى الرئيسية..."></textarea>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <div class="section-title">🔍 Diagnosis</div>
-                    <div class="form-group">
-                        <label class="form-label">التشخيص</label>
-                        <input type="text" class="form-input" placeholder="مثال: Symptomatic Irreversible Pulpitis">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ملاحظات إضافية</label>
-                        <textarea class="form-input" style="height: 80px;"
-                            placeholder="تفاصيل الفحص السريري..."></textarea>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <div class="section-title">🛠️ Treatment Plan</div>
-                    <div class="form-group">
-                        <label class="form-label">خطة العلاج</label>
-                        <textarea class="form-input" style="height: 120px;"
-                            placeholder="١. التخدير والعزل&#10;٢. التنظيف والتشكيل&#10;٣. الحشو..."></textarea>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <div class="section-title">📸 Media</div>
-                    <div class="form-group">
-                        <label class="form-label">الصور والأشعة</label>
-                        <div
-                            style="padding: 32px; border: 2px dashed var(--gray-300); border-radius: 12px; text-align: center; color: var(--gray-500);">
-                            📤 اسحب الملفات هنا أو اضغط للرفع
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 12px; margin-top: 32px;">
-                    <button type="button" class="btn btn-primary flex-1" onclick="saveCase()">💾 حفظ كمسودة</button>
-                    <button type="button" class="btn btn-student flex-1" onclick="submitToSupervisor()">📤 إرسال
-                        للمشرف</button>
-                    <button type="button" class="btn btn-secondary flex-1"
-                        onclick="closeCreateCaseModal()">إلغاء</button>
-                </div>
-            </form>
-        </div>
+<div class="container-main">
+    <div class="action-bar">
+        <button class="btn btn-primary" id="createCaseBtn">➕ إنشاء حالة جديدة</button>
+        <button class="btn btn-secondary" onclick="router.navigate('/student/library')">🗂️ المكتبة المركزية</button>
     </div>
 
-    <!-- View Case Modal -->
-    <div class="modal" id="viewCaseModal">
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h2 style="margin: 0;">Case #CS-2024-127</h2>
-                <button class="btn btn-secondary" onclick="closeViewCaseModal()">✕</button>
-            </div>
+    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">حالاتي</h3>
 
+    <div class="cases-list" id="casesList">
+        <!-- Cases will be injected here -->
+    </div>
+</div>
+
+<!-- Create Case Modal -->
+<div class="modal" id="createCaseModal">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 24px;">إنشاء حالة جديدة</h2>
+
+        <form id="caseForm">
             <div class="form-section">
-                <div class="section-title">👤 Patient Info</div>
+                <div class="section-title">👤 Patient Information</div>
+                <div class="form-group">
+                    <label class="form-label">اسم المريض</label>
+                    <input type="text" class="form-input" placeholder="أدخل اسم المريض" required>
+                </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div>
-                        <label style="font-size: 12px; color: var(--gray-500);">Patient Name</label>
-                        <div style="font-weight: 600;">Sarah Ahmed</div>
+                    <div class="form-group">
+                        <label class="form-label">العمر</label>
+                        <input type="number" class="form-input" placeholder="28">
                     </div>
-                    <div>
-                        <label style="font-size: 12px; color: var(--gray-500);">Age / Gender</label>
-                        <div style="font-weight: 600;">28 / Female</div>
+                    <div class="form-group">
+                        <label class="form-label">الجنس</label>
+                        <select class="form-input">
+                            <option>ذكر</option>
+                            <option>أنثى</option>
+                        </select>
                     </div>
                 </div>
-                <div style="margin-top: 12px;">
-                    <label style="font-size: 12px; color: var(--gray-500);">Chief Complaint</label>
-                    <div style="font-weight: 600;">"I have severe pain in my lower left tooth when drinking cold water."
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Chief Complaint</label>
+                    <textarea class="form-input" style="height: 80px;" placeholder="وصف الشكوى الرئيسية..."></textarea>
                 </div>
             </div>
 
             <div class="form-section">
                 <div class="section-title">🔍 Diagnosis</div>
-                <div
-                    style="background: #f0f9ff; padding: 16px; border-radius: 12px; border-right: 4px solid var(--primary);">
-                    <strong>Symptomatic Irreversible Pulpitis</strong>
-                    <p style="margin-top: 4px; font-size: 14px; color: var(--gray-600);">Tooth #36 - Percussion (+),
-                        Cold Test (+++ lingering)</p>
+                <div class="form-group">
+                    <label class="form-label">التشخيص</label>
+                    <input type="text" class="form-input" placeholder="مثال: Symptomatic Irreversible Pulpitis">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ملاحظات إضافية</label>
+                    <textarea class="form-input" style="height: 80px;" placeholder="تفاصيل الفحص السريري..."></textarea>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title">🛠️ Treatment</div>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;">
-                        <strong>1. Anesthesia & Isolation</strong>
-                        <div style="color: var(--gray-600); font-size: 14px;">IAN Block (Lidocaine 2%) + Rubber Dam
-                        </div>
-                    </li>
-                    <li style="margin-bottom: 12px;">
-                        <strong>2. Access & Cleaning</strong>
-                        <div style="color: var(--gray-600); font-size: 14px;">Full deroofing. Rotary files up to 25/.04
-                        </div>
-                    </li>
-                    <li>
-                        <strong>3. Obturation</strong>
-                        <div style="color: var(--gray-600); font-size: 14px;">Single cone technique with AH Plus sealer
-                        </div>
-                    </li>
-                </ul>
+                <div class="section-title">🛠️ Treatment Plan</div>
+                <div class="form-group">
+                    <label class="form-label">خطة العلاج</label>
+                    <textarea class="form-input" style="height: 120px;"
+                        placeholder="١. التخدير والعزل&#10;٢. التنظيف والتشكيل&#10;٣. الحشو..."></textarea>
+                </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title">👨‍⚕️ Supervisor Feedback</div>
-                <div style="background: #d1fae5; padding: 16px; border-radius: 12px;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">د. محمد علي</div>
-                    <div style="font-size: 14px;">"عمل ممتاز! التنظيف والحشو تم بشكل صحيح. أنصحك بالتركيز أكثر على عزل
-                        السن في المرة القادمة."</div>
-                    <div style="margin-top: 12px; font-size: 14px;">
-                        <strong>التقييم:</strong> ⭐⭐⭐⭐⭐ (4.8)
+                <div class="section-title">📸 Media</div>
+                <div class="form-group">
+                    <label class="form-label">الصور والأشعة</label>
+                    <div
+                        style="padding: 32px; border: 2px dashed var(--gray-300); border-radius: 12px; text-align: center; color: var(--gray-500);">
+                        📤 اسحب الملفات هنا أو اضغط للرفع
                     </div>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 12px; margin-top: 24px;">
-                <button class="btn btn-secondary flex-1" onclick="alert('تم حفظ الحالة في المكتبة المركزية!')">💾 حفظ في
-                    المكتبة</button>
-                <button class="btn btn-secondary flex-1" onclick="alert('ميزة الإحالة ستكون متاحة قريبًا!')">↪️ إحالة
-                    الحالة</button>
+            <div style="display: flex; gap: 12px; margin-top: 32px;">
+                <button type="button" class="btn btn-primary flex-1" id="saveDraftBtn">💾 حفظ كمسودة</button>
+                <button type="button" class="btn btn-student flex-1" id="submitSupervisorBtn">📤 إرسال
+                    للمشرف</button>
+                <button type="button" class="btn btn-secondary flex-1" id="cancelCreateBtn">إلغاء</button>
             </div>
-        </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        function openCreateCaseModal() {
-            document.getElementById('createCaseModal').classList.add('active');
-        }
-
-        function closeCreateCaseModal() {
-            document.getElementById('createCaseModal').classList.remove('active');
-        }
-
-        function saveCase() {
-            alert('✅ تم حفظ الحالة كمسودة!');
-            closeCreateCaseModal();
-        }
-
-        function submitToSupervisor() {
-            alert('📤 تم إرسال الحالة للمشرف! ستتلقى إشعاراً عند المراجعة.');
-            closeCreateCaseModal();
-        }
-
-        function viewCase(caseId) {
-            document.getElementById('viewCaseModal').classList.add('active');
-        }
-
-        function closeViewCaseModal() {
-            document.getElementById('viewCaseModal').classList.remove('active');
-        }
-    </script>
-</body>
-
-</html>
+<!-- View Case Modal -->
+<div class="modal" id="viewCaseModal">
+    <div class="modal-content" id="viewCaseContent">
+        <!-- Content injected via JS -->
+    </div>
+</div>

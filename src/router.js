@@ -175,8 +175,297 @@ export const initRouter = () => {
             '/patient/diagnosis': () => render('/views/patient/diagnosis.html', setupDiagnosisEvents),
             '/student/dashboard': () => render('/views/student/dashboard.html'),
             '/student/cases': () => render('/views/student/case-requests.html', setupCaseRequestsEvents),
+            '/student/learning': () => render('/views/student/learning-hub.html', setupLearningHubEvents),
+            '/student/case-manager': () => render('/views/student/case-manager.html', setupCaseManagerEvents),
         })
         .resolve();
+};
+
+const setupCaseManagerEvents = () => {
+    const mockCases = [
+        {
+            id: 1,
+            title: 'CS-2024-127 • RCT Tooth #36',
+            status: 'approved',
+            statusText: '✅ Approved',
+            date: '15 يناير 2024',
+            doctor: 'د. محمد علي',
+            rating: '⭐ 4.8',
+            patient: 'Sarah Ahmed',
+            age: 28,
+            gender: 'Female',
+            complaint: 'Severe pain in lower left tooth with cold.',
+            diagnosis: 'Symptomatic Irreversible Pulpitis',
+            treatment: '1. Anesthesia\n2. Access & Cleaning\n3. Obturation',
+            feedback: 'Excellent work on the obturation.'
+        },
+        {
+            id: 2,
+            title: 'CS-2024-128 • Composite Filling #14',
+            status: 'pending',
+            statusText: '⏳ Pending Review',
+            date: '18 يناير 2024',
+            doctor: 'د. سارة حسن',
+            patient: 'Omar Khaled',
+            age: 35,
+            gender: 'Male',
+            complaint: 'Broken filling.',
+            diagnosis: 'Secondary Caries',
+            treatment: '1. Removal of old filling\n2. Caries removal\n3. Bonding & Composite',
+            feedback: 'Waiting for review...'
+        },
+        {
+            id: 3,
+            title: 'CS-2024-129 • Crown Preparation #26',
+            status: 'draft',
+            statusText: '📝 Draft',
+            date: '20 يناير 2024',
+            doctor: 'غير محدد',
+            patient: 'Laila Mahmoud',
+            age: 42,
+            gender: 'Female',
+            complaint: 'Need a crown after RCT.',
+            diagnosis: 'Post-RCT Restoration',
+            treatment: '1. Reduction\n2. Impression',
+            feedback: 'Not submitted yet.'
+        },
+        {
+            id: 4,
+            title: 'CS-2024-130 • Scaling & Polishing',
+            status: 'approved',
+            statusText: '✅ Approved',
+            date: '22 يناير 2024',
+            doctor: 'د. أحمد يوسف',
+            rating: '⭐ 5.0',
+            patient: 'Karim Ezzat',
+            age: 22,
+            gender: 'Male',
+            complaint: 'Bleeding gums.',
+            diagnosis: 'Gingivitis',
+            treatment: '1. Ultrasonic scaling\n2. Polishing',
+            feedback: 'Great patient management.'
+        }
+    ];
+
+    const casesList = document.getElementById('casesList');
+    if (casesList) {
+        casesList.innerHTML = mockCases.map(c => `
+            <div class="case-item" onclick="window.viewCase(${c.id})">
+                <div class="case-header">
+                    <div class="case-title">${c.title}</div>
+                    <span class="case-status status-${c.status}">${c.statusText}</span>
+                </div>
+                <div class="case-meta">
+                    <span>📅 ${c.date}</span>
+                    <span>👨‍⚕️ ${c.doctor}</span>
+                    ${c.rating ? `<span>${c.rating}</span>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Modal Logic
+    const createModal = document.getElementById('createCaseModal');
+    const viewModal = document.getElementById('viewCaseModal');
+
+    window.openCreateCaseModal = () => createModal.classList.add('active');
+    window.closeCreateCaseModal = () => createModal.classList.remove('active');
+
+    window.viewCase = (id) => {
+        const c = mockCases.find(caseItem => caseItem.id === id);
+        if (!c) return;
+
+        const content = document.getElementById('viewCaseContent');
+        content.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="margin: 0;">Case #${c.title.split('•')[0].trim()}</h2>
+                <button class="btn btn-secondary" onclick="closeViewCaseModal()">✕</button>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">👤 Patient Info</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                        <label style="font-size: 12px; color: var(--gray-500);">Patient Name</label>
+                        <div style="font-weight: 600;">${c.patient}</div>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: var(--gray-500);">Age / Gender</label>
+                        <div style="font-weight: 600;">${c.age} / ${c.gender}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px;">
+                    <label style="font-size: 12px; color: var(--gray-500);">Chief Complaint</label>
+                    <div style="font-weight: 600;">"${c.complaint}"</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">🔍 Diagnosis</div>
+                <div style="background: #f0f9ff; padding: 16px; border-radius: 12px; border-right: 4px solid var(--primary);">
+                    <strong>${c.diagnosis}</strong>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">🛠️ Treatment</div>
+                <pre style="font-family: inherit; white-space: pre-wrap; color: var(--gray-700);">${c.treatment}</pre>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">👨‍⚕️ Supervisor Feedback</div>
+                <div style="background: ${c.status === 'approved' ? '#d1fae5' : '#f3f4f6'}; padding: 16px; border-radius: 12px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">${c.doctor}</div>
+                    <div style="font-size: 14px;">"${c.feedback}"</div>
+                    ${c.rating ? `<div style="margin-top: 12px; font-size: 14px;"><strong>التقييم:</strong> ${c.rating}</div>` : ''}
+                </div>
+            </div>
+        `;
+        viewModal.classList.add('active');
+    };
+
+    window.closeViewCaseModal = () => viewModal.classList.remove('active');
+
+    // Form Buttons
+    const saveDraftBtn = document.getElementById('saveDraftBtn');
+    if (saveDraftBtn) {
+        saveDraftBtn.addEventListener('click', () => {
+            alert('✅ تم حفظ الحالة كمسودة!');
+            window.closeCreateCaseModal();
+        });
+    }
+
+    const submitSupervisorBtn = document.getElementById('submitSupervisorBtn');
+    if (submitSupervisorBtn) {
+        submitSupervisorBtn.addEventListener('click', () => {
+            alert('📤 تم إرسال الحالة للمشرف! ستتلقى إشعاراً عند المراجعة.');
+            window.closeCreateCaseModal();
+        });
+    }
+
+    const cancelCreateBtn = document.getElementById('cancelCreateBtn');
+    if (cancelCreateBtn) {
+        cancelCreateBtn.addEventListener('click', window.closeCreateCaseModal);
+    }
+
+    const createCaseBtn = document.getElementById('createCaseBtn');
+    if (createCaseBtn) {
+        createCaseBtn.addEventListener('click', window.openCreateCaseModal);
+    }
+};
+
+const setupLearningHubEvents = () => {
+    // Tab Switching
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Lecture Toggles
+    document.querySelectorAll('.lecture-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-add-note')) return; // Ignore click if on add note button
+            const body = header.nextElementSibling;
+            body.classList.toggle('open');
+        });
+    });
+
+    // Note Toggles
+    document.querySelectorAll('.btn-add-note').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const lectureItem = e.target.closest('.lecture-item');
+            const noteSection = lectureItem.querySelector('.note-section');
+            noteSection.classList.toggle('visible');
+        });
+    });
+
+    document.querySelectorAll('.btn-save-note').forEach(btn => {
+        btn.addEventListener('click', () => alert('تم الحفظ!'));
+    });
+
+    // Image & Video Clicks
+    document.querySelectorAll('.image-card, .video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            alert(card.dataset.info);
+        });
+    });
+
+    // Quiz Logic
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', () => {
+            const question = option.closest('.question');
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            option.classList.add('selected');
+            if (option.dataset.correct === 'true') {
+                option.classList.add('correct');
+            } else {
+                option.classList.add('incorrect');
+            }
+        });
+    });
+
+    const submitQuizBtn = document.getElementById('submitQuizBtn');
+    if (submitQuizBtn) {
+        submitQuizBtn.addEventListener('click', () => {
+            const correctCount = document.querySelectorAll('.option.correct.selected').length;
+            const totalQuestions = document.querySelectorAll('.question').length;
+            alert(`النتيجة: ${correctCount} / ${totalQuestions} ✅`);
+        });
+    }
+
+    // Chat Logic
+    const chatInput = document.getElementById('userMessage');
+    const sendBtn = document.getElementById('sendMessageBtn');
+    const chatMessages = document.getElementById('chatMessages');
+
+    const sendMessage = () => {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        chatMessages.innerHTML += `
+            <div class="message user">
+                <div class="message-bubble">${message}</div>
+            </div>
+        `;
+
+        setTimeout(() => {
+            chatMessages.innerHTML += `
+                <div class="message ai">
+                    <div class="message-bubble">شكراً على سؤالك! بناءً على المعلومات المتاحة، أنصحك بمراجعة محاضرة Endodontics والتركيز على بروتوكولات التعقيم.</div>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    if (sendBtn && chatInput) {
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
+
+    const sendToFacultyBtn = document.getElementById('sendToFacultyBtn');
+    if (sendToFacultyBtn) {
+        sendToFacultyBtn.addEventListener('click', () => {
+            alert('تم إرسال السؤال لأقرب دكتور أونلاين! ستحصل على رد خلال 5-10 دقائق.');
+        });
+    }
 };
 
 const setupCaseRequestsEvents = () => {

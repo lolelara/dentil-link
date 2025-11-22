@@ -12,7 +12,7 @@ export const databases = new Databases(client);
 export const initAppwrite = () => {
     if (client.config.project === 'YOUR_PROJECT_ID') {
         console.warn('Appwrite Project ID is not set. Please update src/lib/appwrite.js');
-        alert('تنبيه: لم يتم إعداد Appwrite Project ID. يرجى تحديث src/lib/appwrite.js');
+        // Alert suppressed to allow UI exploration
     }
     console.log('Appwrite initialized');
 };

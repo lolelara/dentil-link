@@ -7,6 +7,8 @@ import './css/patient-register.css';
 import './css/patient-diagnosis.css';
 import './css/student-dashboard.css';
 import './css/case-requests.css';
+import './css/learning-hub.css';
+import './css/case-manager.css';
 
 import { initRouter } from './router.js';
 import { initAppwrite } from './lib/appwrite.js';
