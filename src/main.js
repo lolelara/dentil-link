@@ -10,6 +10,7 @@ import './css/case-requests.css';
 import './css/learning-hub.css';
 import './css/case-manager.css';
 import './css/student-portfolio.css';
+import './css/patient-suggestions.css';
 
 import { initRouter } from './router.js';
 import { initAppwrite } from './lib/appwrite.js';
