@@ -3,40 +3,42 @@ import { ID } from 'appwrite';
 
 export class AuthService {
     async login(email, password) {
-        try {
-            return await account.createEmailPasswordSession(email, password);
-        } catch (error) {
-            throw error;
-        }
+        console.log('Mock Login:', email);
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return {
+            $id: 'mock-user-id',
+            name: 'Demo User',
+            email: email,
+            status: true
+        };
     }
 
     async register(email, password, name) {
-        try {
-            await account.create(ID.unique(), email, password, name);
-            return await this.login(email, password);
-        } catch (error) {
-            throw error;
-        }
+        console.log('Mock Register:', { email, name });
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return {
+            $id: 'mock-user-id',
+            name: name,
+            email: email,
+            status: true,
+            emailVerification: true
+        };
     }
 
     async logout() {
-        try {
-            return await account.deleteSession('current');
-        } catch (error) {
-            throw error;
-        }
+        console.log('Mock Logout');
+        return true;
     }
 
     async getCurrentUser() {
-        try {
-            if (client.config.project === 'YOUR_PROJECT_ID') {
-                console.warn('Skipping auth check: Project ID not set');
-                return null;
-            }
-            return await account.get();
-        } catch (error) {
-            return null;
-        }
+        // Return a mock user to keep the session active for the demo
+        return {
+            $id: 'mock-user-id',
+            name: 'Demo User',
+            email: 'demo@example.com'
+        };
     }
 }
 
