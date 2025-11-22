@@ -184,10 +184,20 @@ export const initRouter = () => {
             '/patient/voice-registration': () => render('/views/patient/voice-registration.html'),
             '/patient/ar-tryon': () => render('/views/patient/ar-tryon.html'),
             '/student/dashboard': () => render('/views/student/dashboard.html'),
+            '/student/register': () => render('/views/student/register.html'),
+            '/student/verification': () => render('/views/student/verification.html'),
+            '/student/supervisors': () => render('/views/student/supervisors.html'),
+            '/student/library': () => render('/views/student/library.html'),
+            '/student/leaderboard': () => render('/views/student/leaderboard.html'),
+            '/student/emergency': () => render('/views/student/emergency.html'),
+            '/student/case-levels': () => render('/views/student/case-levels.html'),
+            '/student/case-view': () => render('/views/student/case-view.html'),
             '/student/cases': () => render('/views/student/case-requests.html', setupCaseRequestsEvents),
             '/student/learning': () => render('/views/student/learning-hub.html', setupLearningHubEvents),
             '/student/case-manager': () => render('/views/student/case-manager.html', setupCaseManagerEvents),
             '/student/portfolio': () => render('/views/student/portfolio.html'),
+            '/faculty/dashboard': () => render('/views/faculty/dashboard.html'),
+            '/faculty/review-case': () => render('/views/faculty/review-case.html'),
         })
         .resolve();
 };
