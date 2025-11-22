@@ -1,4 +1,5 @@
 import Navigo from 'navigo';
+import { authService } from './lib/auth.js';
 
 const router = new Navigo('/', { hash: true });
 
@@ -30,23 +31,29 @@ const setupLoginEvents = () => {
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = loginForm.querySelector('.btn-primary');
             const originalText = btn.innerText;
             btn.innerText = 'جاري الدخول...';
 
-            // Simulate login for now
-            setTimeout(() => {
-                btn.innerText = originalText;
-                console.log(`Logging in as ${currentRole}`);
-                // Navigate based on role (mock)
+            const email = loginForm.querySelector('input[type="text"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
+
+            try {
+                await authService.login(email, password);
+                console.log(`Logged in as ${currentRole}`);
                 if (currentRole === 'patient') {
-                    router.navigate('/patient/diagnosis'); // Changed to diagnosis for flow
+                    router.navigate('/patient/diagnosis');
                 } else {
                     alert(`Login for ${currentRole} not implemented yet`);
                 }
-            }, 1000);
+            } catch (error) {
+                console.error('Login failed:', error);
+                alert('فشل تسجيل الدخول: ' + error.message);
+            } finally {
+                btn.innerText = originalText;
+            }
         });
     }
 };
@@ -54,24 +61,33 @@ const setupLoginEvents = () => {
 const setupPatientRegisterEvents = () => {
     const form = document.getElementById('patientRegisterForm');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Validate password match
             const passwords = document.querySelectorAll('input[type="password"]');
             if (passwords.length >= 2 && passwords[0].value !== passwords[1].value) {
                 alert('كلمات المرور غير متطابقة');
                 return;
             }
 
-            // Mock save
-            const nameInput = form.querySelector('input[type="text"]');
-            if (nameInput) {
-                localStorage.setItem('userName', nameInput.value);
-            }
-            localStorage.setItem('userType', 'patient');
+            const name = form.querySelector('input[type="text"]').value;
+            const email = form.querySelector('input[type="email"]').value;
+            const password = passwords[0].value;
 
-            router.navigate('/patient/diagnosis');
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'جاري التسجيل...';
+
+            try {
+                await authService.register(email, password, name);
+                localStorage.setItem('userType', 'patient');
+                router.navigate('/patient/diagnosis');
+            } catch (error) {
+                console.error('Registration failed:', error);
+                alert('فشل التسجيل: ' + error.message);
+            } finally {
+                btn.innerText = originalText;
+            }
         });
     }
 };
@@ -148,14 +164,11 @@ const setupDiagnosisEvents = () => {
 };
 
 export const initRouter = () => {
-    // Expose router to window for onclick handlers in HTML
     window.router = router;
 
     router
         .on({
-            '/': () => render('/views/home.html', () => {
-                // Initialize home page scripts if any
-            }),
+            '/': () => render('/views/home.html'),
             '/login': () => render('/views/login.html', setupLoginEvents),
             '/register': () => render('/views/register-select.html'),
             '/patient/register': () => render('/views/patient/register.html', setupPatientRegisterEvents),

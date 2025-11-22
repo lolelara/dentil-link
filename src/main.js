@@ -13,5 +13,16 @@ document.querySelector('#app').innerHTML = `
   <div id="content"></div>
 `;
 
+import { authService } from './lib/auth.js';
+
 initAppwrite();
 initRouter();
+
+// Check auth status
+authService.getCurrentUser().then(user => {
+  if (user) {
+    console.log('User is logged in:', user);
+  } else {
+    console.log('User is not logged in');
+  }
+}).catch(console.error);
