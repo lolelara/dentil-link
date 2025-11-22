@@ -177,6 +177,7 @@ export const initRouter = () => {
             '/student/cases': () => render('/views/student/case-requests.html', setupCaseRequestsEvents),
             '/student/learning': () => render('/views/student/learning-hub.html', setupLearningHubEvents),
             '/student/case-manager': () => render('/views/student/case-manager.html', setupCaseManagerEvents),
+            '/student/portfolio': () => render('/views/student/portfolio.html'),
         })
         .resolve();
 };
